@@ -1,3 +1,5 @@
+
+
 'use strict'
 
 process.env.BABEL_ENV = 'renderer'
@@ -5,6 +7,8 @@ process.env.BABEL_ENV = 'renderer'
 const path = require('path')
 const { dependencies } = require('../package.json')
 const webpack = require('webpack')
+const utils = require('./utils')
+const config = require('../config')
 
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -20,7 +24,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
  */
 let whiteListedModules = ['vue']
 
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+const isProduction = process.env.NODE_ENV === 'production'
+const sourceMapEnabled = isProduction
+  ? config.build.productionSourceMap
+  : config.dev.cssSourceMap
+
 let rendererConfig = {
+  context: path.resolve(__dirname, '../'),
   devtool: '#cheap-module-eval-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
@@ -28,25 +42,32 @@ let rendererConfig = {
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],
+  output: {
+    path: config.build.assetsRoot,
+    filename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production'
+      ? config.build.assetsPublicPath
+      : config.dev.assetsPublicPath
+  },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+    }
+  },
   module: {
     rules: [
-      {
-        test: /\.(js|vue)$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: {
-            formatter: require('eslint-friendly-formatter')
-          }
-        }
-      },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader'
         })
+      },
+      {
+        test: /\.scss$/,
+        use: utils.cssLoaders("scss").scss
       },
       {
         test: /\.html$/,
@@ -75,6 +96,16 @@ let rendererConfig = {
         }
       },
       {
+        test: /\.svg$/,
+        use: {
+          loader: 'svg-sprite-loader',
+          options: {
+            symbolId: 'icon-[name]'
+          }
+        },
+        include: [resolve('src/renderer/icons')],
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
@@ -82,7 +113,8 @@ let rendererConfig = {
             limit: 10000,
             name: 'imgs/[name]--[folder].[ext]'
           }
-        }
+        },
+        exclude: [resolve('src/renderer/icons')]
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -109,6 +141,9 @@ let rendererConfig = {
     __filename: process.env.NODE_ENV !== 'production'
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': require('../config/dev.env')
+    }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -173,6 +208,11 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   )
+}
+
+if (config.build.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  rendererConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
 module.exports = rendererConfig
