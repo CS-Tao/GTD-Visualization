@@ -7,21 +7,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarComponents/SidebarItem'
 import ScrollBar from './SidebarComponents/ScrollBar'
-import router from '@/router'
+import { asyncRouterMap, constantRouterMap } from '@/router'
 
 export default {
+  data () {
+    return {
+      router: constantRouterMap.concat(asyncRouterMap)
+    }
+  },
   components: { SidebarItem, ScrollBar },
   computed: {
-    ...mapGetters([
-      'sidebar'
-    ]),
-    router: router,
     isCollapse () {
-      return !this.sidebar.opened
+      // return !this.sidebar.opened
+      return false
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '../../styles/variables.scss';
+</style>

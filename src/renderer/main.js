@@ -1,18 +1,29 @@
 import Vue from 'vue'
-import axios from 'axios'
+
+import 'normalize.css/normalize.css'// A modern alternative to CSS resets
+
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+import '@/styles/index.scss' // global css
 
 import App from './App'
 import router from './router'
 import store from './store'
 
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-Vue.http = Vue.prototype.$http = axios
+import './icons' // icon
+
+Vue.use(Element, {
+  size: 'medium'
+})
+
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
-new Vue({
-  components: { App },
+new Vue({ // eslint-disable-line
+  el: '#app',
   router,
   store,
-  template: '<App/>'
-}).$mount('#app')
+  template: '<App/>',
+  render: h => h(App),
+  components: { App }
+})
