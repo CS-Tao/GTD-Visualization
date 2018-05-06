@@ -31,7 +31,7 @@ export function parseTime (time, cFormat) {
     }
     return value || 0
   })
-  return timeStr 
+  return timeStr
 }
 
 export function formatTime (time, option) {
