@@ -42,9 +42,9 @@ export const constantRouterMap = [
       },
       {
         path: 'one2',
-        component: require('@/components/LandingPage').default,
+        component: require('@/components/Charts').default,
         name: 'two',
-        meta: { title: '主页面2', icon: 'documentation', noCache: true }
+        meta: { title: 'Echarts 图表', icon: 'chart', noCache: true }
       }
     ]
   },
