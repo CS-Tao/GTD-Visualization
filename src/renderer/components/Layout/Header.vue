@@ -1,33 +1,11 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
-
+    <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
-      <el-tooltip effect="dark" :content="$t('navbar.screenfull')" placement="bottom">
+      <el-tooltip effect="dark" content="全屏" placement="bottom">
         <screenfull class="screenfull right-menu-item"></screenfull>
       </el-tooltip>
-      <lang-select class="international right-menu-item"></lang-select>
-      <el-dropdown class="avatar-container right-menu-item" trigger="click">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
-          <i class="el-icon-caret-bottom"></i>
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              {{$t('navbar.dashboard')}}
-            </el-dropdown-item>
-          </router-link>
-          <a target='_blank' href="https://github.com/sleepy-everyday/HC-WebSite">
-            <el-dropdown-item>
-              {{$t('navbar.github')}}
-            </el-dropdown-item>
-          </a>
-          <el-dropdown-item divided>
-            <span @click="logout" style="display:block;">{{$t('navbar.logOut')}}</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
     </div>
   </el-menu>
 </template>
@@ -35,28 +13,24 @@
 <script>
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
+import Breadcrumb from '@/components/Breadcrumb'
 import Screenfull from '@/components/Screenfull'
 
 export default {
+  name: 'AppHeader',
   components: {
     Hamburger,
+    Breadcrumb,
     Screenfull
   },
   computed: {
     ...mapGetters([
-      'sidebar',
-      'name',
-      'avatar'
+      'sidebar'
     ])
   },
   methods: {
     toggleSideBar () {
       this.$store.dispatch('toggleSideBar')
-    },
-    logout () {
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload()// In order to re-instantiate the vue-router object to avoid bugs
-      })
     }
   }
 }
@@ -67,6 +41,10 @@ export default {
   height: 50px;
   line-height: 50px;
   border-radius: 0px !important;
+  display: block;
+  z-index: 401;
+  border-bottom: 1px solid #d8dce5;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04);
   .hamburger-container {
     line-height: 58px;
     height: 50px;

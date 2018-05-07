@@ -2,19 +2,19 @@
 	<div class="app-wrapper" :class="{hideSidebar:!sidebar.opened}">
 		<sidebar class="sidebar-container"></sidebar>
 		<div class="main-container">
-			<!-- <header></header> -->
+			<app-header></app-header>
 			<app-main></app-main>
 		</div>
 	</div>
 </template>
 
 <script>
-import { Header, Sidebar, AppMain } from '@/components/Layout'
+import { AppHeader, Sidebar, AppMain } from '@/components/Layout'
 
 export default {
   name: 'layout',
   components: {
-    Header,
+    AppHeader,
     Sidebar,
     AppMain
   },
