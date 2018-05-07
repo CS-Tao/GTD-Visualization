@@ -28,7 +28,7 @@ export default {
     ...mapGetters([
       'sidebar'
     ])
-  },
+  }
 }
 </script>
 

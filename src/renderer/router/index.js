@@ -36,7 +36,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'one1',
-        component: require('@/components/MapView/LeafletView').default,
+        component: require('@/components/LandingPage').default,
         name: 'leaflet-map',
         meta: { title: '地图页面', icon: 'form', noCache: false }
       },

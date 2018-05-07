@@ -16,11 +16,11 @@ import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
 
 export default {
-  name: "AppMain",
+  name: 'AppMain',
   computed: {
-    cachedViews() {
+    cachedViews () {
       //   return this.$store.state.tagsView.cachedViews
-      return [];
+      return []
     },
     isCollapse () {
       return !this.sidebar.opened
@@ -34,8 +34,8 @@ export default {
     toggleSideBar () {
       this.$store.dispatch('toggleSideBar')
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
