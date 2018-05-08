@@ -27,6 +27,6 @@ new Vue({ // eslint-disable-line
   render: h => h(App),
   components: { App },
   mounted () {
-    this.$router.push({ path: '/one1' })
+    this.$router.push({ path: '/dashboard' })
   }
 })

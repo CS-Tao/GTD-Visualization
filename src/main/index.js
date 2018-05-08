@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -9,8 +9,6 @@ import { app, BrowserWindow, Menu } from 'electron'
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
-
-const electronMenu = Menu
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
@@ -21,12 +19,14 @@ function createWindow () {
   /**
    * Initial window options
    */
-  electronMenu.setApplicationMenu(null)
+  // electronMenu.setApplicationMenu(null)
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
     width: 1000,
     backgroundColor: '#eee',
+    autoHideMenuBar: true,
+    darkTheme: true,
     webPreferences: {webSecurity: false}
   })
 
