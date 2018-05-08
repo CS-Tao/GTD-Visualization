@@ -30,7 +30,7 @@ function createWindow () {
     webPreferences: {webSecurity: false}
   })
 
-  mainWindow.maximize()
+  // mainWindow.maximize()
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {

@@ -13,6 +13,8 @@ import store from './store'
 
 import './icons' // icon
 
+import './mock' // simulation data
+
 Vue.use(Element, {
   size: 'medium'
 })

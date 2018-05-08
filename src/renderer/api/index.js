@@ -1,17 +1,19 @@
 import request from '@/utils/request'
 
-export function getTest (data) {
+// Get 测试
+export function getTest (params) {
   return request({
-    url: '/gettest',
+    url: '/test/gettest',
     method: 'get',
-    params: data
+    params
   })
 }
 
+// Post 测试
 export function postTest (data) {
   return request({
-    url: '/posttest',
+    url: '/test/posttest',
     method: 'post',
-    params: data
+    data
   })
 }

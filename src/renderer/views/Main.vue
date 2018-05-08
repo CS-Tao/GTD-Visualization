@@ -10,6 +10,7 @@
 
 <script>
 import { AppHeader, Sidebar, AppMain } from '@/components/Layout'
+import { getTest, postTest } from '@/api'
 
 export default {
   name: 'layout',
@@ -22,6 +23,14 @@ export default {
     sidebar () {
       return this.$store.state.app.sidebar
     }
+  },
+  mounted () {
+    getTest({
+      param1: 'CS-Tao'
+    })
+    postTest({
+      param1: 'CS-Tao'
+    })
   }
 }
 </script>

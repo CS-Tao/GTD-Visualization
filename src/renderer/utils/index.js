@@ -108,6 +108,7 @@ export function param (json) {
 }
 
 export function param2Obj (url) {
+  console.log(url)
   const search = url.split('?')[1]
   if (!search) {
     return {}

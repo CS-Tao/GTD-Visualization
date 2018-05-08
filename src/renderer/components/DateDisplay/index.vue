@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <span class="DateDisplayText">{{ dateDisplayText }}</span>
   </div>
 </template>
@@ -19,14 +19,21 @@ export default {
   },
   computed: {
     dateDisplayText () {
-      return this.date
+      return this.date.getFullYear() + ' 年'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.DateDisplayText {
-    color:turquoise;
+.container {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  .DateDisplayText {
+    color:black;
+    font-size: 3rem;
+  }
 }
 </style>
