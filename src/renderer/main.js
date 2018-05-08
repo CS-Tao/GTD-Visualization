@@ -25,5 +25,8 @@ new Vue({ // eslint-disable-line
   store,
   template: '<App/>',
   render: h => h(App),
-  components: { App }
+  components: { App },
+  mounted () {
+    this.$router.push({ path: '/one1' })
+  }
 })

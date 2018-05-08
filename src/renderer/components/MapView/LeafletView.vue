@@ -16,14 +16,19 @@ export default {
       initCenter: [38, 100],
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 4,
+      zoom: 2,
       minZoom: 2,
       maxZoom: 18
     }
   },
   components: {},
   mounted () {
-    const map = L.map(this.mapContainer, { zoomControl: false }).setView(this.initCenter, this.zoom)
+    const map = L.map(this.mapContainer,
+      {
+        zoomControl: false,
+        attributionControl: false
+      })
+      .setView(this.initCenter, this.zoom)
     L.tileLayer(this.url, {
       attribution: this.attribution,
       minZoom: this.minZoom,

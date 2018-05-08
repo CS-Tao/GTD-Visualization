@@ -28,6 +28,9 @@ export default {
     ...mapGetters([
       'sidebar'
     ])
+  },
+  created () {
+    this.sidebar.opened = false
   }
 }
 </script>
