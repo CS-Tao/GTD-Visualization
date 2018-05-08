@@ -13,6 +13,8 @@ import store from './store'
 
 import './icons' // icon
 
+import './mock' // simulation data
+
 Vue.use(Element, {
   size: 'medium'
 })
@@ -25,5 +27,8 @@ new Vue({ // eslint-disable-line
   store,
   template: '<App/>',
   render: h => h(App),
-  components: { App }
+  components: { App },
+  mounted () {
+    this.$router.push({ path: '/dashboard' })
+  }
 })

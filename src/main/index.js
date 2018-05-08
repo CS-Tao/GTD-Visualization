@@ -19,13 +19,18 @@ function createWindow () {
   /**
    * Initial window options
    */
+  // electronMenu.setApplicationMenu(null)
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
     width: 1000,
+    backgroundColor: '#eee',
+    autoHideMenuBar: true,
+    darkTheme: true,
     webPreferences: {webSecurity: false}
   })
 
+  // mainWindow.maximize()
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {

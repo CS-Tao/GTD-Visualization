@@ -2,6 +2,8 @@
 
 > 全球恐怖袭击数据可视化
 
+[![Build Status](https://travis-ci.org/CS-Tao/GTD-Visualization.svg?branch=master)](https://travis-ci.org/CS-Tao/GTD-Visualization)
+
 #### Build Setup
 
 ``` bash
@@ -22,7 +24,3 @@ npm test
 npm run lint
 
 ```
-
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[7c4e3e9](https://github.com/SimulatedGREG/electron-vue/tree/7c4e3e90a772bd4c27d2dd4790f61f09bae0fcef) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
