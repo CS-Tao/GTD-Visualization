@@ -8,6 +8,7 @@
 <script>
 import LeafletView from '@/components/MapView/LeafletView'
 import DateDisplay from '@/components/DateDisplay'
+import { getGeneral } from '@/api/dashboardApi'
 
 export default {
   components: {
@@ -18,6 +19,14 @@ export default {
     return {
       date: new Date()
     }
+  },
+  mounted () {
+    getGeneral({
+      year: 2000,
+      format: 'json'
+    }).then(data => {
+      this.$notify.success(JSON.stringify(data.data.type))
+    })
   }
 }
 </script>

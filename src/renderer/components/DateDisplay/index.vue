@@ -32,7 +32,7 @@ export default {
   -ms-user-select:none;
   user-select:none;
   .DateDisplayText {
-    color:black;
+    color:aqua;
     font-size: 3rem;
   }
 }
