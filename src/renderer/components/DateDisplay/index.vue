@@ -34,7 +34,7 @@ export default {
   },
   watch: {
     date(newDate, oldDate) {
-      if (newDate != oldDate)
+      if (newDate !== oldDate)
         this.show = !this.show
         // this.show2 =!this.show2
       },
