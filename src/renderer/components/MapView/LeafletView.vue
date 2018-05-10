@@ -6,15 +6,14 @@
 
 <script>
 import L from 'leaflet'
-import { getGeneral } from '@/api/dashboardApi'
 
 export default {
   name: 'MapView',
   props: {
-    // geojsonData: {
-    //   type: Object,
-    //   default: {}
-    // }
+    currentDailyData: {
+      type: Array,
+      default: []
+    }
   },
   data () {
     return {
@@ -28,20 +27,10 @@ export default {
         zoom: 2,
         minZoom: 2,
         maxZoom: 18
-      },
-      geojsonData: {},
-      currentDay: 1
+      }
     }
   },
   computed: {
-    totalDays () {
-      return this.geojsonData.features.length
-    },
-    currentDailyData () {
-      return this.geojsonData.features.filter(item => {
-        return item.properties.month === this.currentDay
-      })
-    }
   },
   components: {},
   mounted () {
@@ -58,26 +47,9 @@ export default {
     }).addTo(map)
     this.map = map
     this.map.addLayer(this.markerLayerGroup)
-
-    getGeneral({
-      year: 2000,
-      format: 'json'
-    }).then(data => {
-      this.geojsonData = data.data
-      this.startTimer()
-    })
   },
-  methods: {
-    addSinglePoint (layerGroup, lng, lat) {
-      var point = L.icon({
-        iconUrl: 'static/icons/point.png',
-        iconSize: [10, 10],
-        iconAnchor: [5, 5],
-        className: 'single-point-marker' // define in globe styles
-      })
-      layerGroup.addLayer(L.marker([lat, lng], {icon: point}))
-    },
-    addDailyData () {
+  watch: {
+    currentDailyData () {
       this.markerLayerGroup.clearLayers()
       this.currentDailyData.forEach(item => {
         if (!item.geometry.coordinates ||
@@ -88,12 +60,17 @@ export default {
         let lat = item.geometry.coordinates[1]
         this.addSinglePoint(this.markerLayerGroup, lng, lat)
       })
-      this.currentDay = this.currentDay % 12 + 1
-      // console.log(this.currentDailyData)
-      // console.log(this.currentDay)
-    },
-    startTimer () {
-      setInterval(this.addDailyData, 1000)
+    }
+  },
+  methods: {
+    addSinglePoint (layerGroup, lng, lat) {
+      var point = L.icon({
+        iconUrl: 'static/icons/point.png',
+        iconSize: [10, 10],
+        iconAnchor: [5, 5],
+        className: 'single-point-marker' // define in globe styles
+      })
+      layerGroup.addLayer(L.marker([lat, lng], {icon: point}))
     }
   }
 }
