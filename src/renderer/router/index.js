@@ -29,22 +29,12 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    meta: {
-      title: '主页面',
-      icon: 'dashboard'
-    },
     children: [
       {
-        path: 'one1',
-        component: require('@/components/LandingPage').default,
-        name: 'one',
-        meta: { title: '主页面1', icon: 'form', noCache: false }
-      },
-      {
-        path: 'one2',
-        component: require('@/components/LandingPage').default,
-        name: 'two',
-        meta: { title: '主页面2', icon: 'documentation', noCache: true }
+        path: 'dashboard',
+        component: require('@/views/Dashboard').default,
+        name: 'space-time',
+        meta: { title: '时空动态分析', icon: 'international', noCache: false }
       }
     ]
   },
@@ -58,9 +48,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'two1',
-        component: _import('ErrorPages/404'),
+        component: require('@/components/Charts').default,
         name: 'three',
-        meta: { title: '404测试', icon: '404', noCache: true }
+        meta: { title: 'Echarts 图表', icon: 'chart', noCache: true }
       },
       {
         path: 'two2',

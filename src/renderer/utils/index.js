@@ -31,7 +31,7 @@ export function parseTime (time, cFormat) {
     }
     return value || 0
   })
-  return timeStr 
+  return timeStr
 }
 
 export function formatTime (time, option) {
@@ -108,6 +108,7 @@ export function param (json) {
 }
 
 export function param2Obj (url) {
+  console.log(url)
   const search = url.split('?')[1]
   if (!search) {
     return {}

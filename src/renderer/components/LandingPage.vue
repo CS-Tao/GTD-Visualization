@@ -61,8 +61,13 @@
         rgba(255, 255, 255, 1) 40%,
         rgba(229, 229, 229, .9) 100%
       );
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     height: 100vh;
-    padding: 60px 80px;
+    padding: 150px 100px 150px 290px;
     width: 100vw;
   }
 
