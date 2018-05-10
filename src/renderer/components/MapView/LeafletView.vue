@@ -65,7 +65,7 @@ export default {
   methods: {
     addSinglePoint (layerGroup, lng, lat) {
       var point = L.icon({
-        iconUrl: 'static/icons/point.png',
+        iconUrl: 'static/icons/point_red.png',
         iconSize: [10, 10],
         iconAnchor: [5, 5],
         className: 'single-point-marker' // define in globe styles
