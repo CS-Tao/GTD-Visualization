@@ -15,7 +15,7 @@ export default {
   name: 'AppMain',
   computed: {
     cachedViews () {
-      return []
+      return this.$store.state.cachedViews.cachedViews
     }
   }
 }
