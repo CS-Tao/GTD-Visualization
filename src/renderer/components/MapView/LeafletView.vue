@@ -21,7 +21,7 @@ export default {
       markerLayerGroup: new L.LayerGroup(),
       mapParams: {
         mapContainer: 'LMapView',
-        initCenter: [38, 100],
+        initCenter: [38, 38],
         url: 'https://api.mapbox.com/styles/v1/cstao/cjgygxq81001s2sphuk48s4qq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY3N0YW8iLCJhIjoiY2o5ZXl0NWx1MmZ2ejJ3bXFld213cmtmOSJ9.y4UsCMx7WnfSiUbBA-tipg',
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         zoom: 2,

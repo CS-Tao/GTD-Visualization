@@ -47,14 +47,14 @@ export default {
           this.dailyDataForMapView[0].properties.year,
           this.dailyDataForMapView[0].properties.month - 1,
           this.dailyDataForMapView[0].properties.day)
-        console.log(
-          (this.dailyDataForMapView[0].properties.year) + '年' +
-          (this.dailyDataForMapView[0].properties.month) + '月' +
-          (this.dailyDataForMapView[0].properties.day) + '日, 转换后: ' +
-          this.currentDate.getFullYear() + '年' +
-          (this.currentDate.getMonth() + 1) + '月' +
-          this.currentDate.getDate() + '日'
-        )
+        // console.log(
+        //   (this.dailyDataForMapView[0].properties.year) + '年' +
+        //   (this.dailyDataForMapView[0].properties.month) + '月' +
+        //   (this.dailyDataForMapView[0].properties.day) + '日, 转换后: ' +
+        //   this.currentDate.getFullYear() + '年' +
+        //   (this.currentDate.getMonth() + 1) + '月' +
+        //   this.currentDate.getDate() + '日'
+        // )
       }
       this.currentDay = this.currentDay % 12 + 1
       // console.log(this.currentDay)

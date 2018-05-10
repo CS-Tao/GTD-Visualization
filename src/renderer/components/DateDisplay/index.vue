@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    
+
   },
   data () {
     return {
@@ -19,11 +19,11 @@ export default {
     }
   },
   methods: {
-    timedCount(){
-      if(this.num<this.date_arr.length-1){
-      this.num += 0.5
-      this.show = !this.show
-      setTimeout(this.timedCount,1000)
+    timedCount () {
+      if (this.num < this.date_arr.length - 1) {
+        this.num += 0.5
+        this.show = !this.show
+        setTimeout(this.timedCount, 1000)
       }
     }
   },
