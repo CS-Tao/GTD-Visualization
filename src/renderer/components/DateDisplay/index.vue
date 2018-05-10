@@ -9,10 +9,7 @@
 <script>
 export default {
   props: {
-    date: {
-      type: Date,
-      default: new Date(2018,1,1)
-    }
+    
   },
   data () {
     return {
