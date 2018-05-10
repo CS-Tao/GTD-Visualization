@@ -1,35 +1,47 @@
 <template>
-  <div @click="timedCount" class="container">
-    <transition  name="slide-fade">
+  <div class="container">
+    <transition name="slide-fade">
     <p v-if="show" class="DateDisplayText">{{ dateDisplayText }}</p>
     </transition>
+    <!-- <transition name="slide-fade">
+    <p v-if="show2" class="DateDisplayText">{{ dateDisplayText }}</p>
+    </transition> -->
   </div>
 </template>
 
 <script>
 export default {
   props: {
-
+    date:{
+      type: Date,
+      default: new Date()
+    }
   },
   data () {
     return {
       show: true,
-      num: 0,
-      date_arr: [new Date(2013, 1, 1), new Date(2014, 1, 1), new Date(2015, 1, 1), new Date(2016, 1, 1), new Date(2017, 1, 1), new Date(2018, 1, 1)]
+      show2: false,
     }
   },
   methods: {
-    timedCount () {
-      if (this.num < this.date_arr.length - 1) {
-        this.num += 0.5
-        this.show = !this.show
-        setTimeout(this.timedCount, 1000)
-      }
-    }
+    // timedCount () {
+    //   if (this.num < this.date_arr.length - 1) {
+    //     this.num += 0.5
+    //     this.show = !this.show
+    //     setTimeout(this.timedCount, 1000)
+    //   }
+    // }
   },
+  watch: {
+    date(newDate, oldDate) {
+      if (newDate != oldDate)
+        this.show = !this.show
+        // this.show2 =!this.show2
+      },
+   },
   computed: {
     dateDisplayText () {
-      return this.date_arr[this.num].getFullYear() + ' 年'
+      return this.date.getFullYear() + ' 年' + (this.date.getMonth()+1) + '月' + this.date.getDate() + '日'
     }
   }
 }
