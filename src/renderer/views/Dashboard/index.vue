@@ -1,7 +1,7 @@
 <template>
   <div>
-    <leaflet-view class="map-view"></leaflet-view>
-    <date-display class="date-display" :date="date"></date-display>
+    <leaflet-view class="map-view" :currentDailyData="dailyDataForMapView"></leaflet-view>
+    <date-display class="date-display" :date="currentDate"></date-display>
   </div>
 </template>
 
@@ -17,16 +17,48 @@ export default {
   },
   data () {
     return {
-      date: new Date()
+      geojsonData: {},
+      currentDay: 1,
+      dailyDataForMapView: [],
+      currentDate: new Date()
     }
   },
   mounted () {
     getGeneral({
       year: 2000,
       format: 'json'
-    }).then(data => {
-      this.$notify.success(JSON.stringify(data.data.type))
+    }).then(response => {
+      this.geojsonData = response.data
+      this.startUpdateTimer()
     })
+  },
+  methods: {
+    startUpdateTimer () {
+      setInterval(this.updateDailyData, 1000)
+    },
+    updateDailyData () {
+      // Update data for MapView
+      this.dailyDataForMapView = this.geojsonData.features.filter(item => {
+        return item.properties.month === this.currentDay
+      })
+      if (this.dailyDataForMapView || this.dailyDataForMapView.length > 0) {
+        // Update date for DateDisplay component
+        this.currentDate = new Date(
+          this.dailyDataForMapView[0].properties.year,
+          this.dailyDataForMapView[0].properties.month - 1,
+          this.dailyDataForMapView[0].properties.day)
+        // console.log(
+        //   (this.dailyDataForMapView[0].properties.year) + '年' +
+        //   (this.dailyDataForMapView[0].properties.month) + '月' +
+        //   (this.dailyDataForMapView[0].properties.day) + '日, 转换后: ' +
+        //   this.currentDate.getFullYear() + '年' +
+        //   (this.currentDate.getMonth() + 1) + '月' +
+        //   this.currentDate.getDate() + '日'
+        // )
+      }
+      this.currentDay = this.currentDay % 12 + 1
+      // console.log(this.currentDay)
+    }
   }
 }
 </script>
