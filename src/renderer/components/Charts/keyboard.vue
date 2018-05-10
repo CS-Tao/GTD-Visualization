@@ -107,7 +107,7 @@ export default {
           }, {
             name: 'Simulate Shadow',
             type: 'line',
-            data,
+            data: data,
             z: 2,
             showSymbol: false,
             animationDelay: 0,

@@ -6,6 +6,11 @@
         height='100%' 
         width='100%'>
         </keyboard>
+        <radar id="echarts-rader"
+        title="radar"
+        height='100%'
+        width=100%>
+        </radar>
       </div>
     </div>
   </div>
@@ -13,10 +18,11 @@
 
 <script>
 import keyboard from './keyboard'
+import radar from './radar'
 
 export default {
   name: 'Echarts',
-  components: { keyboard }
+  components: { keyboard, radar }
 }
 </script>
 
