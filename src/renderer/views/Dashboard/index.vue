@@ -8,6 +8,7 @@
 <script>
 import LeafletView from '@/components/MapView/LeafletView'
 import DateDisplay from '@/components/DateDisplay'
+import { isLeapYear, getDateByDaysInYear } from '@/utils'
 import { getGeneral } from '@/api/dashboardApi'
 
 export default {
@@ -17,6 +18,7 @@ export default {
   },
   data () {
     return {
+      year: 1970,
       geojsonData: {},
       currentDay: 1,
       dailyDataForMapView: [],
@@ -26,14 +28,18 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.name) {
+      this.$store.dispatch('addVisitedViews', this.$route)
+    }
     getGeneral({
-      year: 2000,
+      year: this.year,
       format: 'json'
     }).then(response => {
       this.geojsonData = response.data
       if (this.geojsonData && this.geojsonData.features &&
       this.geojsonData.features.length > 1 && this.geojsonData.features[0]) {
-        if (this.isLeapYear(this.geojsonData.features[0].properties.year)) {
+        this.year = this.geojsonData.features[0].properties.year
+        if (isLeapYear(this.geojsonData.features[0].properties.year)) {
           this.totalDays = 366
         }
       }
@@ -63,12 +69,13 @@ export default {
         //   (this.currentDate.getMonth() + 1) + '月' +
         //   this.currentDate.getDate() + '日'
         // )
+      } else {
+        this.currentDate = getDateByDaysInYear(this.currentDay, this.year)
       }
       this.currentDay = this.currentDay % this.totalDays + 1
-      console.log(this.currentDay)
-    },
-    isLeapYear (year) {
-      return (year % 4 === 0) && (year % 100 !== 0 || year % 400 === 0)
+      console.log(this.currentDate.getFullYear() + '年' +
+          (this.currentDate.getMonth() + 1) + '月' +
+          this.currentDate.getDate() + '日')
     }
   }
 }
