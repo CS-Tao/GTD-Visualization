@@ -20,7 +20,8 @@ export default {
       geojsonData: {},
       currentDay: 1,
       dailyDataForMapView: [],
-      currentDate: new Date()
+      currentDate: new Date(),
+      totalDays: 365
     }
   },
   mounted () {
@@ -29,6 +30,12 @@ export default {
       format: 'json'
     }).then(response => {
       this.geojsonData = response.data
+      if (this.geojsonData && this.geojsonData.features &&
+      this.geojsonData.features.length > 1 && this.geojsonData.features[0]) {
+        if (this.isLeapYear(this.geojsonData.features[0].properties.year)) {
+          this.totalDays = 366
+        }
+      }
       this.startUpdateTimer()
     })
   },
@@ -39,9 +46,9 @@ export default {
     updateDailyData () {
       // Update data for MapView
       this.dailyDataForMapView = this.geojsonData.features.filter(item => {
-        return item.properties.month === this.currentDay
+        return item.properties.dayInYear === this.currentDay
       })
-      if (this.dailyDataForMapView || this.dailyDataForMapView.length > 0) {
+      if (this.dailyDataForMapView && this.dailyDataForMapView.length > 0) {
         // Update date for DateDisplay component
         this.currentDate = new Date(
           this.dailyDataForMapView[0].properties.year,
@@ -56,8 +63,11 @@ export default {
         //   this.currentDate.getDate() + '日'
         // )
       }
-      this.currentDay = this.currentDay % 12 + 1
-      // console.log(this.currentDay)
+      this.currentDay = this.currentDay % this.totalDays + 1
+      console.log(this.currentDay)
+    },
+    isLeapYear (year) {
+      return (year % 4 === 0) && (year % 100 !== 0 || year % 400 === 0)
     }
   }
 }
