@@ -21,7 +21,8 @@ export default {
       currentDay: 1,
       dailyDataForMapView: [],
       currentDate: new Date(),
-      totalDays: 365
+      totalDays: 365,
+      freshInterval: 2000
     }
   },
   mounted () {
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     startUpdateTimer () {
-      setInterval(this.updateDailyData, 1000)
+      setInterval(this.updateDailyData, this.freshInterval)
     },
     updateDailyData () {
       // Update data for MapView
