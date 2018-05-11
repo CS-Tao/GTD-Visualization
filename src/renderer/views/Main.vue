@@ -25,12 +25,6 @@ export default {
     }
   },
   mounted () {
-    getTest({
-      param1: 'CS-Tao'
-    })
-    postTest({
-      param1: 'CS-Tao'
-    })
   }
 }
 </script>
