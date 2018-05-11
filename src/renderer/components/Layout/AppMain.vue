@@ -15,7 +15,7 @@ export default {
   name: 'AppMain',
   computed: {
     cachedViews () {
-      return []
+      return this.$store.state.cachedViews.cachedViews
     }
   }
 }
@@ -23,4 +23,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-
