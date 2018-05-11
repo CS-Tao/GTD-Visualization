@@ -1,7 +1,7 @@
 <template>
   <div>
     <leaflet-view class="map-view" :currentDailyData="dailyDataForMapView"></leaflet-view>
-    <date-display class="date-display" :date="currentDate"></date-display>
+    <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval"></date-display>
   </div>
 </template>
 
