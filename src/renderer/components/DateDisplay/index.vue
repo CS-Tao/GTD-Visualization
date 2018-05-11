@@ -15,6 +15,10 @@ export default {
     date: {
       type: Date,
       default: new Date()
+    },
+    freshInterval: {
+      type: Number,
+      default: 1
     }
   },
   data () {
