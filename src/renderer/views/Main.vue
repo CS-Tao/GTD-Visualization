@@ -10,7 +10,6 @@
 
 <script>
 import { AppHeader, Sidebar, AppMain } from '@/components/Layout'
-import { getTest, postTest } from '@/api'
 
 export default {
   name: 'layout',
