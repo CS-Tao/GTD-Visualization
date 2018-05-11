@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <span class="DateDisplayText">{{ dateDisplayText }}</span>
+    <transition name="slide-fade">
+    <p v-if="show" class="DateDisplayText">{{ dateDisplayText }}</p>
+    </transition>
+    <!-- <transition name="slide-fade">
+    <p v-if="show2" class="DateDisplayText">{{ dateDisplayText }}</p>
+    </transition> -->
   </div>
 </template>
 
@@ -9,17 +14,33 @@ export default {
   props: {
     date: {
       type: Date,
-      default: new Date(2018, 1, 1)
+      default: new Date()
     }
   },
   data () {
     return {
-
+      show: true,
+      show2: false
+    }
+  },
+  methods: {
+    // timedCount () {
+    //   if (this.num < this.date_arr.length - 1) {
+    //     this.num += 0.5
+    //     this.show = !this.show
+    //     setTimeout(this.timedCount, 1000)
+    //   }
+    // }
+  },
+  watch: {
+    date (newDate, oldDate) {
+      // if (newDate !== oldDate) { this.show = !this.show }
+      // this.show2 =!this.show2
     }
   },
   computed: {
     dateDisplayText () {
-      return this.date.getFullYear() + ' 年'
+      return this.date.getFullYear() + ' 年' + (this.date.getMonth() + 1) + '月' + this.date.getDate() + '日'
     }
   }
 }
@@ -32,8 +53,24 @@ export default {
   -ms-user-select:none;
   user-select:none;
   .DateDisplayText {
-    color:black;
+    color:rgba(253, 253, 253, 0.61);
     font-size: 3rem;
   }
+}
+
+.slide-fade-enter-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter
+{
+  transform: translateY(25px);
+  opacity: 0;
+}
+.slide-fade-leave-to{
+  transform: translateY(-25px);
+  opacity: 0;
 }
 </style>
