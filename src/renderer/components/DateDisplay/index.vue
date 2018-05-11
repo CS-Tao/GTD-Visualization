@@ -12,7 +12,7 @@
 <script>
 export default {
   props: {
-    date:{
+    date: {
       type: Date,
       default: new Date()
     }
@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       show: true,
-      show2: false,
+      show2: false
     }
   },
   methods: {
@@ -33,15 +33,14 @@ export default {
     // }
   },
   watch: {
-    date(newDate, oldDate) {
-      if (newDate !== oldDate)
-        this.show = !this.show
-        // this.show2 =!this.show2
-      },
-   },
+    date (newDate, oldDate) {
+      // if (newDate !== oldDate) { this.show = !this.show }
+      // this.show2 =!this.show2
+    }
+  },
   computed: {
     dateDisplayText () {
-      return this.date.getFullYear() + ' 年' + (this.date.getMonth()+1) + '月' + this.date.getDate() + '日'
+      return this.date.getFullYear() + ' 年' + (this.date.getMonth() + 1) + '月' + this.date.getDate() + '日'
     }
   }
 }
