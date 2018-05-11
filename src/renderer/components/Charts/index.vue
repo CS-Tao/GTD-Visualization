@@ -11,6 +11,10 @@
         height='100%'
         width=100%>
         </radar>
+        <bar id="echarts-bar"
+        height="100%"
+        width="100%">
+        </bar>
       </div>
     </div>
   </div>
@@ -19,10 +23,10 @@
 <script>
 import keyboard from './keyboard'
 import radar from './radar'
-
+import bar from './bar'
 export default {
   name: 'Echarts',
-  components: { keyboard, radar }
+  components: { keyboard, radar, bar }
 }
 </script>
 

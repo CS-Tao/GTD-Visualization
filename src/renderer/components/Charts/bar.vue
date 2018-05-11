@@ -18,11 +18,11 @@ export default {
   props: {
     className: {
       type: String,
-      default: 'chartRadar'
+      default: 'chartBar'
     },
     id: {
       type: String,
-      default: 'chartRadar'
+      default: 'chartBar'
     },
     width: {
       type: String,
@@ -43,23 +43,23 @@ export default {
           data: [
             {
               indicator: 'type1',
-              value: 0
+              value: 1
             },
             {
               indicator: 'type2',
-              value: 0
+              value: 2
             },
             {
               indicator: 'type3',
-              value: 0
+              value: 5
             },
             {
               indicator: 'type4',
-              value: 0
+              value: 4
             },
             {
               indicator: 'type5',
-              value: 0
+              value: 3
             }
           ]
         }
@@ -68,9 +68,7 @@ export default {
     },
     textColor: {
       type: [String, Array],
-      default: function () {
-        return [114, 172, 209]
-      }
+      default: '#08263a'
     },
     areaColor: {
       type: [String, Array],
@@ -103,76 +101,96 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
 
       this.chart.setOption({
-        backgroundColor: this.getColor(this.backgroundColor),
-        title: {
-          text: this.title,
-          x: 'left',
-          y: 'top',
-          textAlign: 'left'
+        backgroundColor: '#08263a',
+        xAxis: [{
+          show: false,
+          data: this.getIndicator(this.data)
+        }, {
+          show: false,
+          data: this.getIndicator(this.data)
+        }],
+        visualMap: {
+          show: false,
+          min: 0,
+          max: 50,
+          dimension: 0,
+          inRange: {
+            color: ['#4a657a', '#308e92', '#b1cfa5', '#f5d69f', '#f5898b', '#ef5055']
+          }
         },
-        legend: {
-          data: ['图一']
+        yAxis: {
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            textStyle: {
+              color: '#4a657a'
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: '#08263f'
+            }
+          },
+          axisTick: {
+            show: false
+          }
         },
-        radar: [
-          {
-            indicator: this.getIndicator(this.data),
-            center: ['25%', '50%'],
-            radius: 120,
-            startAngle: 90,
-            splitNumber: 4,
-            shape: 'circle',
-            name: {
-              formatter: '【{value}】',
-              textStyle: {
-                color: this.getColor(this.textColor)
-              }
-            },
-            splitArea: {
-              areaStyle: {
-                color: this.getColorList(this.areaColor),
-                shadowColor: 'rgba(0, 0, 0, 0.3)',
-                shadowBlur: 10
-              }
-            },
-            axisLine: {
-              lineStyle: {
-                color: 'rgba(255, 255, 255, 0.5)'
-              }
-            },
-            splitLine: {
-              lineStyle: {
-                color: 'rgba(255, 255, 255, 0.5)'
-              }
+        series: [{
+          name: 'back',
+          type: 'bar',
+          data: this.getValue(this.data),
+          z: 1,
+          itemStyle: {
+            normal: {
+              opacity: 0.4,
+              barBorderRadius: 5,
+              shadowBlur: 3,
+              shadowColor: '#111'
             }
           }
-        ],
-        series: [
-          {
-            name: '雷达图',
-            type: 'radar',
-            itemStyle: {
-              emphasis: {
-                // color: 各异,
-                lineStyle: {
-                  width: 4
-                }
-              }
-            },
-            data: [
-              {
-                value: this.getValue(this.data),
-                name: '图一',
-                symbol: 'rect',
-                symbolSize: 5,
-                lineStyle: {
-                  normal: {
-                    type: 'dashed'
-                  }
-                }
-              }
-            ]
+        }, {
+          name: 'Simulate Shadow',
+          type: 'line',
+          data: [1, 2, 5, 2, 7],
+          z: 2,
+          showSymbol: false,
+          animationDelay: 0,
+          animationEasing: 'linear',
+          animationDuration: 1200,
+          lineStyle: {
+            normal: {
+              color: 'transparent'
+            }
+          },
+          areaStyle: {
+            normal: {
+              color: '#08263a',
+              shadowBlur: 50,
+              shadowColor: '#000'
+            }
           }
-        ]
+        }, {
+          name: 'front',
+          type: 'bar',
+          data: [1, 2, 5, 2, 7],
+          xAxisIndex: 1,
+          z: 3,
+          itemStyle: {
+            normal: {
+              barBorderRadius: 5
+            }
+          }
+        }],
+        animationEasing: 'elasticOut',
+        animationEasingUpdate: 'elasticOut',
+        animationDelay (idx) {
+          return idx * 20
+        },
+        animationDelayUpdate (idx) {
+          return idx * 20
+        }
       })
     },
     getIndicator (data) {
