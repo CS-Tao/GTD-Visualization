@@ -24,6 +24,14 @@ export default {
     }
   },
   methods: {
+    addZero (num) {
+      // add 0 when month or day less than 10
+      if (num >= 10) {
+        return num + ''
+      } else {
+        return '0' + num + ''
+      }
+    }
     // timedCount () {
     //   if (this.num < this.date_arr.length - 1) {
     //     this.num += 0.5
@@ -40,7 +48,7 @@ export default {
   },
   computed: {
     dateDisplayText () {
-      return this.date.getFullYear() + ' 年' + (this.date.getMonth() + 1) + '月' + this.date.getDate() + '日'
+      return this.date.getFullYear() + ' 年' + this.addZero(this.date.getMonth() + 1) + ' 月' + this.addZero(this.date.getDate()) + ' 日'
     }
   }
 }
@@ -53,8 +61,8 @@ export default {
   -ms-user-select:none;
   user-select:none;
   .DateDisplayText {
-    color:rgba(253, 253, 253, 0.61);
-    font-size: 3rem;
+    color:rgba(255, 150, 40, 1);
+    font-size: 2.5rem;
   }
 }
 
