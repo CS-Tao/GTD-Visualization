@@ -57,7 +57,7 @@ export default {
 .screenfull-svg {
   display: flex;
   cursor: pointer;
-  fill: #5a5e66;;
+  fill: #E66417;
   width: 20px;
 }
 </style>
