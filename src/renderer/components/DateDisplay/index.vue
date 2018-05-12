@@ -81,8 +81,8 @@ export default {
   -ms-user-select:none;
   user-select:none;
   .DateDisplayText {
-    color:rgba(253, 253, 253, 0.61);
-    font-size: 3rem;
+    color:rgba(255, 150, 40, 1);
+    font-size: 2.5rem;
   }
 }
 

@@ -44,8 +44,10 @@ export default {
     line-height: 50px;
     margin-left: 10px;
     .no-redirect {
-      color: #97a8be;
+      color: #f5de5a;
       cursor: text;
+      font-family: 'SimHei';
+      font-size: 1.5rem;
     }
   }
 </style>
