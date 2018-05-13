@@ -3,8 +3,14 @@
 		<sidebar class="sidebar-container"></sidebar>
 		<div class="main-container">
 			<app-header></app-header>
-      <!-- <app-router-view></app-router-view> -->
-			<app-main></app-main>
+      <el-container>
+        <el-aside width="200px">
+          <!-- <app-router-view></app-router-view> -->
+        </el-aside>
+        <el-main>
+          <!-- <app-main></app-main> -->
+        </el-main>
+      </el-container>
 		</div>
 	</div>
 </template>
@@ -36,6 +42,6 @@ export default {
 	  @include clearfix;
 	  position: relative;
 	  height: 100%;
-	  width: 100%;
+    width: 100%;
 	}
 </style>

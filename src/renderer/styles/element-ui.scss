@@ -4,9 +4,29 @@
   font-weight: 400!important;
 }
 
+.el-breadcrumb__item {
+  height: 50px;
+}
+
+.el-container {
+  width: 100%;
+  height: 93vh;
+  .el-aside {
+    background-color: aqua;
+  }
+  .el-main {
+    background-color: aquamarine;
+  }
+}
+
+.el-menu {
+  border-right: 0;
+}
+
 .el-menu--horizontal {
   border-bottom: rgba(0,0,0,.12);
 }
+
 
  .el-upload {
    input[type="file"] {

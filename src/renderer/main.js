@@ -29,6 +29,6 @@ new Vue({ // eslint-disable-line
   render: h => h(App),
   components: { App },
   mounted () {
-    this.$router.push({ path: '/dashboard' })
+    this.$router.push({ path: '/time-analysis' })
   }
 })
