@@ -11,11 +11,23 @@
 .el-container {
   width: 100%;
   height: 93vh;
-  .el-aside {
-    background-color: aqua;
+  .el-aside-0 {
+    width: 0!important;
   }
-  .el-main {
-    background-color: aquamarine;
+  .el-main-0 {
+    padding: 0;
+  }
+  .el-aside-1 {
+    width: 300px!important;
+  }
+  .el-main-1 {
+    padding: 0;
+  }
+  .el-aside-2 {
+    width: 100%!important;
+  }
+  .el-main-2 {
+    padding: 0;
   }
 }
 

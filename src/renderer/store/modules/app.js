@@ -6,14 +6,9 @@ const app = {
       opened: !+Cookies.get('sidebarStatus')
     },
     routerView: {
-      showMode: !+Cookies.get('routerViewShowMode') // 0 for hidden, 1 for normal, 2 for maxsize
+      showMode: Cookies.get('routerViewShowMode') // 0 for hidden, 1 for normal, 2 for maxsize
     },
     isAppFullScreen: Cookies.get('isAppFullScreen')
-  },
-  getters: {
-    routerViewCanVisiable (state) {
-      return state.routerView.showMode !== 0
-    }
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -24,7 +19,7 @@ const app = {
       }
       state.sidebar.opened = !state.sidebar.opened
     },
-    Change_ROUTER_VIEW_SHOW_MODE: state => (mode) => {
+    CHANGE_ROUTER_VIEW_SHOW_MODE: (state, mode) => {
       Cookies.set('routerViewShowMode', mode)
       state.routerView.showMode = mode
     },
@@ -41,8 +36,8 @@ const app = {
     toggleSideBar ({ commit }) {
       commit('TOGGLE_SIDEBAR')
     },
-    changeRouterViewShowMode ({commit}, mode) {
-      commit('Change_ROUTER_VIEW_SHOW_MODE', mode)
+    changeRouterViewShowMode ({ commit }, mode) {
+      commit('CHANGE_ROUTER_VIEW_SHOW_MODE', mode)
     },
     toggleFullScreen ({ commit }, bool) {
       commit('TOGGLE_FULL_SCREEN', bool)

@@ -4,11 +4,11 @@
 		<div class="main-container">
 			<app-header></app-header>
       <el-container :class="{'el-container-full-screen':isAppFullScreen}">
-        <el-aside width="200px">
-          <!-- <app-router-view></app-router-view> -->
+        <el-aside :class="['el-aside-' + routerViewMode]">
+          <app-router-view></app-router-view>
         </el-aside>
-        <el-main>
-          <!-- <app-main></app-main> -->
+        <el-main :class="['el-main-' + routerViewMode]">
+          <app-main></app-main>
         </el-main>
       </el-container>
 		</div>
@@ -32,10 +32,9 @@ export default {
       return this.$store.state.app.sidebar
     },
     ...mapGetters([
-      'isAppFullScreen'
+      'isAppFullScreen',
+      'routerViewMode'
     ])
-  },
-  mounted () {
   }
 }
 </script>
