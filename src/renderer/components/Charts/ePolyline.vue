@@ -169,9 +169,10 @@ export default {
         },
         series: this.setSeriesByData()
       })
+      var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
-        this.$emit('click-eployline', params.name)
+        that.$emit('click-eployline', params.name)
       })
     },
     getIndicator (data) {

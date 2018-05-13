@@ -200,9 +200,10 @@ export default {
           }
         ]
       })
+      var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
-        this.$emit('click-radar', params.name)
+        that.$emit('click-radar', params.name)
       })
     },
     getIndicator (data) {
