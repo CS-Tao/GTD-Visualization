@@ -75,13 +75,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/variables.scss';
 .container {
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none;
   .DateDisplayText {
-    color:rgba(255, 150, 40, 1);
+    color: $yo-2;
     font-size: 2.5rem;
   }
 }

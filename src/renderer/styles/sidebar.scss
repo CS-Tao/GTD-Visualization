@@ -27,7 +27,7 @@
     .el-menu {
       border: none;
       width: 100%;
-      background-color: $menuBg!important;
+      background-color: $gb-3!important;
     }
   }
   .hideSidebar {
@@ -95,12 +95,25 @@
   .nest-menu .el-submenu>.el-submenu__title,
   .el-submenu .el-menu-item {
     min-width: 180px!important;
-    background-color: $subMenuBg!important;
+    background-color: $gb-2!important;
+    color: $yo-1!important;
     &:hover {
-      background-color: $menuHover!important;
+      background-color: $gb-3!important;
+      color: $yo-1!important;
     }
   }
   .el-menu--collapse .el-menu .el-submenu{
     min-width: 180px!important;
+  }
+  .submenu-title-noDropdown, .el-submenu__title{
+    background-color: $gb-3!important;
+    color: $yo-1!important;
+    &:hover {
+      color: $yo-1!important;
+      background-color: $gb-4!important;
+    }
+  }
+  .el-menu-item.is-active{
+    color: $yo-2!important;
   }
 }
