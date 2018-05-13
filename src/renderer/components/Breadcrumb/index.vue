@@ -38,13 +38,14 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+@import '../../styles/variables.scss';
   .app-breadcrumb.el-breadcrumb {
     display: inline-block;
     font-size: 14px;
     line-height: 50px;
     margin-left: 10px;
     .no-redirect {
-      color: #f5de5a;
+      color: $yo-1;
       cursor: text;
       font-family: 'SimHei';
       font-size: 1.5rem;

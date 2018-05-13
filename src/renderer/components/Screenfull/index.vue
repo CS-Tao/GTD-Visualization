@@ -53,11 +53,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import '../../styles/variables.scss';
 .screenfull-svg {
   display: flex;
   cursor: pointer;
-  fill: #E66417;
+  fill: $yo-3;
   width: 20px;
 }
 </style>
