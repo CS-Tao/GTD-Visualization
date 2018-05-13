@@ -1,14 +1,7 @@
  <template>
   <div :class="className"
    :id="id" 
-   :style="{height:height,width:width}" 
-   :title="title" :data="data" 
-   :textcolor="textColor" 
-   :backgroundColor="backgroundColor"
-   :indicatorName="indicatorName"
-   :value="valueName"
-   :vertical="vertical"
-   :lineStyle="lineStyle">
+   :style="{height:height,width:width}">
   </div>
 </template>
 
@@ -29,11 +22,11 @@ export default {
     },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     title: {
       // 图表标题
@@ -140,6 +133,7 @@ export default {
     }
   },
   mounted () {
+    console.log(JSON.stringify(this.data))
     this.initChart()
   },
   beforeDestroy () {
@@ -152,10 +146,7 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
-      for (var i in this.data) {
-        var max = this.data[i].length
-        break
-      }
+
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
         xAxis: [{
@@ -201,15 +192,6 @@ export default {
           },
           axisTick: {
             show: false
-          }
-        },
-        visualMap: {
-          show: false,
-          min: this.vertical ? -max : 0,
-          max: this.vertical ? 0 : max,
-          dimension: 0,
-          inRange: {
-            color: ['#4a657a', '#308e92', '#b1cfa5', '#f5d69f', '#f5898b', '#ef5055']
           }
         },
         series: this.getSeries(this.data),
@@ -356,6 +338,9 @@ export default {
     }
   },
   watch: {
+    data (newData, oldData) {
+      this.initChart()
+    },
     selectName (newSelect, oldSelect) {
       this.highlignt(newSelect)
       this.downplay(oldSelect)

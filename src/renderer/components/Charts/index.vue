@@ -6,15 +6,10 @@
         height='100%' 
         width='100%'>
         </keyboard>
-        <radar id="echarts-rader"
-        title="radar"
-        height='100%'
-        width=100%>
-        </radar>
-        <bar id="echarts-bar"
-        height="100%"
-        width="100%">
-        </bar>
+        <country3ModelRadar id="country-radar">
+        </country3ModelRadar>
+        <regionCountBar id="region-bar">
+        </regionCountBar>
         <e-polyline id="echarts-line"
         height="100%"
         width="100%"
@@ -33,14 +28,14 @@
 
 <script>
 import keyboard from './keyboard'
-import radar from './radar'
-import bar from './bar'
+import country3ModelRadar from './country3ModelRadar'
+import regionCountBar from './regionCountBar'
 import ePolyline from './ePolyline'
 import pie from './pie'
 
 export default {
   name: 'Echarts',
-  components: { keyboard, radar, bar, ePolyline, pie }
+  components: { keyboard, country3ModelRadar, regionCountBar, ePolyline, pie }
 
 }
 pie.selecName = ['type2']

@@ -1,14 +1,7 @@
  <template>
   <div :class="className"
    :id="id" 
-   :style="{height:height,width:width}" 
-   :title="title" :data="data" 
-   :textcolor="textColor" 
-   :areacolor="areaColor"
-   :backgroundColor="backgroundColor"
-   :indicatorName="indicatorName"
-   :value="valueName"
-   :radius="radius">
+   :style="{height:height,width:width}" >
   </div>
 </template>
 
@@ -311,6 +304,9 @@ export default {
     }
   },
   watch: {
+    data (newData, oldData) {
+      this.initChart()
+    },
     selectName (newSelect, oldSelect) {
       this.highlignt({selectName: newSelect, seriesName: 0})
       this.downplay({selectName: oldSelect, seriesName: 0})
