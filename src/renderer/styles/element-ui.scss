@@ -4,6 +4,10 @@
   font-weight: 400!important;
 }
 
+.el-menu--horizontal {
+  border-bottom: rgba(0,0,0,.12);
+}
+
  .el-upload {
    input[type="file"] {
      display: none !important;

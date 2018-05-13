@@ -11,7 +11,7 @@ import ScrollBar from './SidebarComponents/ScrollBar'
 
 export default {
   data () {
-    return []
+    return {}
   },
   components: { ScrollBar }
 }

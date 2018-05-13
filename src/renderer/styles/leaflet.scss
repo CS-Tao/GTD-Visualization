@@ -1,5 +1,84 @@
 @import './variables.scss';
 
+
 .single-point-marker {
-    opacity: 0.5;
+    animation: blink 3s ease-out;
+    transform-origin: 50% 50% 0;
+    box-shadow: 0 0 10px red;
+}
+
+.main-point-marker {
+    animation: blink 3s ease-out;
+    -webkit-animation: blink 3s ease-out;
+    transform-origin: 50% 50% 0;
+    -webkit-transform-origin: 50% 50% 0;
+}
+
+.main-firstring-marker {
+    animation: diffusion 2s ease-out forwards 1;
+    -webkit-animation: diffusion 2s ease-out forwards 1;
+    transform-origin: 50% 50% 0;
+    -webkit-transform-origin: 50% 50% 0;
+}
+
+.main-secondring-marker {
+    opacity: 0;
+    animation: diffusion 2s ease-out 1s;
+    -webkit-animation: diffusion 2s ease-out 1s;
+    transform-origin: 50% 50% 0;
+    -webkit-transform-origin: 50% 50% 0;
+}
+
+@-webkit-keyframes diffusion {
+    from { 
+        -webkit-transform: scale(0);
+        opacity: 1;
+    }
+    to {
+        -webkit-transform: scale(2);
+        opacity: 0;
+    }
+}
+@keyframes diffusion {
+    from {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        opacity: 1;
+    } to {
+          transform: scale(2);
+          -webkit-transform: scale(2);
+          opacity: 0;
+      }
+}
+@keyframes blink {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.0);
+        -webkit-transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+}
+
+@-webkit-keyframes blink {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0);
+    }
+    40% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(0);
+    }
 }
