@@ -39,24 +39,90 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'general-analysis',
+        component: require('@/components/LandingPage').default,
+        name: 'general-analysis',
+        meta: { title: '总体分析', icon: 'component', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'time-analysis',
+        component: require('@/components/LandingPage').default,
+        name: 'time-analysis',
+        meta: { title: '时段分析', icon: 'example', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'trend-analysis',
+        component: require('@/components/LandingPage').default,
+        name: 'trend-analysis',
+        meta: { title: '趋势分析', icon: 'form', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'economy-analysis',
+        component: require('@/components/LandingPage').default,
+        name: 'economy-analysis',
+        meta: { title: '经济分析', icon: 'money', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'wordcloud-analysis',
+        component: require('@/components/LandingPage').default,
+        name: 'wordcloud-analysis',
+        meta: { title: '词云分析', icon: 'message', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/test',
     component: Layout,
     meta: {
-      title: '测试页面',
+      title: '组件测试',
       icon: 'password'
     },
     children: [
       {
-        path: 'two1',
+        path: 'charts-test',
         component: require('@/components/Charts').default,
-        name: 'three',
-        meta: { title: 'Echarts 图表', icon: 'chart', noCache: true }
+        name: 'charts-test',
+        meta: { title: '图表测试 - tang-xy', icon: 'chart', noCache: true }
       },
       {
-        path: 'two2',
-        component: require('@/components/LandingPage').default,
-        name: 'four',
-        meta: { title: '测试页面2', icon: 'user', noCache: true }
+        path: 'charts-integration-test',
+        component: require('@/components/Charts/integrationChartsTest').default,
+        name: 'charts-integration-test',
+        meta: { title: '图表集成测试 - tang-xy', icon: 'chart', noCache: true }
+      },
+      {
+        path: 'wordclould-test',
+        component: require('@/components/WordCloud').default,
+        name: 'wordclould-test',
+        meta: { title: '词云测试 - Cong-Zou', icon: 'message', noCache: true }
       }
     ]
   },
