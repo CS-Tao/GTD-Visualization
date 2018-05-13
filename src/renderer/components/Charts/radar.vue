@@ -36,10 +36,12 @@ export default {
       default: '200px'
     },
     title: {
+      // 图表标题
       type: String,
       default: ''
     },
     data: {
+      // 图表数据，格式为[{国家名：'中国',字段名：值}]
       type: Array,
       default: function () {
         var res =
@@ -70,38 +72,42 @@ export default {
       }
     },
     textColor: {
+      // 文本颜色：字符串或一个RGB数组
       type: [String, Array],
       default: function () {
         return [114, 172, 209]
       }
     },
     areaColor: {
+      // 雷达图区域颜色：从中心到四周透明度逐渐增大
       type: [String, Array],
       default: function () {
         return [114, 172, 209]
       }
     },
     backgroundColor: {
+      // 背景色，字符串或rgb数组
       type: [String, Array],
-      default: '#2c343c'
+      default: '#000000'
     },
     indicatorName: {
+      // 传入的data数据中，x列的名字
       type: [String],
       default: 'indicator'
     },
     valueName: {
+      // 传入的data数据中，y列的名字
       type: [String],
       default: 'value'
     },
     radius: {
+      // 半径
       type: Number,
       default: 120
     },
-    seriesName: {
-      type: String,
-      default: ''
-    },
     selectName: {
+      // 选中的数据名称
+      // 这项不是来自父类的参数
       type: String,
       default: ''
     }
@@ -125,8 +131,6 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
-      var c = this.getValue(this.data)
-      console.log(c[0])
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
         title: {
@@ -195,6 +199,10 @@ export default {
             ]
           }
         ]
+      })
+      this.chart.on('click', function (params) {
+        // 发送点击消息
+        this.$emit('click-radar', params.name)
       })
     },
     getIndicator (data) {
@@ -303,21 +311,12 @@ export default {
   },
   watch: {
     selectName (newSelect, oldSelect) {
-      this.highlignt({selectName: newSelect, seriesName: this.seriesName})
-      this.downplay({selectName: oldSelect, seriesName: this.seriesName})
+      this.highlignt({selectName: newSelect, seriesName: 0})
+      this.downplay({selectName: oldSelect, seriesName: 0})
       this.chart.dispatchAction({
         type: 'showTip',
-        seriesIndex: this.seriesName,
+        seriesIndex: 0,
         name: newSelect
-      })
-    },
-    seriesName (newSeries, oldSeries) {
-      this.highlignt({selectName: this.selectName, seriesName: newSeries})
-      this.downplay({selectName: this.selectName, seriesName: oldSeries})
-      this.chart.dispatchAction({
-        type: 'showTip',
-        seriesIndex: newSeries,
-        name: this.selectName
       })
     }
   }

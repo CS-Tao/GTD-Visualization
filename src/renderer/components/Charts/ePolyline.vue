@@ -4,7 +4,6 @@
    :style="{height:height,width:width}" 
    :title="title" :data="data" 
    :textcolor="textColor" 
-   :areacolor="areaColor"
    :backgroundColor="backgroundColor"
    :indicatorName="indicatorName"
    :valueName="valueName"
@@ -38,10 +37,12 @@ export default {
       default: '200px'
     },
     title: {
+      // 图表标题
       type: String,
       default: ''
     },
     data: {
+      // 图表数据，格式为[{国家名：'中国',字段名：值}]
       type: Array,
       default: function () {
         var res =
@@ -68,42 +69,43 @@ export default {
       }
     },
     textColor: {
+      // 文本颜色：字符串或一个RGB数组
       type: [String, Array],
       default: '#4a657a'
     },
-    areaColor: {
-      type: [String, Array],
-      default: function () {
-        return [114, 172, 209]
-      }
-    },
     backgroundColor: {
+      // 背景色，字符串或rgb数组
       type: [String, Array],
-      default: '#2c343c'
+      default: '#000000'
     },
     indicatorName: {
+      // 传入的data数据中，x列的名字
       type: [String],
       default: 'listName'
     },
     valueName: {
+      // 传入的data数据中，y列的名字
       type: [String],
       default: 'value'
     },
     showLegend: {
+      // 是否显示图例
       type: Boolean,
       default: true
     },
     begin: {
+      // 开始年份
       type: Number,
       default: 1970
     },
     end: {
+      // 终止年份
       type: Number,
       default: 2016
     },
     seriesName: {
-      type: String,
-      default: ''
+      type: [String, Number],
+      default: 0
     },
     selectName: {
       type: String,
@@ -167,15 +169,9 @@ export default {
         },
         series: this.setSeriesByData()
       })
-      this.chart.dispatchAction({
-        type: 'highlight',
-        seriesIndex: 0,
-        dataIndex: 0
-      })
-      this.chart.dispatchAction({
-        type: 'showTip',
-        seriesIndex: 0,
-        dataIndex: 0
+      this.chart.on('click', function (params) {
+        // 发送点击消息
+        this.$emit('click-eployline', params.name)
       })
     },
     getIndicator (data) {
