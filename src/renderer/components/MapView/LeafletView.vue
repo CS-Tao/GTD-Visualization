@@ -22,7 +22,7 @@ export default {
       mapParams: {
         mapContainer: 'LMapView',
         initCenter: [38, 38],
-        url: 'https://api.mapbox.com/styles/v1/cstao/cjgygxq81001s2sphuk48s4qq/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY3N0YW8iLCJhIjoiY2o5ZXl0NWx1MmZ2ejJ3bXFld213cmtmOSJ9.y4UsCMx7WnfSiUbBA-tipg',
+        url: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ',
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         zoom: 2,
         minZoom: 2,
@@ -50,7 +50,9 @@ export default {
   },
   watch: {
     currentDailyData () {
-      this.markerLayerGroup.clearLayers()
+      // add new point layers to layer group
+      var that = this
+      // console.log(this.currentDailyData.length)
       this.currentDailyData.forEach(item => {
         if (!item.geometry.coordinates ||
           !item.geometry.coordinates[0] ||
@@ -58,19 +60,68 @@ export default {
 
         let lng = item.geometry.coordinates[0]
         let lat = item.geometry.coordinates[1]
-        this.addSinglePoint(this.markerLayerGroup, lng, lat)
+        that.addSinglePoint(that.markerLayerGroup, lng, lat)
+      })
+      // remove point layers running out life time
+      // console.log(this.markerLayerGroup.getLayers().length)
+      let deadLayers = []
+      this.markerLayerGroup.eachLayer(function (layer) {
+        layer.lifetime -= 1
+        if (layer.lifetime === 0) {
+          deadLayers.push(layer)
+        }
+      })
+      // console.log(deadLayers.length)
+      deadLayers.forEach(function (value, index, array) {
+        that.markerLayerGroup.removeLayer(value)
       })
     }
   },
   methods: {
     addSinglePoint (layerGroup, lng, lat) {
-      var point = L.icon({
-        iconUrl: 'static/icons/point_red.png',
-        iconSize: [10, 10],
-        iconAnchor: [5, 5],
-        className: 'single-point-marker' // define in globe styles
-      })
-      layerGroup.addLayer(L.marker([lat, lng], {icon: point}))
+      var ringOptions = {
+        radius: 10,
+        stroke: true,
+        color: '#E66417',
+        weight: 2,
+        opacity: 1,
+        fill: false,
+        render: L.svg(),
+        className: 'main-firstring-marker'
+      }
+      var firstRingLayer = L.circleMarker([lat, lng], ringOptions)
+      ringOptions.className = 'main-secondring-marker'
+      var secondRingLayer = L.circleMarker([lat, lng], ringOptions)
+      // display days
+      firstRingLayer.lifetime = 10
+      secondRingLayer.lifetime = 10
+      layerGroup.addLayer(firstRingLayer)
+      layerGroup.addLayer(secondRingLayer)
+
+      var pointOptions = {
+        radius: 5,
+        stroke: false,
+        color: '#E65217',
+        weight: 1,
+        opacity: 1,
+        fill: true,
+        fillOpacity: 1,
+        render: L.svg(),
+        className: 'main-point-marker'
+      }
+      var pointLayer = L.circleMarker([lat, lng], pointOptions)
+      pointLayer.lifetime = 10
+      layerGroup.addLayer(pointLayer)
+
+      // var point = L.icon({
+      //   iconUrl: 'static/icons/point.png',
+      //   iconSize: [10, 10],
+      //   iconAnchor: [5, 5],
+      //   className: 'single-point-marker' // define in globe styles
+      // })
+      // var pointLayer = L.marker([lat, lng], {icon: point})
+      // pointLayer.lifetime = 10
+      // layerGroup.addLayer(pointLayer)
     }
   }
 }

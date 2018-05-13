@@ -28,7 +28,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import '../../styles/variables.scss';
 .hamburger {
 	display: inline-block;
 	cursor: pointer;
@@ -36,7 +37,8 @@ export default {
 	height: 20px;
 	transform: rotate(90deg);
 	transition: .38s;
-	transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  fill: $yo-3;
 }
 
 .hamburger.is-active {
