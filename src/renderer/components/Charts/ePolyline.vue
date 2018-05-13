@@ -7,7 +7,10 @@
    :areacolor="areaColor"
    :backgroundColor="backgroundColor"
    :indicatorName="indicatorName"
-   :value="valueName">
+   :valueName="valueName"
+   :showLegend="showLegend"
+   :begin="begin"
+   :end="end">
   </div>
 </template>
 
@@ -44,24 +47,20 @@ export default {
         var res =
           [
             {
-              indicator: 'type1',
-              value: 1
+              listName: 'type1',
+              value: [1, 2, 3, 4, 5]
             },
             {
-              indicator: 'type2',
-              value: 2
+              listName: 'type2',
+              value: [2, 3, 1, 5, 6]
             },
             {
-              indicator: 'type3',
-              value: 5
+              listName: 'type3',
+              value: [5, 3, 2, 1, 4]
             },
             {
-              indicator: 'type4',
-              value: 4
-            },
-            {
-              indicator: 'type5',
-              value: 3
+              listName: 'type4',
+              value: [5, 1, 4, 2, 3]
             }
           ]
 
@@ -84,11 +83,23 @@ export default {
     },
     indicatorName: {
       type: [String],
-      default: 'indicator'
+      default: 'listName'
     },
     valueName: {
       type: [String],
       default: 'value'
+    },
+    showLegend: {
+      type: Boolean,
+      default: true
+    },
+    begin: {
+      type: Number,
+      default: 1970
+    },
+    end: {
+      type: Number,
+      default: 2016
     },
     seriesName: {
       type: String,
@@ -117,67 +128,54 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
-
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
-        xAxis: [{
-          show: true,
-
-          color: this.getColor(this.textColor),
-
-          data: this.getIndicator(this.data)
-        }, {
-          show: false,
-          data: this.getIndicator(this.data)
-        }],
-        visualMap: {
-          show: false,
-          min: 0,
-          max: this.data.length,
-          dimension: 0,
-          inRange: {
-            color: ['#4a657a', '#308e92', '#b1cfa5', '#f5d69f', '#f5898b', '#ef5055']
+        title: {
+          text: this.title
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: this.getIndicator(this.data),
+          textStyle: {
+            color: this.getColor(this.textColor)
+          },
+          show: this.showLegend
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.getXvalue(),
+          textStyle: {
+            color: this.getColor(this.textColor)
           }
         },
         yAxis: {
-          axisLine: {
-            show: false
-          },
-          axisLabel: {
-            textStyle: {
-              color: this.getColor(this.textColor)
-            }
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#08263f'
-            }
-          },
-          axisTick: {
-            show: false
-          }
+          type: 'value'
         },
-        series: [{
-          name: 'front',
-          type: 'bar',
-          data: this.getValue(this.data),
-          xAxisIndex: 1,
-          z: 3,
-          itemStyle: {
-            normal: {
-              barBorderRadius: 5
-            }
-          }
-        }],
-        animationEasing: 'elasticOut',
-        animationEasingUpdate: 'elasticOut',
-        animationDelay (idx) {
-          return idx * 20
-        },
-        animationDelayUpdate (idx) {
-          return idx * 20
-        }
+        series: this.setSeriesByData()
+      })
+      this.chart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0,
+        dataIndex: 0
+      })
+      this.chart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: 0
       })
     },
     getIndicator (data) {
@@ -189,11 +187,30 @@ export default {
       }
       return res
     },
+    setSeriesByData () {
+      var res = []
+      for (var i = 0; i < this.data.length; i++) {
+        res.push({
+          name: this.data[i][this.indicatorName],
+          type: 'line',
+          data: this.data[i][this.valueName]
+        })
+      }
+      return res
+    },
     getValue (data) {
       var res = []
       for (var i = 0; i < data.length; i++) {
         res.push(data[i][this.valueName]
         )
+      }
+      return res
+    },
+    getXvalue () {
+      if (this.begin >= this.end) { return [] }
+      var res = []
+      for (var i = this.begin; i < this.end; i++) {
+        res.push(i.toString())
       }
       return res
     },
@@ -272,26 +289,35 @@ export default {
     highlignt (name) {
       this.chart.dispatchAction({
         type: 'highlight',
-        seriesIndex: 0,
-        name: 3
+        seriesIndex: name.seriesName,
+        name: name.selectName
       })
     },
     downplay (name) {
       this.chart.dispatchAction({
         type: 'downplay',
-        seriesIndex: 0,
-        name: name
+        seriesIndex: name.seriesName,
+        name: name.selectName
       })
     }
   },
   watch: {
     selectName (newSelect, oldSelect) {
-      this.highlignt(newSelect)
-      this.downplay(oldSelect)
+      this.highlignt({selectName: newSelect, seriesName: this.seriesName})
+      this.downplay({selectName: oldSelect, seriesName: this.seriesName})
       this.chart.dispatchAction({
         type: 'showTip',
-        seriesIndex: 0,
+        seriesIndex: this.seriesName,
         name: newSelect
+      })
+    },
+    seriesName (newSeries, oldSeries) {
+      this.highlignt({selectName: this.selectName, seriesName: newSeries})
+      this.downplay({selectName: this.selectName, seriesName: oldSeries})
+      this.chart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: newSeries,
+        name: this.selectName
       })
     }
   }

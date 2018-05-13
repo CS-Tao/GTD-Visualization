@@ -5,7 +5,10 @@
    :title="title" :data="data" 
    :textcolor="textColor" 
    :areacolor="areaColor"
-   :backgroundColor="backgroundColor">
+   :backgroundColor="backgroundColor"
+   :indicatorName="indicatorName"
+   :value="valueName"
+   :radius="radius">
   </div>
 </template>
 
@@ -37,10 +40,10 @@ export default {
       default: ''
     },
     data: {
-      type: Object,
+      type: Array,
       default: function () {
-        var res = {
-          data: [
+        var res =
+          [
             {
               indicator: 'type1',
               value: 0
@@ -51,7 +54,7 @@ export default {
             },
             {
               indicator: 'type3',
-              value: 0
+              value: 1
             },
             {
               indicator: 'type4',
@@ -62,7 +65,7 @@ export default {
               value: 0
             }
           ]
-        }
+
         return res
       }
     },
@@ -80,11 +83,32 @@ export default {
     },
     backgroundColor: {
       type: [String, Array],
-      default: '#08263a'
+      default: '#2c343c'
+    },
+    indicatorName: {
+      type: [String],
+      default: 'indicator'
+    },
+    valueName: {
+      type: [String],
+      default: 'value'
+    },
+    radius: {
+      type: Number,
+      default: 120
+    },
+    seriesName: {
+      type: String,
+      default: ''
+    },
+    selectName: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
+
       chart: null
     }
   },
@@ -101,7 +125,8 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
-
+      var c = this.getValue(this.data)
+      console.log(c[0])
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
         title: {
@@ -110,17 +135,14 @@ export default {
           y: 'top',
           textAlign: 'left'
         },
-        legend: {
-          data: ['图一']
-        },
         radar: [
           {
             indicator: this.getIndicator(this.data),
-            center: ['25%', '50%'],
-            radius: 120,
+            center: ['50%', '50%'],
+            radius: this.radius,
             startAngle: 90,
             splitNumber: 4,
-            shape: 'circle',
+            shape: 'rect',
             name: {
               formatter: '【{value}】',
               textStyle: {
@@ -177,19 +199,18 @@ export default {
     },
     getIndicator (data) {
       var res = []
-      for (var i = 0; i < data.data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         res.push({
-          text: data.data[i].indicator
+          text: data[i][this.indicatorName]
         })
       }
       return res
     },
     getValue (data) {
       var res = []
-      for (var i = 0; i < data.data.length; i++) {
-        res.push({
-          text: data.data[i].value
-        })
+      for (var i = 0; i < data.length; i++) {
+        res.push(data[i][this.valueName]
+        )
       }
       return res
     },
@@ -264,6 +285,40 @@ export default {
       } else {
         return ''
       }
+    },
+    highlignt (name) {
+      this.chart.dispatchAction({
+        type: 'highlight',
+        seriesIndex: name.seriesName,
+        name: name.selectName
+      })
+    },
+    downplay (name) {
+      this.chart.dispatchAction({
+        type: 'downplay',
+        seriesIndex: name.seriesName,
+        name: name.selectName
+      })
+    }
+  },
+  watch: {
+    selectName (newSelect, oldSelect) {
+      this.highlignt({selectName: newSelect, seriesName: this.seriesName})
+      this.downplay({selectName: oldSelect, seriesName: this.seriesName})
+      this.chart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: this.seriesName,
+        name: newSelect
+      })
+    },
+    seriesName (newSeries, oldSeries) {
+      this.highlignt({selectName: this.selectName, seriesName: newSeries})
+      this.downplay({selectName: this.selectName, seriesName: oldSeries})
+      this.chart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: newSeries,
+        name: this.selectName
+      })
     }
   }
 }

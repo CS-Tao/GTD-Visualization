@@ -25,6 +25,7 @@ export default {
       type: String,
       default: '200px'
     }
+
   },
   data () {
     return {
