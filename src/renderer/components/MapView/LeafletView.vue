@@ -135,6 +135,6 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #191a1a;
+  background-color: #000000;
 }
 </style>
