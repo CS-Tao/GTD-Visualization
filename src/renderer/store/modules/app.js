@@ -8,7 +8,7 @@ const app = {
     routerView: {
       showMode: Cookies.get('routerViewShowMode') // 0 for hidden, 1 for normal, 2 for maxsize
     },
-    isAppFullScreen: Cookies.get('isAppFullScreen')
+    isAppFullScreen: !+Cookies.get('isAppFullScreen')
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {

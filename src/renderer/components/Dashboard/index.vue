@@ -8,7 +8,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import LeafletView from '@/components/MapView/LeafletView'
-import DateDisplay from '@/components/DateDisplay'
+import DateDisplay from '@/components/LedDateDisplay'
 import { isLeapYear, getDateByDaysInYear } from '@/utils'
 import { getGeneral } from '@/api/dashboardApi'
 
