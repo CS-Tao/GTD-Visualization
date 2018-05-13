@@ -1,7 +1,7 @@
 <template>
   <div>
     <leaflet-view class="map-view" :currentDailyData="dailyDataForMapView"></leaflet-view>
-    <date-display class="date-display" :date="currentDate"></date-display>
+    <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval"></date-display>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ export default {
       dailyDataForMapView: [],
       currentDate: new Date(),
       totalDays: 365,
-      freshInterval: 2000
+      freshInterval: 300
     }
   },
   mounted () {
@@ -83,6 +83,6 @@ export default {
   z-index: 999;
   bottom: 0;
   right: 0;
-  margin: 50px;
+  margin: 5px 20px 0px 10px;
 }
 </style>

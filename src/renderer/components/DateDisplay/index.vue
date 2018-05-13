@@ -1,11 +1,22 @@
 <template>
   <div class="container">
-    <transition name="slide-fade">
-    <p v-if="show" class="DateDisplayText">{{ dateDisplayText }}</p>
-    </transition>
+    <span>
     <!-- <transition name="slide-fade">
-    <p v-if="show2" class="DateDisplayText">{{ dateDisplayText }}</p>
-    </transition> -->
+    <span v-if="show" class="DateDisplayText">{{ dateDisplayYear }}</span>
+    </transition>
+    <span class="DateDisplayText"> 年 </span>
+    <transition name="slide-fade">
+    <span v-if="show" class="DateDisplayText">{{ dateDisplayMonth }}</span>
+    </transition>
+    <span class="DateDisplayText"> 月 </span>
+    <transition name="slide-fade">
+    <span v-if="show" class="DateDisplayText">{{ dateDisplayDay }}</span>
+    </transition>
+    <span class="DateDisplayText"> 日 </span> -->
+    <transition name="slide-fade">
+    <p v-if="show" class="DateDisplayText">{{ dateDisplay }}</p>
+    </transition>
+    </span>
   </div>
 </template>
 
@@ -15,57 +26,74 @@ export default {
     date: {
       type: Date,
       default: new Date()
+    },
+    freshInterval: {
+      type: Number,
+      default: 1
     }
   },
   data () {
     return {
       show: true,
-      show2: false
+      timer: false
     }
   },
   methods: {
-    // timedCount () {
-    //   if (this.num < this.date_arr.length - 1) {
-    //     this.num += 0.5
-    //     this.show = !this.show
-    //     setTimeout(this.timedCount, 1000)
-    //   }
+    change_show () {
+      this.show = !this.show
+    }
+    // display_loop () {
+    //   this.change_show()
+    //   setTimeout(this.display_loop(), 1000)
     // }
   },
   watch: {
     date (newDate, oldDate) {
-      // if (newDate !== oldDate) { this.show = !this.show }
-      // this.show2 =!this.show2
+      // if (this.timer === false) {
+      //   this.timer = true
+      //   this.display_loop()
+      // }
+      this.change_show()
+      setTimeout(this.change_show(), this.freshInterval / 2)
     }
   },
   computed: {
-    dateDisplayText () {
-      return this.date.getFullYear() + ' 年' + (this.date.getMonth() + 1) + '月' + this.date.getDate() + '日'
+    // dateDisplayYear () {
+    //   return this.date.getFullYear()
+    // },
+    // dateDisplayMonth () {
+    //   return this.date.getMonth() + 1
+    // },
+    // dateDisplayDay () {
+    //   return this.date.getDate()
+    // },
+    dateDisplay () {
+      return this.date.getFullYear() + '年' + (this.date.getMonth() + 1) + '月' + this.date.getDate() + '日'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/variables.scss';
 .container {
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none;
   .DateDisplayText {
-    color:rgba(253, 253, 253, 0.61);
-    font-size: 3rem;
+    color: $yo-2;
+    font-size: 2.5rem;
   }
 }
 
 .slide-fade-enter-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 .slide-fade-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.slide-fade-enter
-{
+.slide-fade-enter{
   transform: translateY(25px);
   opacity: 0;
 }
