@@ -7,7 +7,8 @@ const app = {
     },
     routerView: {
       showMode: !+Cookies.get('routerViewShowMode') // 0 for hidden, 1 for normal, 2 for maxsize
-    }
+    },
+    isAppFullScreen: Cookies.get('isAppFullScreen')
   },
   getters: {
     routerViewCanVisiable (state) {
@@ -25,6 +26,15 @@ const app = {
     },
     Change_ROUTER_VIEW_SHOW_MODE: state => (mode) => {
       Cookies.set('routerViewShowMode', mode)
+      state.routerView.showMode = mode
+    },
+    TOGGLE_FULL_SCREEN: (state, bool) => {
+      if (bool) {
+        Cookies.set('isAppFullScreen', 0)
+      } else {
+        Cookies.set('isAppFullScreen', 1)
+      }
+      state.isAppFullScreen = bool
     }
   },
   actions: {
@@ -33,6 +43,9 @@ const app = {
     },
     changeRouterViewShowMode ({commit}, mode) {
       commit('Change_ROUTER_VIEW_SHOW_MODE', mode)
+    },
+    toggleFullScreen ({ commit }, bool) {
+      commit('TOGGLE_FULL_SCREEN', bool)
     }
   }
 }

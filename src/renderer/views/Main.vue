@@ -3,7 +3,7 @@
 		<sidebar class="sidebar-container"></sidebar>
 		<div class="main-container">
 			<app-header></app-header>
-      <el-container>
+      <el-container :class="{'el-container-full-screen':isAppFullScreen}">
         <el-aside width="200px">
           <!-- <app-router-view></app-router-view> -->
         </el-aside>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { AppHeader, Sidebar, AppMain, AppRouterView } from '@/components/Layout'
 
 export default {
@@ -29,7 +30,10 @@ export default {
   computed: {
     sidebar () {
       return this.$store.state.app.sidebar
-    }
+    },
+    ...mapGetters([
+      'isAppFullScreen'
+    ])
   },
   mounted () {
   }
