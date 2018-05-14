@@ -22,7 +22,7 @@ export default {
         initCenter: [38, 38],
         url: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ',
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        zoom: 2,
+        zoom: 3,
         minZoom: 1,
         maxZoom: 18
       }

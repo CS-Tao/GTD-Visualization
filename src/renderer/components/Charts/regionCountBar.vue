@@ -153,6 +153,11 @@ export default {
     sendMove (param) {
       this.$emit('move-bar', param)
     }
+  },
+  watch: {
+    obj () {
+      this.initChart()
+    }
   }
 }
 </script>

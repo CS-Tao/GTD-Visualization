@@ -62,3 +62,12 @@ export function getInfo (params) {
     params
   })
 }
+
+// get global statistics data
+export function getGlobalStatistics (params) {
+  return request({
+    url: '/gtd/api/tdinfo/globalStatistics',
+    method: 'get',
+    params
+  })
+}

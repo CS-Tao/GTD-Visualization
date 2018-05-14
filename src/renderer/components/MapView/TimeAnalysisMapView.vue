@@ -19,6 +19,10 @@ export default {
     displayPointData: {
       type: Object,
       default: {}
+    },
+    selectedId: {
+      type: Number,
+      default: -1
     }
   },
   data () {
@@ -26,7 +30,7 @@ export default {
       map: null,
       mapParams: {
         mapContainer: 'TimeAnalysisMapView',
-        initCenter: [38, 38],
+        initCenter: [39, 38],
         url: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ',
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         zoom: 2,
@@ -34,7 +38,8 @@ export default {
         maxZoom: 18
       },
       currentMode: 'global',
-      currentLayerGroup: new L.LayerGroup()
+      currentPointLayerGroup: new L.LayerGroup(),
+      currentPolygonLayerGroup: new L.LayerGroup()
     }
   },
   computed: {
@@ -44,7 +49,10 @@ export default {
     const map = L.map(this.mapParams.mapContainer,
       {
         zoomControl: false,
-        attributionControl: false
+        attributionControl: false,
+        dragging: false,
+        scrollWheelZoom: false,
+        worldCopyJump: true
       })
       .setView(this.mapParams.initCenter, this.mapParams.zoom)
     L.tileLayer(this.mapParams.url, {
@@ -53,7 +61,8 @@ export default {
       maxZoom: this.mapParams.maxZoom
     }).addTo(map)
     this.map = map
-    this.map.addLayer(this.currentLayerGroup)
+    this.map.addLayer(this.currentPointLayerGroup)
+    this.map.addLayer(this.currentPolygonLayerGroup)
   },
   watch: {
     displayGeojsonData () {
@@ -73,6 +82,7 @@ export default {
           }
         },
         onEachFeature: function (feature, layer) {
+          layer.id = feature.id
           layer.on('mouseover', function () {
             layer.setStyle({
               fillOpacity: 0.6})
@@ -92,7 +102,7 @@ export default {
       }
       var geoJSON = L.geoJSON(this.displayGeojsonData, geoJSONOptions)
       geoJSON.mode = this.displayMode
-      this.currentLayerGroup.addLayer(geoJSON)
+      this.currentPolygonLayerGroup.addLayer(geoJSON)
     },
     displayMode () {
       this.setStyle()
@@ -112,6 +122,8 @@ export default {
             // render: L.svg(),
             // className: 'main-point-marker'
           }
+          const layer = L.circleMarker(latlng, pointOptions)
+          layer.id = geoJsonPoint.id
           return L.circleMarker(latlng, pointOptions)
           // var pointIcon = L.icon({
           //   iconUrl: '../../../../static/icons/point_light.png',
@@ -122,7 +134,7 @@ export default {
       }
       var geoJSON = L.geoJSON(this.displayPointData, geoJSONOptions)
       geoJSON.mode = this.displayMode
-      this.currentLayerGroup.addLayer(geoJSON)
+      this.currentPointLayerGroup.addLayer(geoJSON)
     }
   },
   methods: {

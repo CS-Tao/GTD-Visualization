@@ -393,6 +393,7 @@ export default {
   },
   watch: {
     data (newData, oldData) {
+      console.log(this.data)
       this.initChart()
     },
     selectName (newSelect, oldSelect) {
