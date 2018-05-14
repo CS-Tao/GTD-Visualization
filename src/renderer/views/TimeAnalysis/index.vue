@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 @import url("../../../../node_modules/mapbox-gl/dist/mapbox-gl.css");
-#MapboxView { 
+#MapboxView {
   position: absolute;
   top: 0;
   bottom: 0;
