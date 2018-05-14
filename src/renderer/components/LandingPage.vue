@@ -31,11 +31,11 @@
 
 <script>
 import SystemInformation from './LandingPage/SystemInformation'
-import Maxin from '@/views/Maxin'
+import Mixin from '@/views/Mixin'
 
 export default {
   name: 'landing-page',
-  mixins: [Maxin],
+  mixins: [Mixin],
   components: { SystemInformation },
   created () {
     this.changeLayout()

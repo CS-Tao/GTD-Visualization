@@ -4,12 +4,17 @@
 
 <script>
 import mapboxgl from 'mapbox-gl'
+import Mixin from '../Mixin'
 
 export default {
   data () {
     return {
       map: null
     }
+  },
+  mixins: [Mixin],
+  created () {
+    this.changeLayout()
   },
   mounted () {
     mapboxgl.accessToken = 'pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ'
@@ -25,8 +30,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import url("../../../../node_modules/mapbox-gl/dist/mapbox-gl.css");
-#MapboxView { 
+@import url("../../../../node_modules/mapbox-gl/dist/mapbox-gl.css");
+#MapboxView {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -34,4 +39,3 @@ export default {
   right: 0;
 }
 </style>
-

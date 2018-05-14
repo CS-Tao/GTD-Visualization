@@ -23,11 +23,11 @@
 <script>
 import img404 from '@/assets/404_images/404.png'
 import img404cloud from '@/assets/404_images/404_cloud.png'
-import Maxin from '../Maxin'
+import Mixin from '../Mixin'
 
 export default {
   name: 'page404',
-  mixins: [Maxin],
+  mixins: [Mixin],
   data () {
     return {
       img404,
