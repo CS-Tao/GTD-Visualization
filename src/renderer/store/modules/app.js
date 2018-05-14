@@ -19,6 +19,10 @@ const app = {
       }
       state.sidebar.opened = !state.sidebar.opened
     },
+    CHANGE_TOGGLE_SIDEBAR_STATUS: (state, bool) => {
+      Cookies.set('sidebarStatus', bool ? 1 : 0)
+      state.sidebar.opened = bool
+    },
     CHANGE_ROUTER_VIEW_SHOW_MODE: (state, mode) => {
       state.routerView.showMode = mode
     },
@@ -29,6 +33,9 @@ const app = {
   actions: {
     toggleSideBar ({ commit }) {
       commit('TOGGLE_SIDEBAR')
+    },
+    changeSideBarStatus ({ commit }, bool) {
+      commit('CHANGE_TOGGLE_SIDEBAR_STATUS', bool)
     },
     changeRouterViewShowMode ({ commit }, mode) {
       commit('CHANGE_ROUTER_VIEW_SHOW_MODE', mode)
