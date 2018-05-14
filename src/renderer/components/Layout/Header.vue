@@ -44,6 +44,7 @@ export default {
   border-radius: 0px !important;
   display: block;
   z-index: 401;
+  overflow: hidden;
   // border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04);
   opacity: $Opacity;
@@ -52,10 +53,10 @@ export default {
   background: -moz-linear-gradient(top left, $gb-3, $gb-2);
   background: -o-linear-gradient(top left, $gb-3, $gb-2);
   .hamburger-container {
-    line-height: 58px;
+    line-height: 8.12vh;
     height: 7vh;
     float: left;
-    padding: 0 10px;
+    padding: 0 1.4vh;
   }
   .breadcrumb-container{
     float: left;
