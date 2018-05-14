@@ -6,7 +6,8 @@
         :selectName="selectName"
         :vertical="false"
         @click-bar="sendClick"
-        @move-bar="sendMove">
+        @over-bar="sendOver"
+        @out-bar="sendOut">
   </bar>
 </template>
 
@@ -117,7 +118,7 @@ export default {
         ]
       }
     },
-    selectName: {
+    selectId: {
       // 外部传入，用于指定高亮的region名
       type: String,
       default: ''
@@ -130,6 +131,11 @@ export default {
   },
   mounted () {
     this.initChart()
+  },
+  computed: {
+    selectName: function () {
+      return this.getNameById(this.selectID)
+    }
   },
   methods: {
 
@@ -157,11 +163,35 @@ export default {
       param.sumKill = sumKill
       this.params = param
     },
-    sendClick (param) {
-      this.$emit('click-bar', param)
+    sendClick (name) {
+      this.$emit('click-bar', this.getIdByName(name))
     },
-    sendMove (param) {
-      this.$emit('move-bar', param)
+    sendOver (name) {
+      this.$emit('over-bar', this.getIdByName(name))
+    },
+    sendOut (name) {
+      this.$emit('out-bar', this.getIdByName(name))
+    },
+    getIdByName (id) {
+      for (var i = 0; i < this.obj.length; i++) {
+        if (id === this.obj[i].region) {
+          return this.obj[i].regionName
+        }
+      }
+      return ''
+    },
+    getNameById (name) {
+      for (var i = 0; i < this.obj.length; i++) {
+        if (name === this.obj[i].regionName) {
+          return this.obj[i].region
+        }
+      }
+      return ''
+    }
+  },
+  watch: {
+    obj () {
+      this.initChart()
     }
   }
 }
