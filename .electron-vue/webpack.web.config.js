@@ -31,7 +31,10 @@ let webConfig = {
       },
       {
         test: /\.scss$/,
-        use: utils.cssLoaders("scss").scss
+        use: utils.cssLoaders({
+          usePostCSS: false,
+          sourceMap: true
+        }).scss
       },
       {
         test: /\.html$/,

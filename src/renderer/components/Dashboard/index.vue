@@ -90,5 +90,7 @@ export default {
   bottom: 0;
   right: 0;
   margin: 5px 20px 0px 10px;
+  transform: scale(0.5);
+  transform-origin: 100% 100%
 }
 </style>

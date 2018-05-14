@@ -48,9 +48,6 @@
         </li>
       </ul>
     </div>
-    <!-- <div class="date" id="led-date"></div>
-    <span>{{dateStr}}</span>
-    <span>{{weekStr}}</span> -->
   </div>
 </template>
 
@@ -141,7 +138,7 @@ export default {
 *{margin:0;padding: 0;}
 body{background: black;}
 li{list-style-type: none;}
-.wrap{width:960px;height:330px; margin:0 auto;}
+.wrap{margin:0 auto;}
 .wrap .clock{height: 220px;}
 .wrap .clock ul li{width: 120px;height: 220px;float: left;margin:0 10px;}
 .wrap .clock ul li ul{position: relative;}
