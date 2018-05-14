@@ -33,7 +33,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'dashboard',
-        component: require('@/components/LandingPage').default,
+        component: require('@/views/Blank').default,
         name: 'space-time',
         meta: { title: '时空动态分析', icon: 'international', noCache: false, mode: 0 }
       }
@@ -47,7 +47,7 @@ export const constantRouterMap = [
         path: 'general-analysis',
         component: require('@/components/LandingPage').default,
         name: 'general-analysis',
-        meta: { title: '总体分析', icon: 'component', noCache: false, mode: 1 }
+        meta: { title: '总体分析', icon: 'component', noCache: false, mode: 2 }
       }
     ]
   },

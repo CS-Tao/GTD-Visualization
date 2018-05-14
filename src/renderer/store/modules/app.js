@@ -6,7 +6,7 @@ const app = {
       opened: !+Cookies.get('sidebarStatus')
     },
     routerView: {
-      showMode: Cookies.get('routerViewShowMode') // 0 for hidden, 1 for normal, 2 for maxsize
+      showMode: +Cookies.get('routerViewShowMode') // 0 for hidden, 1 for normal, 2 for maxsize
     },
     isAppFullScreen: +Cookies.get('isAppFullScreen')
   },
