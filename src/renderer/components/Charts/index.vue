@@ -6,26 +6,19 @@
         height='100%' 
         width='100%'>
         </keyboard>
-        <radar id="echarts-rader"
-        title="radar"
-        height='100%'
-        width=100%>
-        </radar>
-        <bar id="echarts-bar"
+        <country3ModelRadar id="country-radar">
+        </country3ModelRadar>
+        <regionCountBar id="region-bar">
+        </regionCountBar>
+        <regionStatisticsBar id="statistic-bar">
+        </regionStatisticsBar>
+        <globeTrendLine id="trend-line"
         height="100%"
         width="100%">
-        </bar>
-        <e-polyline id="echarts-line"
-        height="100%"
-        width="100%"
-        :begin="1"
-        :end="6">
-        </e-polyline>
-        <pie id="echart-pie"
-        height="100%"
-        width="100%"
+        </globeTrendLine>
+        <year3ModelPie id="country-pie"
         >
-        </pie>
+        </year3ModelPie>
       </div>
     </div>
   </div>
@@ -33,17 +26,17 @@
 
 <script>
 import keyboard from './keyboard'
-import radar from './radar'
-import bar from './bar'
-import ePolyline from './ePolyline'
-import pie from './pie'
+import country3ModelRadar from './country3ModelRadar'
+import regionCountBar from './regionCountBar'
+import regionStatisticsBar from './regionStatisticsBar'
+import globeTrendLine from './globeTrendLine'
+import year3ModelPie from './year3ModelPie'
 
 export default {
   name: 'Echarts',
-  components: { keyboard, radar, bar, ePolyline, pie }
+  components: { keyboard, country3ModelRadar, regionCountBar, regionStatisticsBar, globeTrendLine, year3ModelPie }
 
 }
-pie.selecName = ['type2']
 </script>
 
 <style lang="scss" scoped>
