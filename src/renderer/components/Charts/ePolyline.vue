@@ -1,15 +1,7 @@
  <template>
   <div :class="className"
    :id="id" 
-   :style="{height:height,width:width}" 
-   :title="title" :data="data" 
-   :textcolor="textColor" 
-   :backgroundColor="backgroundColor"
-   :indicatorName="indicatorName"
-   :valueName="valueName"
-   :showLegend="showLegend"
-   :begin="begin"
-   :end="end">
+   :style="{height:height,width:width}">
   </div>
 </template>
 
@@ -135,9 +127,6 @@ export default {
         title: {
           text: this.title
         },
-        tooltip: {
-          trigger: 'axis'
-        },
         legend: {
           data: this.getIndicator(this.data),
           textStyle: {
@@ -151,9 +140,21 @@ export default {
           bottom: '3%',
           containLabel: true
         },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#999'
+            }
+          }
+        },
         toolbox: {
           feature: {
-            saveAsImage: {}
+            dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
           }
         },
         xAxis: {
@@ -169,9 +170,10 @@ export default {
         },
         series: this.setSeriesByData()
       })
+      var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
-        this.$emit('click-eployline', params.name)
+        that.$emit('click-eployline', params.name)
       })
     },
     getIndicator (data) {
@@ -298,6 +300,9 @@ export default {
     }
   },
   watch: {
+    data (newData, oldData) {
+      this.initChart()
+    },
     selectName (newSelect, oldSelect) {
       this.highlignt({selectName: newSelect, seriesName: this.seriesName})
       this.downplay({selectName: oldSelect, seriesName: this.seriesName})
