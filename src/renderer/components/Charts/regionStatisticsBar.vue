@@ -5,7 +5,8 @@
         :data="params"
         :selectName="selectName"
         :vertical="false"
-        @click-bar="send">
+        @click-bar="sendClick"
+        @move-bar="sendMove">
   </bar>
 </template>
 
@@ -156,8 +157,11 @@ export default {
       param.sumKill = sumKill
       this.params = param
     },
-    send (param) {
-      this.$emit('click-statistics', param)
+    sendClick (param) {
+      this.$emit('click-bar', param)
+    },
+    sendMove (param) {
+      this.$emit('move-bar', param)
     }
   }
 }

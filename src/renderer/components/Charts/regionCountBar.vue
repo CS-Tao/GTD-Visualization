@@ -4,8 +4,11 @@
         width="100%"
         :data="params"
         :selectName="selectName"
+        xPosition="top"
+        backgroundColor="rgba(128,0,0,0)"
         :vertical="true"
-        @click-bar="send">
+        @click-bar="sendClick"
+        @move-bar="sendMove">
   </bar>
 </template>
 
@@ -144,8 +147,11 @@ export default {
       param.attackCount = attackCount
       this.params = param
     },
-    send (param) {
+    sendClick (param) {
       this.$emit('click-bar', param)
+    },
+    sendMove (param) {
+      this.$emit('move-bar', param)
     }
   }
 }
