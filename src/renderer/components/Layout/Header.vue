@@ -39,8 +39,8 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 @import '../../styles/variables.scss';
 .navbar {
-  height: 50px;
-  line-height: 50px;
+  height: 7vh;
+  line-height: 7vh;
   border-radius: 0px !important;
   display: block;
   z-index: 401;
@@ -53,7 +53,7 @@ export default {
   background: -o-linear-gradient(top left, $gb-3, $gb-2);
   .hamburger-container {
     line-height: 58px;
-    height: 50px;
+    height: 7vh;
     float: left;
     padding: 0 10px;
   }
@@ -80,26 +80,6 @@ export default {
     }
     .international{
       vertical-align: top;
-    }
-    .avatar-container {
-      height: 50px;
-      margin-right: 30px;
-      .avatar-wrapper {
-        cursor: pointer;
-        margin-top: 5px;
-        position: relative;
-        .user-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-        .el-icon-caret-bottom {
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
     }
   }
 }

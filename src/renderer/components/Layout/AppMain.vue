@@ -1,18 +1,15 @@
 <template>
-  <div>
-    <section class="app-main" style="min-height: 100%">
-      <transition name="fade" mode="out-in">
-        <keep-alive :include="cachedViews">
-          <router-view></router-view>
-          <!-- <dashboard></dashboard> -->
-        </keep-alive>
-      </transition>
-    </section>
-  </div>
+  <section class="app-main">
+    <transition name="fade" mode="out-in">
+      <keep-alive :include="cachedViews">
+        <dashboard></dashboard>
+      </keep-alive>
+    </transition>
+  </section>
 </template>
 
 <script>
-import Dashboard from '@/views/Dashboard'
+import Dashboard from '@/components/Dashboard'
 
 export default {
   name: 'AppMain',
@@ -26,4 +23,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-main {
+  width: 100%;
+  height: 100%;
+}
 </style>

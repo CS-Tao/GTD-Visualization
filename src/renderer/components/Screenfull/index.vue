@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import screenfull from 'screenfull'
 
 export default {
@@ -35,8 +36,12 @@ export default {
   },
   data () {
     return {
-      isFullscreen: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isAppFullScreen'
+    ])
   },
   methods: {
     click () {
@@ -48,6 +53,7 @@ export default {
         return false
       }
       screenfull.toggle()
+      this.$store.dispatch('toggleFullScreen', screenfull.isFullscreen)
     }
   }
 }

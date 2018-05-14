@@ -1,8 +1,6 @@
 <template>
-  <div class="app-router-view" style="min-height: 100%">
-    <scroll-bar>
-      <router-view></router-view>
-    </scroll-bar>
+  <div class="app-router-view .flex-row">
+    <router-view class="flex-item-fill"></router-view>
   </div>
 </template>
 
@@ -16,4 +14,11 @@ export default {
   components: { ScrollBar }
 }
 </script>
+
+<style lang="scss" scoped>
+.app-router-view {
+  width: 100%;
+  height: 100%;
+}
+</style>
 
