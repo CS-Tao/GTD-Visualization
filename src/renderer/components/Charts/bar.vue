@@ -38,6 +38,14 @@ export default {
       type: Boolean,
       default: true
     },
+    xPosition: {
+      type: String,
+      default: 'bottom'
+    },
+    splitLine: {
+      type: Boolean,
+      default: false
+    },
     data: {
       // 图表数据，格式为{类型：[{国家名：'中国',字段名：值}]}
       type: Object,
@@ -113,7 +121,6 @@ export default {
     },
     selectName: {
       // 选中的数据名称
-      // 这项不是来自父类的参数
       type: String,
       default: ''
     },
@@ -129,7 +136,8 @@ export default {
   },
   data () {
     return {
-      chart: null
+      chart: null,
+      highligntName: ''
     }
   },
   mounted () {
@@ -150,16 +158,16 @@ export default {
         backgroundColor: this.getColor(this.backgroundColor),
         grid: {
           left: '3%',
-          right: '4%',
+          right: this.vertical ? '-15%' : '4%',
           bottom: '3%',
           containLabel: true
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#999'
+            type: 'shadow',
+            shadowStyle: {
+              color: 'rgba(0,0,0,0)'
             }
           }
         },
@@ -172,11 +180,18 @@ export default {
           }
         },
         xAxis: [{
+          position: this.xPosition,
           inverse: this.vertical,
           axisLabel: {
             interval: 0,
             rotate: 30
             // align: 'center'
+          },
+          splitLine: {
+            show: this.splitLine,
+            lineStyle: {
+              color: '#08263f'
+            }
           },
           type: this.vertical === true ? 'value' : 'category',
           show: true,
@@ -197,9 +212,10 @@ export default {
             textStyle: {
               color: this.getColor(this.textColor)
             }
+            // align: 'right'
           },
           splitLine: {
-            show: true,
+            show: this.splitLine,
             lineStyle: {
               color: '#08263f'
             }
@@ -209,10 +225,10 @@ export default {
           }
         },
         {
-          position: this.vertical ? 'right' : 'left',
+          position: 'right',
           data: this.vertical === true ? this.getIndicator(this.data) : [],
           type: this.vertical === true ? 'category' : 'value',
-          show: true,
+          show: !this.vertical,
           axisLine: {
             show: false,
             lineStyle: this.lineStyle
@@ -240,6 +256,12 @@ export default {
       this.chart.on('click', function (params) {
         // 发送点击消息
         that.$emit('click-bar', params.name)
+      })
+      this.chart.on('mousemove', function (params) {
+        if (this.highligntName !== params.name) {
+          that.$emit('move-bar', params.name)
+          this.highligntName = params.name
+        }
       })
     },
     getIndicator (data) {
@@ -275,7 +297,7 @@ export default {
         dic.z = 3
         dic.itemStyle = {
           normal: {
-            barBorderRadius: 5
+            barBorderRadius: 1
           }
         }
         res.push(dic)
@@ -376,6 +398,7 @@ export default {
     selectName (newSelect, oldSelect) {
       this.highlignt(newSelect)
       this.downplay(oldSelect)
+      this.highligntName = newSelect
       this.chart.dispatchAction({
         type: 'showTip',
         seriesIndex: 0,

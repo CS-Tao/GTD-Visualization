@@ -1,16 +1,22 @@
 <template>
-  <div id="TrendChartView" height="100%" width="100%">
-      <globeTrendLine id='count'
+  <div class="">
+      <globeTrendLine
+      id='count'
+      class="chart-wrap"
       height='100%'
       width='100%'
       model="count">
       </globeTrendLine>
-      <globeTrendLine id='sumKill'
+      <globeTrendLine
+      id='sumKill'
+      class="chart-wrap"
       height='100%'
       width='100%'
       model='sumKill'>
       </globeTrendLine>
-      <globeTrendLine id='sumProp'
+      <globeTrendLine
+      id='sumProp'
+      class="chart-wrap"
       height='100%'
       width='100%'
       model='sumProp'>
@@ -32,3 +38,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.trend-analysis {
+  width: 100%;
+  height: 100%;
+  .chart-wrap {
+    display: block;
+  }
+}
+</style>
