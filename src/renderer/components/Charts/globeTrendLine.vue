@@ -1,5 +1,5 @@
 <template>
-  <ePolyline id='trend-line'
+  <ePolyline :id=id
         height="100%"
         width="100%"
         :data="params"
@@ -17,6 +17,10 @@ export default {
   name: 'globeTrendLine',
   components: {ePolyline},
   props: {
+    id: {
+      type: String,
+      default: 'trend-line'
+    },
     obj: {
       // 接受到的数据
       type: Array,

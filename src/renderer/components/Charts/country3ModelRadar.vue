@@ -1,5 +1,5 @@
 <template>
-  <radar id='country-radar'
+  <radar :id=id
         height="100%"
         width="100%"
         :data="params"
@@ -16,6 +16,10 @@ export default {
   name: 'country3ModelRadar',
   components: {radar},
   props: {
+    id: {
+      type: String,
+      default: ''
+    },
     obj: {
       type: Object,
       default: function () {

@@ -1,5 +1,5 @@
 <template>
-  <bar id='statistic-bar'
+  <bar :id='id'
         height="100%"
         width="100%"
         :data="params"
@@ -16,6 +16,10 @@ export default {
   name: 'regionStatisticsBar',
   components: {bar},
   props: {
+    id: {
+      type: String,
+      default: ''
+    },
     obj: {
       // 接受到的数据
       type: Array,

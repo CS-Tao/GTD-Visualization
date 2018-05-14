@@ -1,5 +1,5 @@
 <template>
-  <pie id='country-pie'
+  <pie :id='id'
         height="100%"
         width="100%"
         :data="params"
@@ -16,6 +16,10 @@ export default {
   name: 'country3Modelpie',
   components: {pie},
   props: {
+    id: {
+      type: String,
+      default: ''
+    },
     obj: {
       type: Object,
       default: function () {
