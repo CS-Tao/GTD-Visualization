@@ -133,7 +133,6 @@ export default {
     }
   },
   mounted () {
-    console.log(JSON.stringify(this.data))
     this.initChart()
   },
   beforeDestroy () {
@@ -149,13 +148,35 @@ export default {
 
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
-        xAxis: [{
-          axisLabel: {
-            formatter: function (value) {
-              if (value < 0) {
-                return -value
-              }
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#999'
             }
+          }
+        },
+        toolbox: {
+          feature: {
+            dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        xAxis: [{
+          inverse: this.vertical,
+          axisLabel: {
+            interval: 0,
+            rotate: 30
+            // align: 'center'
           },
           type: this.vertical === true ? 'value' : 'category',
           show: true,
@@ -163,15 +184,8 @@ export default {
             color: this.getColor(this.textColor)
           },
           data: this.vertical === true ? [] : this.getIndicator(this.data)
-        }, {
-          type: this.vertical === true ? 'value' : 'category',
-          show: false,
-          textStyle: {
-            color: this.getColor(this.textColor)
-          },
-          data: []
         }],
-        yAxis: {
+        yAxis: [ {
           position: this.vertical ? 'right' : 'left',
           data: this.vertical === true ? this.getIndicator(this.data) : [],
           type: this.vertical === true ? 'category' : 'value',
@@ -194,6 +208,24 @@ export default {
             show: false
           }
         },
+        {
+          position: this.vertical ? 'right' : 'left',
+          data: this.vertical === true ? this.getIndicator(this.data) : [],
+          type: this.vertical === true ? 'category' : 'value',
+          show: true,
+          axisLine: {
+            show: false,
+            lineStyle: this.lineStyle
+          },
+          axisLabel: {
+            textStyle: {
+              color: this.getColor(this.textColor)
+            }
+          },
+          axisTick: {
+            show: false
+          }
+        } ],
         series: this.getSeries(this.data),
         animationEasing: 'elasticOut',
         animationEasingUpdate: 'elasticOut',
@@ -227,7 +259,7 @@ export default {
     getValue (data) {
       var res = []
       for (var i = 0; i < data.length; i++) {
-        res.push(this.vertical ? -data[i][this.valueName] : data[i][this.valueName]
+        res.push(this.vertical ? data[i][this.valueName] : data[i][this.valueName]
         )
       }
       return res
@@ -239,7 +271,7 @@ export default {
         dic.name = key
         dic.type = 'bar'
         dic.data = this.getValue(data[key])
-        dic.xAxisIndex = 1
+        dic.yAxisIndex = key === 'sumProp' ? 0 : 1
         dic.z = 3
         dic.itemStyle = {
           normal: {

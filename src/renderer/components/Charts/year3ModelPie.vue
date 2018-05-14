@@ -1,20 +1,20 @@
 <template>
-  <radar id='country-radar'
+  <pie id='country-pie'
         height="100%"
         width="100%"
         :data="params"
         :selectName="selectName"
-        @click-radar="send">
-  </radar>
+        @click-pie="send">
+  </pie>
 </template>
 
 
 <script>
-import radar from './radar'
+import pie from './pie'
 
 export default {
-  name: 'country3ModelRadar',
-  components: {radar},
+  name: 'country3Modelpie',
+  components: {pie},
   props: {
     obj: {
       type: Object,
@@ -262,7 +262,7 @@ export default {
       this.params = param
     },
     send (param) {
-      this.$emit('click-radar', param)
+      this.$emit('click-pie', param)
     }
   }
 }
