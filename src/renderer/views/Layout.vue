@@ -3,13 +3,20 @@
 		<sidebar class="sidebar-container"></sidebar>
 		<div class="main-container">
 			<app-header></app-header>
-      <!-- <app-router-view></app-router-view> -->
-			<app-main></app-main>
+      <el-container :class="{'el-container-full-screen':isAppFullScreen}">
+        <el-aside :class="['el-aside-' + routerViewMode]">
+          <app-router-view></app-router-view>
+        </el-aside>
+        <el-main :class="['el-main-' + routerViewMode]">
+          <app-main></app-main>
+        </el-main>
+      </el-container>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { AppHeader, Sidebar, AppMain, AppRouterView } from '@/components/Layout'
 
 export default {
@@ -23,9 +30,11 @@ export default {
   computed: {
     sidebar () {
       return this.$store.state.app.sidebar
-    }
-  },
-  mounted () {
+    },
+    ...mapGetters([
+      'isAppFullScreen',
+      'routerViewMode'
+    ])
   }
 }
 </script>
@@ -36,6 +45,6 @@ export default {
 	  @include clearfix;
 	  position: relative;
 	  height: 100%;
-	  width: 100%;
+    width: 100%;
 	}
 </style>

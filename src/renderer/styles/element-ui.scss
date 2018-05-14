@@ -4,9 +4,45 @@
   font-weight: 400!important;
 }
 
+.el-breadcrumb__item {
+  height: 7vh;
+}
+
+.el-container {
+  width: 100%;
+  height: 93vh;
+  .el-aside-0 {
+    width: 0!important;
+  }
+  .el-main-0 {
+    padding: 0;
+  }
+  .el-aside-1 {
+    width: 300px!important;
+  }
+  .el-main-1 {
+    padding: 0;
+  }
+  .el-aside-2 {
+    width: 100%!important;
+  }
+  .el-main-2 {
+    padding: 0;
+  }
+}
+
+.el-container-full-screen {
+  height: 93vh;
+}
+
+.el-menu {
+  border-right: 0;
+}
+
 .el-menu--horizontal {
   border-bottom: rgba(0,0,0,.12);
 }
+
 
  .el-upload {
    input[type="file"] {

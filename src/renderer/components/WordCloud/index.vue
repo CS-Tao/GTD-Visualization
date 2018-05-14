@@ -18,6 +18,9 @@ export default {
   },
   data () {
     return {
+      wordPadding: 1,
+      fontScale: 'sqrt',
+      color: 'Category20b',
       defaultWords: [{
         'name': 'Cat',
         'value': 26
