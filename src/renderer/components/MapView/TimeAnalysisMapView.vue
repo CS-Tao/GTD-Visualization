@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div id="TimeAnalysisMapView"></div>
-  </div>
+  <div id="TimeAnalysisMapView"></div>
 </template>
 
 <script>
@@ -87,6 +85,7 @@ export default {
             that.$emit('map-region-unhover', feature.id)
           })
           layer.on('click', function () {
+            console.log(feature.id)
             that.$emit('map-region-click', feature.id)
           })
         }
@@ -136,11 +135,11 @@ export default {
 <style lang="scss" scoped>
 @import url("../../../../node_modules/leaflet/dist/leaflet.css");
 #TimeAnalysisMapView {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  // position: absolute;
+  // top: 0;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
   width: 100%;
   height: 100%;
   background-color: black;

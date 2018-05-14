@@ -59,7 +59,7 @@ export const constantRouterMap = [
         path: 'time-analysis',
         component: require('@/views/TimeAnalysis').default,
         name: 'time-analysis',
-        meta: { title: '时段分析', icon: 'example', noCache: false, mode: 0 }
+        meta: { title: '时段分析', icon: 'example', noCache: false, mode: 2 }
       }
     ]
   },
