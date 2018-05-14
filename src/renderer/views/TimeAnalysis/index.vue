@@ -2,20 +2,20 @@
 <div class='time-analysis-container'>
   <el-date-picker v-on:change="getDate" v-model="dateRange" type="daterange" value-format="yyyyMMdd" format="yyyy 年 MM 月 dd 日" start-placeholde="起始日期" end-placeholde="结束日期"></el-date-picker>
   <time-analysis-map-view class='map-view' v-on:map-region-click="globalToRegion" :displayPointData="pointsForDisplay" :displayGeojsonData="geoJSONForDisplay" :displayMode="currentMode"></time-analysis-map-view>
-  <bar v-if="barViewDisplay" class='global-bar-chart' ></bar>
+  <region-count-bar v-if="barViewDisplay" id="global-bar-chart" class='global-bar-chart' ></region-count-bar>
 </div>
 </template>
 
 <script>
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
-import bar from '@/components/Charts/bar'
+import regionCountBar from '@/components/Charts/regionCountBar'
 import Mixin from '../Mixin'
 import { getRegion, getStatistics, getGeneral, getCountry } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
     TimeAnalysisMapView,
-    bar
+    regionCountBar
   },
   mixins: [Mixin],
   data () {
