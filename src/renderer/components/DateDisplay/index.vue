@@ -1,20 +1,8 @@
 <template>
   <div class="container">
     <span>
-    <!-- <transition name="slide-fade">
-    <span v-if="show" class="DateDisplayText">{{ dateDisplayYear }}</span>
-    </transition>
-    <span class="DateDisplayText"> 年 </span>
     <transition name="slide-fade">
-    <span v-if="show" class="DateDisplayText">{{ dateDisplayMonth }}</span>
-    </transition>
-    <span class="DateDisplayText"> 月 </span>
-    <transition name="slide-fade">
-    <span v-if="show" class="DateDisplayText">{{ dateDisplayDay }}</span>
-    </transition>
-    <span class="DateDisplayText"> 日 </span> -->
-    <transition name="slide-fade">
-    <p v-if="show" class="DateDisplayText">{{ dateDisplay }}</p>
+    <p class="DateDisplayText">{{ dateDisplay }}</p>
     </transition>
     </span>
   </div>
@@ -34,39 +22,9 @@ export default {
   },
   data () {
     return {
-      show: true,
-      timer: false
-    }
-  },
-  methods: {
-    change_show () {
-      this.show = !this.show
-    }
-    // display_loop () {
-    //   this.change_show()
-    //   setTimeout(this.display_loop(), 1000)
-    // }
-  },
-  watch: {
-    date (newDate, oldDate) {
-      // if (this.timer === false) {
-      //   this.timer = true
-      //   this.display_loop()
-      // }
-      this.change_show()
-      setTimeout(this.change_show(), this.freshInterval / 2)
     }
   },
   computed: {
-    // dateDisplayYear () {
-    //   return this.date.getFullYear()
-    // },
-    // dateDisplayMonth () {
-    //   return this.date.getMonth() + 1
-    // },
-    // dateDisplayDay () {
-    //   return this.date.getDate()
-    // },
     dateDisplay () {
       return this.date.getFullYear() + '年' + (this.date.getMonth() + 1) + '月' + this.date.getDate() + '日'
     }
