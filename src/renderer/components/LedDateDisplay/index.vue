@@ -118,7 +118,7 @@ export default {
 body{background: black;}
 li{list-style-type: none;}
 .wrap{margin:0 auto;}
-.wrap .clock{height: 220px;}
+.wrap .clock{height: 220px; min-width: 1250px;}
 .wrap .clock ul li{width: 120px;height: 220px;float: left;margin:0 10px;}
 .wrap .clock ul li ul{position: relative;}
 .wrap .clock ul li ul li{width:90px;height: 20px;display: block;}
@@ -130,8 +130,8 @@ li{list-style-type: none;}
 .wrap .clock ul li ul li:nth-child(6){position:absolute;transform:rotateZ(90deg);left:65px;top: 150px;}
 .wrap .clock ul li ul li:nth-child(7){position:absolute;top: 200px;left: 15px;}
 .wrap .clock ul .point{width: 30px;}
-.wrap .clock ul .point span{display:block; position: absolute; height: 20px;width: 20px;background: #a3ff19;margin:0px 15px; bottom: 0px }
-.wrap .date{position:relative;height: 100px; color: #a3ff19; font-size:80px;margin-top: 10px;border-bottom:3px solid red;}
+.wrap .clock ul .point span{display:block; position: absolute; height: 20px;width: 20px;background: #ff6506;margin:0px 15px; bottom: 0px }
+.wrap .date{position:relative;height: 100px; color: #ff6506; font-size:80px;margin-top: 10px;border-bottom:3px solid red;}
 .wrap .date span:first-child{float: left;margin-left: 10px;}
 .wrap .date span:last-child{float: right;margin-right:30px;}
 </style>

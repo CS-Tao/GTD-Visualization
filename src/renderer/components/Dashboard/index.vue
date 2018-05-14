@@ -89,8 +89,12 @@ export default {
   z-index: 999;
   bottom: 0;
   right: 0;
-  margin: 5px 20px 0px 10px;
-  transform: scale(0.5);
-  transform-origin: 100% 100%
+  margin: 20px!important;
+  transform: scale(0.3);
+  transform-origin: 100% 100%;
+  border-width: 2px 0;
+  padding: 20px;
+  border-radius: 50px;
+  box-shadow: 0 0 60px orange;
 }
 </style>
