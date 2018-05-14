@@ -1,8 +1,6 @@
 <template>
 	<div class="app-wrapper" :class="{hideSidebar:!sidebar.opened}">
-    <div class="sidebar-container" @mouseleave="hide">
-		  <sidebar></sidebar>
-    </div>
+    <sidebar class="sidebar-container" @mouseleave.native="hide"></sidebar>
 		<div class="main-container">
 			<app-header></app-header>
       <el-container>
