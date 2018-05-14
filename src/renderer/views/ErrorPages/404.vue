@@ -23,9 +23,11 @@
 <script>
 import img404 from '@/assets/404_images/404.png'
 import img404cloud from '@/assets/404_images/404_cloud.png'
+import Maxin from '../Maxin'
 
 export default {
   name: 'page404',
+  mixins: [Maxin],
   data () {
     return {
       img404,
@@ -36,6 +38,9 @@ export default {
     message () {
       return '特朗普说这个页面你不能进......'
     }
+  },
+  created () {
+    this.changeLayout()
   }
 }
 </script>

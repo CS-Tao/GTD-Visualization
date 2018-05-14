@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div id="LMapView"></div>
-  </div>
+  <div id="LMapView"></div>
 </template>
 
 <script>
@@ -25,7 +23,7 @@ export default {
         url: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ',
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         zoom: 2,
-        minZoom: 2,
+        minZoom: 1,
         maxZoom: 18
       }
     }
@@ -130,11 +128,13 @@ export default {
 <style lang="scss" scoped>
 @import url("../../../../node_modules/leaflet/dist/leaflet.css");
 #LMapView {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #191a1a;
+  // position: absolute;
+  // top: 0;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
 }
 </style>

@@ -3,6 +3,7 @@
 process.env.BABEL_ENV = 'web'
 
 const path = require('path')
+const utils = require('./utils')
 const webpack = require('webpack')
 
 const BabiliWebpackPlugin = require('babili-webpack-plugin')
@@ -27,6 +28,13 @@ let webConfig = {
           fallback: 'style-loader',
           use: 'css-loader'
         })
+      },
+      {
+        test: /\.scss$/,
+        use: utils.cssLoaders({
+          usePostCSS: false,
+          sourceMap: true
+        }).scss
       },
       {
         test: /\.html$/,
