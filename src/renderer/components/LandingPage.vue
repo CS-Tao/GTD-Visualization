@@ -31,11 +31,11 @@
 
 <script>
 import SystemInformation from './LandingPage/SystemInformation'
-import Maxin from '@/views/Maxin'
+import Mixin from '@/views/Mixin'
 
 export default {
   name: 'landing-page',
-  mixins: [Maxin],
+  mixins: [Mixin],
   components: { SystemInformation },
   created () {
     this.changeLayout()
@@ -66,14 +66,14 @@ body { font-family: 'Source Sans Pro', sans-serif; }
       rgba(255, 255, 255, 1) 40%,
       rgba(229, 229, 229, .9) 100%
     );
-  position: absolute;
+  /* position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  height: 100vh;
+  right: 0; */
+  height: 100%;
   padding: 150px 100px 150px 290px;
-  width: 100vw;
+  width: 100%;
 }
 
 #logo {

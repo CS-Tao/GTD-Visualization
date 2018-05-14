@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import Maxin from '../Maxin'
+import Mixin from '../Mixin'
 export default {
   name: 'Blank',
-  mixins: [Maxin],
+  mixins: [Mixin],
   created () {
     this.changeLayout()
   }
