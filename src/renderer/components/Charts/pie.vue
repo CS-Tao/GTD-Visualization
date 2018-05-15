@@ -189,6 +189,7 @@ export default {
       var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
+        this.chart.clear()
         that.$emit('click-pie', params.name)
       })
     },
@@ -311,6 +312,9 @@ export default {
     }
   },
   watch: {
+    data (newData, oldData) {
+      this.initChart()
+    },
     selectName (newSelect, oldSelect) {
       this.highlignt(newSelect)
       this.downplay(oldSelect)
