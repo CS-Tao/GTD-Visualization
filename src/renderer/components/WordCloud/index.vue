@@ -84,7 +84,9 @@ export default {
   data () {
     return {
       svgWidth: 0,
-      svgHeight: 0
+      svgHeight: 0,
+      emitClickedEventHandle: 'item-clicked',
+      emitDbclickedEventHandle: 'item-dblclicked'
     }
   },
   computed: {
@@ -204,7 +206,11 @@ export default {
         .attr('transform', (d) => { return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')' })
         .text(d => d.text)
       text.on('click', (d) => {
+        this.$emit(this.emitClickedEventHandle, d.text)
+      })
+      text.on('dblclick', (d, i) => {
         alert(d.text)
+        this.$emit(this.emitClickedEventHandle)
       })
       text.on('mouseover', (d, i) => {
         centeredChart.select('#word-cloud-' + i).style('font-size', d => (d.size + 10) + 'px')

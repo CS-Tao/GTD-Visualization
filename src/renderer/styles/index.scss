@@ -24,6 +24,8 @@ html {
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar{ width:0px }
+
 #app{
   height: 100%;
 }
@@ -198,6 +200,8 @@ code {
   position: fixed!important;
   top: 7vh!important;
   left: 0px!important;
+  right: 0px;
+  bottom: 0px;
   width: 100%!important;
   height: 100%!important;
   z-index: 999!important;
