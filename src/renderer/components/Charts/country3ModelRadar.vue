@@ -39,7 +39,28 @@ export default {
   },
   data () {
     return {
-      params: []
+      params: [
+        {
+          indicator: 'type1',
+          value: 0
+        },
+        {
+          indicator: 'type2',
+          value: 0
+        },
+        {
+          indicator: 'type3',
+          value: 1
+        },
+        {
+          indicator: 'type4',
+          value: 0
+        },
+        {
+          indicator: 'type5',
+          value: 0
+        }
+      ]
     }
   },
   mounted () {
