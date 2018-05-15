@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <leaflet-view class="map-view" :currentDailyData="dailyDataForMapView"></leaflet-view>
-    <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval"></date-display>
+  <div class="map-view">
+    <leaflet-view :currentDailyData="dailyDataForMapView"></leaflet-view>
+    <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval" :hidden="routerViewMode === 2"></date-display>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import LeafletView from '@/components/MapView/LeafletView'
-import DateDisplay from '@/components/DateDisplay'
+import DateDisplay from '@/components/LedDateDisplay'
 import { isLeapYear, getDateByDaysInYear } from '@/utils'
 import { getGeneral } from '@/api/dashboardApi'
 
@@ -26,6 +27,11 @@ export default {
       totalDays: 365,
       freshInterval: 300
     }
+  },
+  computed: {
+    ...mapGetters([
+      'routerViewMode'
+    ])
   },
   mounted () {
     if (this.$route.name) {
@@ -83,6 +89,12 @@ export default {
   z-index: 999;
   bottom: 0;
   right: 0;
-  margin: 5px 20px 0px 10px;
+  margin: 20px!important;
+  transform: scale(0.3);
+  transform-origin: 100% 100%;
+  border-width: 2px 0;
+  padding: 20px;
+  border-radius: 50px;
+  box-shadow: 0 0 60px orange;
 }
 </style>

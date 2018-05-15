@@ -25,6 +25,7 @@ export default {
       type: String,
       default: '200px'
     }
+
   },
   data () {
     return {
@@ -107,7 +108,7 @@ export default {
           }, {
             name: 'Simulate Shadow',
             type: 'line',
-            data,
+            data: data,
             z: 2,
             showSymbol: false,
             animationDelay: 0,
@@ -146,6 +147,10 @@ export default {
             return idx * 20
           }
         })
+      this.chart.on('click', function (params) {
+        // 发送点击消息
+        this.$emit('click-keyboard', params.name)
+      })
     }
   }
 }

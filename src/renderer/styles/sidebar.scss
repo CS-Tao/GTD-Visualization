@@ -96,10 +96,11 @@
   .el-submenu .el-menu-item {
     min-width: 180px!important;
     background-color: $gb-2!important;
-    color: $yo-1!important;
+    color: $yo-0!important;
+    font-family: 'SimHei'!important;
     &:hover {
       background-color: $gb-3!important;
-      color: $yo-1!important;
+      color: $yo-0!important;
     }
   }
   .el-menu--collapse .el-menu .el-submenu{
@@ -107,9 +108,10 @@
   }
   .submenu-title-noDropdown, .el-submenu__title{
     background-color: $gb-3!important;
-    color: $yo-1!important;
+    color: $yo-0!important;
+    font-family: 'SimHei'!important;
     &:hover {
-      color: $yo-1!important;
+      color: $yo-0!important;
       background-color: $gb-4!important;
     }
   }
