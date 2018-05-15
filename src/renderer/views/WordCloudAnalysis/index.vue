@@ -13,8 +13,6 @@
        v-loading="wordcloudDataLoading"
        element-loading-text="词云加载中..."
       :data="wordcloudData"
-      :rotate="wordcloudRotate"
-      :fontSize="wordcouldFontSize"
       @item-clicked="showEventInfoList"
       @blank-clicked="clearEventInfoList"
       nameKey="word"
@@ -34,7 +32,7 @@
       :class="{'events-view-hide': eventViewHide}">
         <el-table-column
           prop="summary"
-          label="事件信息">
+          :label="eventsViewerTitle">
         </el-table-column>
       </el-table>
     </div>
@@ -49,17 +47,6 @@ import LeafletView from '@/components/MapView/LeafletView'
 import WordCloud from '@/components/WordCloud'
 import { getWordcloudData, getTdInfo } from '@/api/wordCloudAnalysisApi'
 
-const wordcloudRotateYes = {
-  from: -60,
-  to: 60,
-  numOfOrientation: 5
-}
-const wordcloudRotateNo = {
-  from: 0,
-  to: 0,
-  numOfOrientation: 5
-}
-
 export default {
   name: 'WordCloudAnalysis',
   mixins: [Mixin],
@@ -72,10 +59,9 @@ export default {
     return {
       wordcloudDataLoading: false,
       eventsInfoLoading: false,
-      wordcloudRotate: wordcloudRotateYes,
       wordcouldFontSize: [10, 80],
       wordcloudData: [],
-      wordcloudDataBackup: [],
+      eventsViewerTitle: '事件信息',
       eventsInfoList: [],
       mapZoom: 2,
       staticMarkerLocation: {},
@@ -101,7 +87,6 @@ export default {
     })
       .then((response) => {
         this.wordcloudData = response.data
-        this.wordcloudDataBackup = response.data
         this.wordcloudDataLoading = false
       })
       .catch(() => {
@@ -110,11 +95,6 @@ export default {
   },
   methods: {
     showEventInfoList (keyword) {
-      // this.wordcouldFontSize = [100, 100]
-      // this.wordcloudRotate = wordcloudRotateNo
-      // this.wordcloudData = this.wordcloudDataBackup.filter((item) => {
-      //   return item.word === keyword
-      // })
       this.eventsInfoLoading = true
       getTdInfo({
         format: 'json',
@@ -136,21 +116,18 @@ export default {
               country: item.properties.country.countryName
             })
           })
-          this.$notify.success('事件信息读取成功')
+          this.eventsViewerTitle = '事件信息 - 关键词: ' + keyword
           this.eventsInfoLoading = false
+          this.$notify.success('事件信息读取成功')
         })
         .catch(() => {
           this.eventsInfoLoading = false
         })
     },
     clearEventInfoList () {
-      // if (this.eventsInfoList.length !== 0) {
-      //   this.eventsInfoList = []
-      //   this.wordcouldFontSize = [10, 80]
-      //   this.wordcloudData = this.wordcloudDataBackup
-      //   this.wordcloudRotate = wordcloudRotateYes
-      // }
-      // Clear marker information
+      if (this.eventsInfoList.length !== 0) {
+        this.eventsInfoList = []
+      }
       if (this.staticMarkerLocation !== {}) {
         this.staticMarkerLocation = {}
       }

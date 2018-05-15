@@ -214,21 +214,6 @@ export default {
         .text(d => d.text)
       text.on('click', (d, i) => {
         this.$emit(this.emitClickedEventHandle, d.text)
-        // const textIn = centeredChart.selectAll('text')
-        //   .attr('class', (dIn, iIn) => {
-        //     if (i !== iIn) { return 'word-cloud-text-hidde' }
-        //   })
-        //   .attr('transform', () => 0)
-        // textIn.on('click', () => {
-        //   let event = d3.event
-        //   event.stopPropagation()
-        // })
-        // textIn.on('dblclick', () => {
-        //   let event = d3.event
-        //   event.stopPropagation()
-        // })
-        // textIn.on('mouseover', () => { return false })
-        // textIn.on('mouseout', () => { return false })
         let event = d3.event
         event.stopPropagation()
       })
