@@ -193,3 +193,16 @@ code {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+.fixed-normal {
+  position: fixed!important;
+  top: 7vh!important;
+  left: 0px!important;
+  width: 100%!important;
+  height: 100%!important;
+  z-index: 999!important;
+}
+
+.fixed-silebar-visiable {
+  left: 180px!important;
+}
