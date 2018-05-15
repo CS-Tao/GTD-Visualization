@@ -38,19 +38,11 @@ export default {
     }
   },
   data () {
-    var param = []
-    for (var i = 0; i < 5; i++) {
-      var dic = {}
-      dic.indicator = this.obj[this.model][i][this.model + 'TypeName']
-      dic.value = this.obj[this.model][i].count
-      param.push(dic)
-    }
     return {
-      params: param
+      params: []
     }
   },
   mounted () {
-    this.initChart()
   },
   methods: {
 
@@ -63,6 +55,8 @@ export default {
         param.push(dic)
       }
       this.params = param
+
+      console.log(JSON.stringify(param))
     },
     send (param) {
       this.$emit('click-pie', param)

@@ -1,9 +1,18 @@
 import request from '@/utils/request'
 
-// get fixed time pie data
+// get a certain year pie data
 export function getPie (params) {
   return request({
     url: '/gtd/api/tdinfo/statistics',
+    method: 'get',
+    params
+  })
+}
+
+// get a certain year bar data
+export function getBar (params) {
+  return request({
+    url: '/gtd/api/tdinfo/globalStatistics',
     method: 'get',
     params
   })

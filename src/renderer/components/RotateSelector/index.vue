@@ -40,9 +40,28 @@ export default {
         end: space,
         space
       },
-      if_mousedown: false
+      if_mousedown: false,
+      curYear: 1970,
+      preYear: 1970
     }
   },
+  // props: {
+  //   values: [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+  //   finger: {
+  //     startY: 0,
+  //     endY: 0,
+  //     startTime: 0, // 开始滑动时间（单位：毫秒）
+  //     entTime: 0, // 结束滑动时间（单位：毫秒）
+  //     currentMove: 0,
+  //     prevMove: 0
+  //   },
+  //   range: {
+  //     start: -space,
+  //     end: space,
+  //     space
+  //   },
+  //   if_mousedown: false
+  // },
   computed: {
     scrollValues () {
       const result = []
@@ -90,15 +109,17 @@ export default {
     this.$el.removeEventListener('mousemove', this.listenerTouchMove, false)
     this.$el.removeEventListener('mouseup', this.listenerTouchEnd, false)
   },
-  // mounted () {
-  //   this.$el.addEventListener('touchstart', this.listenerTouchStart, false)
-  //   this.$el.addEventListener('touchmove', this.listenerTouchMove, false)
-  //   this.$el.addEventListener('touchend', this.listenerTouchEnd, false)
+  // watch: {
+  //   finger (newfinger, oldfinger) {
+  //     if (newfinger.currentMove !== oldfinger.currentMove && this.if_mousedown === false) {
+  //       this.$emit('change-year', this.getSelectValue(newfinger.currentMove))
+  //     }
+  //   }
   // },
-  // beforeDestory () {
-  //   this.$el.removeEventListener('touchstart', this.listenerTouchStart, false)
-  //   this.$el.removeEventListener('touchmove', this.listenerTouchMove, false)
-  //   this.$el.removeEventListener('touchend', this.listenerTouchEnd, false)
+
+  // watch: {
+  //   curYear (newYear, oldYear) {
+  //   }
   // },
   methods: {
     initWheelItemDeg (index) {
@@ -134,30 +155,11 @@ export default {
       this.finger.endTime = Date.now()
       this.getInertiaDistance()
       this.if_mousedown = false
+      this.curYear = this.getRangeData(Math.abs(this.finger.currentMove / lineHeight))
+      if (this.curYear !== this.preYear) {
+        this.$emit('change-year', this.curYear)
+      }
     },
-    // listenerTouchStart (ev) {
-    //   ev.stopPropagation()
-    //   ev.preventDefault()
-    //   isInertial = false
-    //   this.finger.startY = ev.targetTouches[0].pageY
-    //   this.finger.prevMove = this.finger.currentMove
-    //   this.finger.startTime = Date.now()
-    // },
-    // listenerTouchMove (ev) {
-    //   ev.stopPropagation()
-    //   ev.preventDefault()
-    //   const move = (this.finger.startY - ev.targetTouches[0].pageY) + this.finger.prevMove
-    //   this.finger.currentMove = move
-    //   this.$refs.wheel.style.transform = `rotate3d(1, 0, 0, ${(move / lineHeight) * singleDeg}deg)`
-    //   this.updateRange(Math.round(move / lineHeight))
-    // },
-    // listenerTouchEnd (ev) {
-    //   ev.stopPropagation()
-    //   ev.preventDefault()
-    //   this.finger.endY = ev.changedTouches[0].pageY
-    //   this.finger.endTime = Date.now()
-    //   this.getInertiaDistance()
-    // },
     updateRange (spinAim) {
       this.range.start = (this.range.space * -1) + spinAim
       this.range.end = this.range.start + (this.range.space * 2)
