@@ -10,8 +10,8 @@
         </country3ModelRadar>
         <regionCountBar id="region-bar">
         </regionCountBar>
-        <regionStatisticsBar id="statistic-bar">
-        </regionStatisticsBar>
+        <countryBar id="statistic-bar">
+        </countryBar>
         <globeTrendLine id="trend-line"
         height="100%"
         width="100%">
@@ -28,13 +28,13 @@
 import keyboard from './keyboard'
 import country3ModelRadar from './country3ModelRadar'
 import regionCountBar from './regionCountBar'
-import regionStatisticsBar from './regionStatisticsBar'
+import countryBar from './countryBar'
 import globeTrendLine from './globeTrendLine'
 import year3ModelPie from './year3ModelPie'
 
 export default {
   name: 'Echarts',
-  components: { keyboard, country3ModelRadar, regionCountBar, regionStatisticsBar, globeTrendLine, year3ModelPie }
+  components: { keyboard, country3ModelRadar, regionCountBar, countryBar, globeTrendLine, year3ModelPie }
 
 }
 </script>
