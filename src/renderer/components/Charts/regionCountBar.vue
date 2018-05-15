@@ -34,8 +34,8 @@ export default {
     },
     selectId: {
       // 外部传入，用于指定高亮的region名
-      type: String,
-      default: ''
+      type: Number,
+      default: -1
     }
   },
   data () {
@@ -73,26 +73,21 @@ export default {
     sendOut (name) {
       this.$emit('out-bar', this.getIdByName(name))
     },
-    getIdByName (id) {
+    getNameById (id) {
       for (var i = 0; i < this.obj.length; i++) {
-        if (id === this.obj[i].region) {
+        if (id === Number(this.obj[i].region)) {
           return this.obj[i].regionName
         }
       }
       return ''
     },
-    getNameById (name) {
+    getIdByName (name) {
       for (var i = 0; i < this.obj.length; i++) {
         if (name === this.obj[i].regionName) {
-          return this.obj[i].region
+          return Number(this.obj[i].region)
         }
       }
-      return ''
-    }
-  },
-  watch: {
-    obj () {
-      this.initChart()
+      return -1
     }
   },
   watch: {
