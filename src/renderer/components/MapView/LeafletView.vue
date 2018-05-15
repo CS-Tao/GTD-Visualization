@@ -133,7 +133,10 @@ export default {
       })
     },
     staticMarkerPosition () {
-      if (this.mode !== modes[1] || this.staticMarkerPosition === {}) { return }
+      if (this.mode !== modes[1] ||
+      this.staticMarkerPosition === {} ||
+      this.staticMarkerPosition.lat === undefined ||
+      this.staticMarkerPosition.lng === undefined) { return }
       this.staticMarkerLayerGroup.clearLayers()
       let icon = L.icon({
         iconUrl: 'static/icons/pin_red.png',
