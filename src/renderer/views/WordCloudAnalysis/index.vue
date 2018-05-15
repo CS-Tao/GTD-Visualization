@@ -2,6 +2,9 @@
   <div class="wrap">
     <leaflet-view
     mapId="wordcloud-leaflet-map"
+    mode="static-dynamic"
+    :staticMarkerPosition="staticMarkerLocation"
+    :dynamicMarkerPosition="dynamicMarkerLocation"
     :zoom="mapZoom" class="map-view">
     </leaflet-view>
     <div class="fixed-normal wordcloud-events-view" 
@@ -10,7 +13,10 @@
        v-loading="wordcloudDataLoading"
        element-loading-text="词云加载中..."
       :data="wordcloudData"
+      :rotate="wordcloudRotate"
+      :fontSize="wordcouldFontSize"
       @item-clicked="showEventInfoList"
+      @blank-clicked="clearEventInfoList"
       nameKey="word"
       valueKey="frequency"
       class="wordcloud-view">
@@ -21,11 +27,14 @@
       border
       height="100%"
       :data="eventsInfoList"
+      highlight-current-row
+      @current-change="eventSelectChanged"
+      @cell-mouse-enter="eventMouseOverChanged"
       class="events-view"
       :class="{'events-view-hide': eventViewHide}">
         <el-table-column
-          prop="id"
-          label="城市">
+          prop="summary"
+          label="事件信息">
         </el-table-column>
       </el-table>
     </div>
@@ -40,6 +49,17 @@ import LeafletView from '@/components/MapView/LeafletView'
 import WordCloud from '@/components/WordCloud'
 import { getWordcloudData, getTdInfo } from '@/api/wordCloudAnalysisApi'
 
+const wordcloudRotateYes = {
+  from: -60,
+  to: 60,
+  numOfOrientation: 5
+}
+const wordcloudRotateNo = {
+  from: 0,
+  to: 0,
+  numOfOrientation: 5
+}
+
 export default {
   name: 'WordCloudAnalysis',
   mixins: [Mixin],
@@ -52,9 +72,14 @@ export default {
     return {
       wordcloudDataLoading: false,
       eventsInfoLoading: false,
-      mapZoom: 2,
+      wordcloudRotate: wordcloudRotateYes,
+      wordcouldFontSize: [10, 80],
       wordcloudData: [],
-      eventsInfoList: []
+      wordcloudDataBackup: [],
+      eventsInfoList: [],
+      mapZoom: 2,
+      staticMarkerLocation: {},
+      dynamicMarkerLocation: {}
     }
   },
   computed: {
@@ -62,7 +87,7 @@ export default {
       'sidebar'
     ]),
     eventViewHide () {
-      return this.eventsInfoList.length === 0
+      return this.eventsInfoList.length === 0 && !this.eventsInfoLoading
     }
   },
   created () {
@@ -76,6 +101,7 @@ export default {
     })
       .then((response) => {
         this.wordcloudData = response.data
+        this.wordcloudDataBackup = response.data
         this.wordcloudDataLoading = false
       })
       .catch(() => {
@@ -84,19 +110,68 @@ export default {
   },
   methods: {
     showEventInfoList (keyword) {
+      // this.wordcouldFontSize = [100, 100]
+      // this.wordcloudRotate = wordcloudRotateNo
+      // this.wordcloudData = this.wordcloudDataBackup.filter((item) => {
+      //   return item.word === keyword
+      // })
       this.eventsInfoLoading = true
-      this.$notify.success('showEventInfoList: ' + keyword)
       getTdInfo({
         format: 'json',
         keyword: keyword
       })
         .then((response) => {
-          this.eventsInfoList = response.data.features
+          // this.eventsInfoList = response.data.features
+          response.data.features.forEach(item => {
+            this.eventsInfoList.push({
+              id: item.id,
+              lng: item.geometry.coordinates[0],
+              lat: item.geometry.coordinates[1],
+              year: item.properties.year,
+              month: item.properties.month,
+              day: item.properties.day,
+              date: item.properties.date,
+              city: item.properties.city,
+              summary: item.properties.summary,
+              country: item.properties.country.countryName
+            })
+          })
+          this.$notify.success('事件信息读取成功')
           this.eventsInfoLoading = false
         })
         .catch(() => {
           this.eventsInfoLoading = false
         })
+    },
+    clearEventInfoList () {
+      // if (this.eventsInfoList.length !== 0) {
+      //   this.eventsInfoList = []
+      //   this.wordcouldFontSize = [10, 80]
+      //   this.wordcloudData = this.wordcloudDataBackup
+      //   this.wordcloudRotate = wordcloudRotateYes
+      // }
+      // Clear marker information
+      if (this.staticMarkerLocation !== {}) {
+        this.staticMarkerLocation = {}
+      }
+      if (this.dynamicMarkerLocation !== {}) {
+        this.dynamicMarkerLocation = {}
+      }
+    },
+    eventSelectChanged (val) {
+      this.staticMarkerLocation = {
+        lng: val.lng,
+        lat: val.lat
+      }
+      this.$notify({
+        message: this.$createElement('div', {style: 'color: #E66417'}, JSON.stringify(this.staticMarkerLocation))
+      })
+    },
+    eventMouseOverChanged (val) {
+      this.dynamicMarkerLocation = {
+        lng: val.lng,
+        lat: val.lat
+      }
     }
   }
 }
@@ -106,13 +181,10 @@ export default {
 .wrap {
   width: 100%;
   height: 100%;
-  // display: flex;
   .map-view {
     position: relative!important;
     top: 0px;
     left: 0px;
-    // flex: 2;
-    // margin: 0;
     width: 100%;
     height: 100%;
   }
@@ -122,14 +194,17 @@ export default {
     display: flex;
     .wordcloud-view {
       flex: 1;
+      transition: all .3s cubic-bezier(.55, 0, .1, 1);
     }
     .events-view {
       flex: 1.5;
       background: rgba(255,255,255,0);
+      transition: all .3s cubic-bezier(.55, 0, .1, 1);
     }
     .events-view-hide {
       display: none;
       background: rgba(255,255,255,0);
+      transition: all .3s cubic-bezier(.55, 0, .1, 1);
     }
   }
 }

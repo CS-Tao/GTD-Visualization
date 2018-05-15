@@ -1,5 +1,5 @@
 <template>
-  <div class="wordCloud" v-resize="onResize"></div>
+  <div class="wordCloud" v-resize="onResize" @click="wraperClicked"></div>
 </template>
 
 <script>
@@ -86,7 +86,8 @@ export default {
       svgWidth: 0,
       svgHeight: 0,
       emitClickedEventHandle: 'item-clicked',
-      emitDbclickedEventHandle: 'item-dblclicked'
+      emitDbclickedEventHandle: 'item-dblclicked',
+      emitBlankClickedEventHandle: 'blank-clicked'
     }
   },
   computed: {
@@ -112,6 +113,12 @@ export default {
   },
   watch: {
     words: {
+      handler: function (val, oldVal) {
+        this.update()
+      },
+      deep: true
+    },
+    rotate: {
       handler: function (val, oldVal) {
         this.update()
       },
@@ -205,11 +212,27 @@ export default {
         .duration(500)
         .attr('transform', (d) => { return 'translate(' + [d.x, d.y] + ')rotate(' + d.rotate + ')' })
         .text(d => d.text)
-      text.on('click', (d) => {
+      text.on('click', (d, i) => {
         this.$emit(this.emitClickedEventHandle, d.text)
+        // const textIn = centeredChart.selectAll('text')
+        //   .attr('class', (dIn, iIn) => {
+        //     if (i !== iIn) { return 'word-cloud-text-hidde' }
+        //   })
+        //   .attr('transform', () => 0)
+        // textIn.on('click', () => {
+        //   let event = d3.event
+        //   event.stopPropagation()
+        // })
+        // textIn.on('dblclick', () => {
+        //   let event = d3.event
+        //   event.stopPropagation()
+        // })
+        // textIn.on('mouseover', () => { return false })
+        // textIn.on('mouseout', () => { return false })
+        let event = d3.event
+        event.stopPropagation()
       })
-      text.on('dblclick', (d, i) => {
-        alert(d.text)
+      text.on('dblclick', (d) => {
         this.$emit(this.emitClickedEventHandle)
       })
       text.on('mouseover', (d, i) => {
@@ -228,6 +251,9 @@ export default {
       // clear chart
       chart.select('g').remove()
       layout.stop().size([width, height]).words(words).start()
+    },
+    wraperClicked () {
+      this.$emit(this.emitBlankClickedEventHandle)
     }
   }
 }
@@ -246,6 +272,9 @@ export default {
     .word-cloud-text {
       cursor: pointer;
       transition: all 0.4s;
+    }
+    .word-cloud-text-hidde {
+      display: none;
     }
   }
 }

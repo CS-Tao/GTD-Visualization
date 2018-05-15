@@ -12,4 +12,4 @@ Mock.mock(/\/gtd\/api\/tdgeneral/, 'get', dashboardApi.getGeneral)
 
 // 词云分析页面
 Mock.mock(/\/gtd\/api\/wordcloud/, wordCloudAnalysisApi.getWordCloudData)
-Mock.mock(/\/gtd\/api\/tdinfo/, wordCloudAnalysisApi.getTdInfo)
+// Mock.mock(/\/gtd\/api\/tdinfo/, wordCloudAnalysisApi.getTdInfo)
