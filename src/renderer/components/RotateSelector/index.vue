@@ -39,7 +39,8 @@ export default {
         start: -space,
         end: space,
         space
-      }
+      },
+      if_mousedown: false
     }
   },
   computed: {
@@ -80,15 +81,25 @@ export default {
     }
   },
   mounted () {
-    this.$el.addEventListener('touchstart', this.listenerTouchStart, false)
-    this.$el.addEventListener('touchmove', this.listenerTouchMove, false)
-    this.$el.addEventListener('touchend', this.listenerTouchEnd, false)
+    this.$el.addEventListener('mousedown', this.listenerTouchStart, false)
+    this.$el.addEventListener('mousemove', this.listenerTouchMove, false)
+    this.$el.addEventListener('mouseup', this.listenerTouchEnd, false)
   },
   beforeDestory () {
-    this.$el.removeEventListener('touchstart', this.listenerTouchStart, false)
-    this.$el.removeEventListener('touchmove', this.listenerTouchMove, false)
-    this.$el.removeEventListener('touchend', this.listenerTouchEnd, false)
+    this.$el.removeEventListener('mousedown', this.listenerTouchStart, false)
+    this.$el.removeEventListener('mousemove', this.listenerTouchMove, false)
+    this.$el.removeEventListener('mouseup', this.listenerTouchEnd, false)
   },
+  // mounted () {
+  //   this.$el.addEventListener('touchstart', this.listenerTouchStart, false)
+  //   this.$el.addEventListener('touchmove', this.listenerTouchMove, false)
+  //   this.$el.addEventListener('touchend', this.listenerTouchEnd, false)
+  // },
+  // beforeDestory () {
+  //   this.$el.removeEventListener('touchstart', this.listenerTouchStart, false)
+  //   this.$el.removeEventListener('touchmove', this.listenerTouchMove, false)
+  //   this.$el.removeEventListener('touchend', this.listenerTouchEnd, false)
+  // },
   methods: {
     initWheelItemDeg (index) {
       return {
@@ -101,25 +112,52 @@ export default {
       ev.stopPropagation()
       ev.preventDefault()
       isInertial = false
-      this.finger.startY = ev.targetTouches[0].pageY
+      this.finger.startY = ev.pageY
       this.finger.prevMove = this.finger.currentMove
       this.finger.startTime = Date.now()
+      this.if_mousedown = true
     },
     listenerTouchMove (ev) {
-      ev.stopPropagation()
-      ev.preventDefault()
-      const move = (this.finger.startY - ev.targetTouches[0].pageY) + this.finger.prevMove
-      this.finger.currentMove = move
-      this.$refs.wheel.style.transform = `rotate3d(1, 0, 0, ${(move / lineHeight) * singleDeg}deg)`
-      this.updateRange(Math.round(move / lineHeight))
+      if (this.if_mousedown === true) {
+        ev.stopPropagation()
+        ev.preventDefault()
+        const move = (this.finger.startY - ev.pageY) + this.finger.prevMove
+        this.finger.currentMove = move
+        this.$refs.wheel.style.transform = `rotate3d(1, 0, 0, ${(move / lineHeight) * singleDeg}deg)`
+        this.updateRange(Math.round(move / lineHeight))
+      }
     },
     listenerTouchEnd (ev) {
       ev.stopPropagation()
       ev.preventDefault()
-      this.finger.endY = ev.changedTouches[0].pageY
+      this.finger.endY = ev.pageY
       this.finger.endTime = Date.now()
       this.getInertiaDistance()
+      this.if_mousedown = false
     },
+    // listenerTouchStart (ev) {
+    //   ev.stopPropagation()
+    //   ev.preventDefault()
+    //   isInertial = false
+    //   this.finger.startY = ev.targetTouches[0].pageY
+    //   this.finger.prevMove = this.finger.currentMove
+    //   this.finger.startTime = Date.now()
+    // },
+    // listenerTouchMove (ev) {
+    //   ev.stopPropagation()
+    //   ev.preventDefault()
+    //   const move = (this.finger.startY - ev.targetTouches[0].pageY) + this.finger.prevMove
+    //   this.finger.currentMove = move
+    //   this.$refs.wheel.style.transform = `rotate3d(1, 0, 0, ${(move / lineHeight) * singleDeg}deg)`
+    //   this.updateRange(Math.round(move / lineHeight))
+    // },
+    // listenerTouchEnd (ev) {
+    //   ev.stopPropagation()
+    //   ev.preventDefault()
+    //   this.finger.endY = ev.changedTouches[0].pageY
+    //   this.finger.endTime = Date.now()
+    //   this.getInertiaDistance()
+    // },
     updateRange (spinAim) {
       this.range.start = (this.range.space * -1) + spinAim
       this.range.end = this.range.start + (this.range.space * 2)
