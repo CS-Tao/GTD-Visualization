@@ -124,6 +124,7 @@ export default {
 
         title: {
           text: this.title,
+          show: true,
           left: 'center',
           top: 20,
           textStyle: {
@@ -165,8 +166,8 @@ export default {
                   color: this.getColor(this.textColor)
                 },
                 smooth: 0.2,
-                length: 10,
-                length2: 20
+                length: 5,
+                length2: 10
               }
             },
             itemStyle: {
@@ -185,9 +186,10 @@ export default {
           }
         ]
       })
+      var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
-        this.$emit('click-pie', params.name)
+        that.$emit('click-pie', params.name)
       })
     },
     highlignt (name) {

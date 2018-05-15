@@ -1,13 +1,7 @@
  <template>
   <div :class="className"
    :id="id" 
-   :style="{height:height,width:width}" 
-   :title="title" :data="data" 
-   :textcolor="textColor" 
-   :backgroundColor="backgroundColor"
-   :indicatorName="indicatorName"
-   :value="valueName"
-   :lineStyle="lineStyle">
+   :style="{height:height,width:width}">
   </div>
 </template>
 
@@ -28,23 +22,36 @@ export default {
     },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     title: {
       // 图表标题
       type: String,
       default: ''
     },
+    vertical: {
+      // bar是否竖直排列：布尔型
+      type: Boolean,
+      default: true
+    },
+    xPosition: {
+      type: String,
+      default: 'bottom'
+    },
+    splitLine: {
+      type: Boolean,
+      default: false
+    },
     data: {
-      // 图表数据，格式为[{国家名：'中国',字段名：值}]
-      type: Array,
+      // 图表数据，格式为{类型：[{国家名：'中国',字段名：值}]}
+      type: Object,
       default: function () {
-        var res =
-          [
+        var res = {
+          att: [
             {
               indicator: 'type1',
               value: 1
@@ -65,8 +72,30 @@ export default {
               indicator: 'type5',
               value: 3
             }
+          ],
+          btt: [
+            {
+              indicator: 'type1',
+              value: 2
+            },
+            {
+              indicator: 'type2',
+              value: 3
+            },
+            {
+              indicator: 'type3',
+              value: 4
+            },
+            {
+              indicator: 'type4',
+              value: 5
+            },
+            {
+              indicator: 'type5',
+              value: 4
+            }
           ]
-
+        }
         return res
       }
     },
@@ -92,7 +121,6 @@ export default {
     },
     selectName: {
       // 选中的数据名称
-      // 这项不是来自父类的参数
       type: String,
       default: ''
     },
@@ -108,7 +136,8 @@ export default {
   },
   data () {
     return {
-      chart: null
+      chart: null,
+      highligntName: ''
     }
   },
   mounted () {
@@ -127,30 +156,79 @@ export default {
 
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
+        grid: {
+          left: '3%',
+          right: this.vertical ? '-15%' : '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+            shadowStyle: {
+              color: 'rgba(0,0,0,0)'
+            }
+          }
+        },
+        toolbox: {
+          feature: {
+            dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
         xAxis: [{
+          position: this.xPosition,
+          inverse: this.vertical,
+          axisLabel: {
+            interval: 0,
+            rotate: 30
+            // align: 'center'
+          },
+          splitLine: {
+            show: this.splitLine,
+            lineStyle: {
+              color: '#08263f'
+            }
+          },
+          type: this.vertical === true ? 'value' : 'category',
           show: true,
           textStyle: {
             color: this.getColor(this.textColor)
           },
-          data: this.getIndicator(this.data)
-        }, {
-          show: false,
-          textStyle: {
-
-            color: this.getColor(this.textColor)
-          },
-          data: this.getIndicator(this.data)
+          data: this.vertical === true ? [] : this.getIndicator(this.data)
         }],
-        visualMap: {
-          show: false,
-          min: 0,
-          max: this.data.length,
-          dimension: 0,
-          inRange: {
-            color: ['#4a657a', '#308e92', '#b1cfa5', '#f5d69f', '#f5898b', '#ef5055']
+        yAxis: [ {
+          position: this.vertical ? 'right' : 'left',
+          data: this.vertical === true ? this.getIndicator(this.data) : [],
+          type: this.vertical === true ? 'category' : 'value',
+          axisLine: {
+            show: false,
+            lineStyle: this.lineStyle
+          },
+          axisLabel: {
+            textStyle: {
+              color: this.getColor(this.textColor)
+            }
+            // align: 'right'
+          },
+          splitLine: {
+            show: this.splitLine,
+            lineStyle: {
+              color: '#08263f'
+            }
+          },
+          axisTick: {
+            show: false
           }
         },
-        yAxis: {
+        {
+          position: 'right',
+          data: this.vertical === true ? this.getIndicator(this.data) : [],
+          type: this.vertical === true ? 'category' : 'value',
+          show: !this.vertical,
           axisLine: {
             show: false,
             lineStyle: this.lineStyle
@@ -160,28 +238,11 @@ export default {
               color: this.getColor(this.textColor)
             }
           },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: '#08263f'
-            }
-          },
           axisTick: {
             show: false
           }
-        },
-        series: [{
-          name: 'front',
-          type: 'bar',
-          data: this.getValue(this.data),
-          xAxisIndex: 1,
-          z: 3,
-          itemStyle: {
-            normal: {
-              barBorderRadius: 5
-            }
-          }
-        }],
+        } ],
+        series: this.getSeries(this.data),
         animationEasing: 'elasticOut',
         animationEasingUpdate: 'elasticOut',
         animationDelay (idx) {
@@ -191,16 +252,28 @@ export default {
           return idx * 20
         }
       })
+      var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
-        this.$emit('click-bar', params.name)
+        that.$emit('click-bar', params.name)
+      })
+      this.chart.on('mousemove', function (params) {
+        if (this.highligntName !== params.name) {
+          that.$emit('move-bar', params.name)
+          this.highligntName = params.name
+        }
       })
     },
     getIndicator (data) {
+      var list = []
+      for (var key in data) {
+        list = data[key]
+        break
+      }
       var res = []
-      for (var i = 0; i < data.length; i++) {
+      for (var i = 0; i < list.length; i++) {
         res.push(
-          data[i][this.indicatorName]
+          list[i][this.indicatorName]
         )
       }
       return res
@@ -208,8 +281,26 @@ export default {
     getValue (data) {
       var res = []
       for (var i = 0; i < data.length; i++) {
-        res.push(data[i][this.valueName]
+        res.push(this.vertical ? data[i][this.valueName] : data[i][this.valueName]
         )
+      }
+      return res
+    },
+    getSeries (data) {
+      var res = []
+      for (var key in data) {
+        var dic = {}
+        dic.name = key
+        dic.type = 'bar'
+        dic.data = this.getValue(data[key])
+        dic.yAxisIndex = key === 'sumProp' ? 0 : 1
+        dic.z = 3
+        dic.itemStyle = {
+          normal: {
+            barBorderRadius: 1
+          }
+        }
+        res.push(dic)
       }
       return res
     },
@@ -301,9 +392,14 @@ export default {
     }
   },
   watch: {
+    data (newData, oldData) {
+      console.log(this.data)
+      this.initChart()
+    },
     selectName (newSelect, oldSelect) {
       this.highlignt(newSelect)
       this.downplay(oldSelect)
+      this.highligntName = newSelect
       this.chart.dispatchAction({
         type: 'showTip',
         seriesIndex: 0,

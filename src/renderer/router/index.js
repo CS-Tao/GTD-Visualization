@@ -45,7 +45,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'general-analysis',
-        component: require('@/components/LandingPage').default,
+        component: require('@/views/GeneralAnalysis').default,
         name: 'general-analysis',
         meta: { title: '总体分析', icon: 'component', noCache: false, mode: 2 }
       }
@@ -69,7 +69,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'trend-analysis',
-        component: require('@/components/LandingPage').default,
+        component: require('@/views/TrendAnalysis').default,
         name: 'trend-analysis',
         meta: { title: '趋势分析', icon: 'form', noCache: false, mode: 1 }
       }
