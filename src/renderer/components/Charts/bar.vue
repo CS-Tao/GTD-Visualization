@@ -28,10 +28,18 @@ export default {
       type: String,
       default: '100%'
     },
+    strack: {
+      type: Boolean,
+      default: false
+    },
     title: {
       // 图表标题
       type: String,
       default: ''
+    },
+    barBorderRadius: {
+      type: Number,
+      default: 10
     },
     vertical: {
       // bar是否竖直排列：布尔型
@@ -102,7 +110,7 @@ export default {
     textColor: {
       // 文本颜色：字符串或一个RGB数组
       type: [String, Array],
-      default: '#4a657a'
+      default: '#00A383'
     },
     backgroundColor: {
       // 背景色
@@ -171,20 +179,16 @@ export default {
             }
           }
         },
-        toolbox: {
-          feature: {
-            dataView: {show: true, readOnly: false},
-            magicType: {show: true, type: ['line', 'bar']},
-            restore: {show: true},
-            saveAsImage: {show: true}
-          }
-        },
+
         xAxis: [{
           position: this.xPosition,
           inverse: this.vertical,
           axisLabel: {
             interval: 0,
-            rotate: 30
+            rotate: 30,
+            textStyle: {
+              color: this.getColor(this.textColor)
+            }
             // align: 'center'
           },
           splitLine: {
@@ -209,6 +213,7 @@ export default {
             lineStyle: this.lineStyle
           },
           axisLabel: {
+            inside: this.vertical,
             textStyle: {
               color: this.getColor(this.textColor)
             }
@@ -257,11 +262,11 @@ export default {
         // 发送点击消息
         that.$emit('click-bar', params.name)
       })
-      this.chart.on('mousemove', function (params) {
-        if (this.highligntName !== params.name) {
-          that.$emit('move-bar', params.name)
-          this.highligntName = params.name
-        }
+      this.chart.on('mouseover', function (params) {
+        that.$emit('over-bar', params.name)
+      })
+      this.chart.on('mouseout', function (params) {
+        that.$emit('out-bar', params.name)
       })
     },
     getIndicator (data) {
@@ -290,14 +295,21 @@ export default {
       var res = []
       for (var key in data) {
         var dic = {}
+        if (this.strack) {
+          dic.stack = 'one'
+        }
         dic.name = key
         dic.type = 'bar'
         dic.data = this.getValue(data[key])
         dic.yAxisIndex = key === 'sumProp' ? 0 : 1
-        dic.z = 3
+        dic.z = 0
         dic.itemStyle = {
           normal: {
-            barBorderRadius: 1
+            barBorderRadius: this.barBorderRadius,
+            color: this.vertical ? '#0D58A6' : ''
+          },
+          emphasis: {
+            color: this.vertical ? '#FF9900' : ''
           }
         }
         res.push(dic)
