@@ -93,7 +93,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'wordcloud-analysis',
-        component: require('@/components/LandingPage').default,
+        component: require('@/views/WordCloudAnalysis').default,
         name: 'wordcloud-analysis',
         meta: { title: '词云分析', icon: 'message', noCache: false, mode: 2 }
       }
