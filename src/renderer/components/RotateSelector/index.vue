@@ -10,7 +10,7 @@
 <script>
 import Animate from '../../utils/animate'
 const a = -0.003 // 加速度
-const radius = 500 // 半径
+const radius = 400 // 半径
 const lineHeight = 100 // 文字行高
 let isInertial = false // 是否正在惯性滑动
 // 根据三角形余弦公式
@@ -156,9 +156,11 @@ export default {
       this.getInertiaDistance()
       this.if_mousedown = false
       this.curYear = this.getRangeData(Math.abs(this.finger.currentMove / lineHeight))
-      if (this.curYear !== this.preYear) {
-        this.$emit('change-year', this.curYear)
-      }
+      // if (this.curYear !== this.preYear) {
+      //   this.$emit('change-year', this.curYear)
+      //   this.preYear = this.curYear
+      // }
+      this.$emit('change-year', this.curYear)
     },
     updateRange (spinAim) {
       this.range.start = (this.range.space * -1) + spinAim

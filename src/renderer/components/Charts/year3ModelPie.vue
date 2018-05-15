@@ -56,7 +56,7 @@ export default {
       }
       this.params = param
 
-      console.log(JSON.stringify(param))
+      // console.log(JSON.stringify(param))
     },
     send (param) {
       this.$emit('click-pie', param)

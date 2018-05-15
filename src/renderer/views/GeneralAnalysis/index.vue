@@ -8,7 +8,7 @@
         <year3-model-pie id='weapon-pie-chart-view' model='weapon' class='weapon-pie-chart-view' :obj='PieJson'></year3-model-pie>
     </div>
 </div>
-</template>
+</template> 
 
 <script>
 import Mixin from '../Mixin'
@@ -26,11 +26,13 @@ export default {
   },
   methods: {
     getYear (year) {
+      console.log(year)
       getPie({
         format: 'json',
         year: year
       }).then(response => {
         this.PieJson = response.data
+        console.log(JSON.stringify(response.data))
       })
       getBar({
         format: 'json',
