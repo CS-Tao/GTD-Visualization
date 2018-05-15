@@ -1,6 +1,6 @@
 <template>
   <div class="map-view">
-    <leaflet-view :currentDailyData="dailyDataForMapView"></leaflet-view>
+    <leaflet-view mapId="dashboard-leaflet-map" :currentDailyData="dailyDataForMapView"></leaflet-view>
     <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval" :hidden="routerViewMode === 2"></date-display>
   </div>
 </template>
@@ -19,6 +19,7 @@ export default {
   },
   data () {
     return {
+      mapId: 'dashboard-leaflet-map',
       year: 1970,
       geojsonData: {},
       currentDay: 1,

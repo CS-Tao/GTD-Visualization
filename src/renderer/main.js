@@ -3,6 +3,8 @@ import Vue from 'vue'
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 
 import Element from 'element-ui'
+import vBlur from 'v-blur'
+
 import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/styles/index.scss' // global css
@@ -18,6 +20,8 @@ import './mock' // simulation data
 Vue.use(Element, {
   size: 'medium'
 })
+
+Vue.use(vBlur)
 
 Vue.config.productionTip = false
 

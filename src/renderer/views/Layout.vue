@@ -1,9 +1,9 @@
 <template>
 	<div class="app-wrapper" :class="{hideSidebar:!sidebar.opened}">
-		<sidebar class="sidebar-container"></sidebar>
+    <sidebar class="sidebar-container"></sidebar>
 		<div class="main-container">
 			<app-header></app-header>
-      <el-container :class="{'el-container-full-screen':isAppFullScreen}">
+      <el-container @click.native="hide">
         <el-aside :class="['el-aside-' + routerViewMode]">
           <app-router-view></app-router-view>
         </el-aside>
@@ -32,9 +32,15 @@ export default {
       return this.$store.state.app.sidebar
     },
     ...mapGetters([
-      'isAppFullScreen',
       'routerViewMode'
     ])
+  },
+  methods: {
+    hide () {
+      if (this.$store.state.app.sidebar.opened) {
+        this.$store.dispatch('changeSideBarStatus', false)
+      }
+    }
   }
 }
 </script>

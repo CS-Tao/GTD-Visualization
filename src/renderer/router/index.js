@@ -59,7 +59,7 @@ export const constantRouterMap = [
         path: 'time-analysis',
         component: require('@/views/TimeAnalysis').default,
         name: 'time-analysis',
-        meta: { title: '时段分析', icon: 'example', noCache: false, mode: 0 }
+        meta: { title: '时段分析', icon: 'example', noCache: false, mode: 2 }
       }
     ]
   },
@@ -93,7 +93,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'wordcloud-analysis',
-        component: require('@/components/LandingPage').default,
+        component: require('@/views/WordCloudAnalysis').default,
         name: 'wordcloud-analysis',
         meta: { title: '词云分析', icon: 'message', noCache: false, mode: 2 }
       }
