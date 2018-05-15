@@ -1,10 +1,20 @@
 <template>
 <div class='time-analysis-container'>
-  <el-date-picker v-on:change="getDate" v-model="dateRange" type="daterange" value-format="yyyyMMdd" format="yyyy 年 MM 月 dd 日" start-placeholde="起始日期" end-placeholde="结束日期"></el-date-picker>
+  <el-date-picker
+   v-on:change="getDate"
+   v-model="dateRange" 
+   type="daterange" 
+   value-format="yyyyMMdd" 
+   format="yyyy 年 MM 月 dd 日" 
+   :unlink-panels="false"
+   start-placeholde="起始日期" 
+   end-placeholde="结束日期">
+   </el-date-picker>
   <time-analysis-map-view 
   class='map-view' 
   v-on:map-region-hover="selectElement" 
-  v-on:map-region-click="globalToRegion" 
+  v-on:map-region-click="globalToRegion"
+  v-on:map-region-unhover="unselectElement"
   :selectedId="selectedElement"
   :displayPointData="pointsForDisplay" 
   :displayGeojsonData="geoJSONForDisplay" 
@@ -12,7 +22,8 @@
   </time-analysis-map-view>
   <region-count-bar 
   v-on:click-bar="globalToRegion" 
-  v-on:move-bar="selectElement" 
+  v-on:over-bar="selectElement" 
+  v-on:out-bar="unselectElement"
   v-if="regionCountBarDisplay" 
   id="global-bar-chart" 
   :selectId="selectedElement" 
@@ -60,45 +71,56 @@ export default {
     if (this.$route.name) {
       this.$store.dispatch('addVisitedViews', this.$route)
     }
-    getGeneral({
-      format: 'json',
-      start: this.startTime,
-      end: this.endTime
-    }).then(response => {
-      this.pointsForDisplay = response.data
-    })
-    getRegion({
-      format: 'json'
-    }).then(response => {
-      this.geoJSONForDisplay = response.data
-    })
-    getGlobalStatistics({
-      format: 'json',
-      start: this.startTime,
-      end: this.endTime
-    }).then(response => {
-      console.log(response.data)
-      this.statisticsData = response.data
-    })
+    this.initGlobalView()
   },
   methods: {
+    initGlobalView () {
+      getGeneral({
+        format: 'json',
+        start: this.startTime,
+        end: this.endTime
+      }).then(response => {
+        this.pointsForDisplay = response.data
+        console.log(this.pointsForDisplay.features.length)
+      })
+      getRegion({
+        format: 'json'
+      }).then(response => {
+        this.geoJSONForDisplay = response.data
+      })
+      getGlobalStatistics({
+        format: 'json',
+        start: this.startTime,
+        end: this.endTime
+      }).then(response => {
+        // console.log(response.data)
+        this.statisticsData = response.data
+      })
+    },
+    initRegionView () {
+
+    },
     getDate () {
+      this.initGlobalView()
     },
     globalToRegion (regionId) {
-      console.log('global to region')
       this.regionCountBarDisplay = false
       this.currentMode = 'region'
+      this.pointsForDisplay = this.pointsForDisplay.features.filter(function (feature) {
+        return feature.properties.country.region === regionId
+      })
       getCountry({
         format: 'json',
         region: regionId
       }).then(response => {
         this.geoJSONForDisplay = response.data
-        // console.log(this.geoJSONForDisplay.features.length)
       })
     },
     selectElement (id) {
-      console.log(id)
       this.selectedElement = id
+    },
+    unselectElement (id) {
+      this.selectedElement = -1
     }
   }
 }
@@ -119,13 +141,10 @@ export default {
     right: 0;
     top: 0;
     height: 100%!important;
-    width: 30%!important;
+    width: 40%!important;
     z-index: 999;
-    div{
+    div, canvas {
       width: 100%!important;
-      canvas{
-        width: 100%!important;
-      }
     }
 }
 .el-range-editor--medium.el-input__inner {
