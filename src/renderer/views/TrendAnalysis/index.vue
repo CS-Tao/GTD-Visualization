@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="trend-analysis">
       <globeTrendLine
       id='count'
       class="chart-wrap"
@@ -42,7 +42,7 @@ export default {
 <style lang="scss" scoped>
 .trend-analysis {
   width: 100%;
-  height: 100%;
+  height: 33%;
   .chart-wrap {
     display: block;
   }
