@@ -127,6 +127,10 @@ export default {
       type: [String],
       default: 'value'
     },
+    formatter: {
+      type: [String, Function],
+      default: ''
+    },
     selectName: {
       // 选中的数据名称
       type: String,
@@ -163,6 +167,13 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
 
       this.chart.setOption({
+        title: {
+          text: this.title,
+          left: 'center',
+          textStyle: {
+            color: '#ccc'
+          }
+        },
         backgroundColor: this.getColor(this.backgroundColor),
         grid: {
           left: '3%',
@@ -177,7 +188,8 @@ export default {
             shadowStyle: {
               color: 'rgba(0,0,0,0)'
             }
-          }
+          },
+          formatter: this.formatter
         },
 
         xAxis: [{
