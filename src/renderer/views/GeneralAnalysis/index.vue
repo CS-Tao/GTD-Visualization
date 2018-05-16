@@ -29,15 +29,21 @@ export default {
       getPie({
         format: 'json',
         year: year
-      }).then(response => {
-        this.PieJson = response.data
       })
+        .then(response => {
+          this.PieJson = response.data
+        })
+        .catch(() => {
+        })
       getBar({
         format: 'json',
         year: year
-      }).then(response => {
-        this.BarJson = response.data
       })
+        .then(response => {
+          this.BarJson = response.data
+        })
+        .catch(() => {
+        })
     }
   },
   components: {
@@ -46,20 +52,26 @@ export default {
     regionStatisticsBar
   },
   mixins: [Mixin],
-  created () {
+  mounted () {
     this.changeLayout()
     getPie({
       format: 'json',
       year: 1970
-    }).then(response => {
-      this.PieJson = response.data
     })
+      .then(response => {
+        this.PieJson = response.data
+      })
+      .catch(() => {
+      })
     getBar({
       format: 'json',
       year: 1970
-    }).then(response => {
-      this.BarJson = response.data
     })
+      .then(response => {
+        this.BarJson = response.data
+      })
+      .catch(() => {
+      })
   }
 }
 </script>

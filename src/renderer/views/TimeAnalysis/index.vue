@@ -64,13 +64,8 @@ export default {
       return this.dateRange[1]
     }
   },
-  created () {
-    this.changeLayout()
-  },
   mounted () {
-    if (this.$route.name) {
-      this.$store.dispatch('addVisitedViews', this.$route)
-    }
+    this.changeLayout()
     this.initGlobalView()
   },
   methods: {
@@ -79,23 +74,32 @@ export default {
         format: 'json',
         start: this.startTime,
         end: this.endTime
-      }).then(response => {
-        this.pointsForDisplay = response.data
-        console.log(this.pointsForDisplay.features.length)
       })
+        .then(response => {
+          this.pointsForDisplay = response.data
+          console.log(this.pointsForDisplay.features.length)
+        })
+        .catch(() => {
+        })
       getRegion({
         format: 'json'
-      }).then(response => {
-        this.geoJSONForDisplay = response.data
       })
+        .then(response => {
+          this.geoJSONForDisplay = response.data
+        })
+        .catch(() => {
+        })
       getGlobalStatistics({
         format: 'json',
         start: this.startTime,
         end: this.endTime
-      }).then(response => {
-        // console.log(response.data)
-        this.statisticsData = response.data
       })
+        .then(response => {
+          // console.log(response.data)
+          this.statisticsData = response.data
+        })
+        .catch(() => {
+        })
     },
     initRegionView () {
 
@@ -112,9 +116,12 @@ export default {
       getCountry({
         format: 'json',
         region: regionId
-      }).then(response => {
-        this.geoJSONForDisplay = response.data
       })
+        .then(response => {
+          this.geoJSONForDisplay = response.data
+        })
+        .catch(() => {
+        })
     },
     selectElement (id) {
       this.selectedElement = id
