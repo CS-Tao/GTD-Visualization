@@ -251,7 +251,6 @@ export default {
   height: 100%;
   svg {
     display: inline-block;
-    position: absolute;
     top: 0;
     left: 0;
     .word-cloud-text {
