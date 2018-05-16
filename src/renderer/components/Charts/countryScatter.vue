@@ -12,7 +12,7 @@
 import scatter from './scatter'
 
 export default {
-  name: 'countryStatisticsBar',
+  name: 'countryScatter',
   components: {scatter},
   props: {
     id: {
@@ -22,19 +22,24 @@ export default {
     countryNameList: {
       type: Array,
       default () {
-        return ['Canada', 'Greenland', 'Iceland', 'United States']
+        return [
+          {id: 0, name: 'Canada'},
+          {id: 1, name: 'Greenland'},
+          {id: 2, name: 'Iceland'},
+          {id: 3, name: 'United States'}
+        ]
       }
     },
-    start: {
-      type: Date,
+    startString: {
+      type: String,
       default () {
-        return new Date(1990, 0, 1)
+        return '19900101'
       }
     },
-    end: {
-      type: Date,
+    endString: {
+      type: String,
       default () {
-        return new Date(1991, 0, 1)
+        return '19910101'
       }
     },
     obj: {
@@ -646,34 +651,53 @@ export default {
         }
       }
     },
-    selectName: {
+    selectId: {
       // 外部传入，用于指定高亮的country名
-      type: String,
-      default: 'United States'
+      type: Number,
+      default: 3
     }
   },
   data () {
     return {
       params: [],
       timeList: [],
-      dataList: []
+      dataList: [],
+      monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
     }
   },
   mounted () {
     this.initChart()
   },
   computed: {
-    selectId: function () {
-      return this.getIdByName(this.selectName)
+    selectName: function () {
+      return this.getNameById(this.selectId)
+    },
+    start () {
+      return (Number(this.startString.substring(0, 4)) - 1970) * 12 + Number(this.startString.substring(4, 6))
+    },
+    end () {
+      return (Number(this.endString.substring(0, 4)) - 1970) * 12 + Number(this.endString.substring(4, 6)) + 1
     }
   },
   watch: {
     obj () {
       this.initChart()
     },
+    endString (newEnd, oldEnd) {
+      var res = []
+      if (this.start >= newEnd) {
+        console.log('start time error!')
+        return
+      }
+      for (var i = this.start; i < newEnd; i++) {
+        res.push(this.monthList[i % 12])
+      }
+      console.log(res)
+      this.timeList = res
+    },
     selectName (newName, oldName) {
       if (this.obj === {}) {
-        return this.countryNameList[0]
+        return this.countryNameList[0].name
       }
       var d = this.dataList[this.newName]
       this.params = d
@@ -685,33 +709,38 @@ export default {
       if (this.obj === {}) {
         return
       }
-      this.timeList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+      var res = []
+      if (this.start >= this.end) {
+        console.log('start time error!')
+        return
+      }
+      for (var k = this.start; k < this.end; k++) {
+        res.push(this.monthList[k % 12])
+      }
+      this.timeList = res
       var list = this.obj.features
       for (var j = 0; j < this.countryNameList.length; j++) {
-        this.dataList[this.countryNameList[j]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        this.dataList[this.countryNameList[j].name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       }
       for (var i = 0; i < list.length; i++) {
-        var nowTime = new Date(list[i].properties.year, list[i].properties.month - 1, list[i].properties.day)
+        var nowTime = (list[i].properties.year - 1970) * 12 + list[i].properties.month - 1
         this.dataList[list[i].properties.country.countryName][this.getTimeValue(nowTime)]++
       }
       var d = this.dataList[this.selectName]
       this.params = d
     },
     getTimeValue (time) {
-      var day = Math.floor((time - this.start) / (this.end - this.start) * 12)
+      var day = Math.floor((time - this.start) / (this.end - this.start) * this.timeList.length)
+      console.log(day)
       return day
     },
     getNameById (id) {
       if (id < 0 || id > this.countryNameList.length) { return '' }
-      return this.countryNameList[id]
-    },
-    getIdByName (name) {
       for (var i = 0; i < this.countryNameList.length; i++) {
-        if (name === this.countryNameList[i]) {
-          return i
+        if (this.countryNameList[i].id === id) {
+          return this.countryNameList[i].name
         }
       }
-      return -1
     }
   }
 }
