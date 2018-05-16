@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie'
+import Vue from 'vue'
 
 const app = {
   state: {
     sidebar: {
-      opened: !+Cookies.get('sidebarStatus')
+      opened: false
     },
     routerView: {
       showMode: 0 // 0 for hidden, 1 for normal, 2 for maxsize
@@ -12,19 +12,16 @@ const app = {
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
-      if (!state.sidebar.opened) {
-        Cookies.set('sidebarStatus', 0)
-      } else {
-        Cookies.set('sidebarStatus', 1)
-      }
       state.sidebar.opened = !state.sidebar.opened
+      Vue.triggerResize()
     },
     CHANGE_TOGGLE_SIDEBAR_STATUS: (state, bool) => {
-      Cookies.set('sidebarStatus', bool ? 1 : 0)
       state.sidebar.opened = bool
+      Vue.triggerResize()
     },
     CHANGE_ROUTER_VIEW_SHOW_MODE: (state, mode) => {
       state.routerView.showMode = mode
+      Vue.triggerResize()
     },
     TOGGLE_FULL_SCREEN: (state, bool) => {
       state.isAppFullScreen = bool

@@ -1,10 +1,12 @@
 <template>
-  <div class="col-wrapper" :style="getWrapperHeight">
-    <ul class="wheel-list" :style="getListTop" ref="wheel">
-      <li class="wheel-item" v-for="item in scrollValues" :style="initWheelItemDeg(item.index)" :key=item.index>{{item.value}}</li>
-    </ul>
-    <div class="cover" :style="getCoverStyle"></div>
-    <div class="divider" :style="getDividerStyle"></div>
+  <div>
+    <div class="col-wrapper" :style="getWrapperHeight">
+      <ul class="wheel-list" :style="getListTop" ref="wheel">
+        <li class="wheel-item" v-for="item in scrollValues" :style="initWheelItemDeg(item.index)" :key=item.index>{{item.value}}</li>
+      </ul>
+      <div class="cover" :style="getCoverStyle"></div>
+      <div class="divider" :style="getDividerStyle"></div>
+    </div>
   </div>
 </template>
 <script>
@@ -23,6 +25,8 @@ while (360 % deg !== 0 && deg <= 360) {
 const singleDeg = deg
 // 半圆下的内容条数
 const space = Math.floor((360 / singleDeg) / 2)
+// 选中框高度
+const hightlightHeight = '42%'
 export default {
   data () {
     return {
@@ -58,24 +62,28 @@ export default {
     },
     getListTop () {
       return {
-        top: `${radius - Math.round(lineHeight / 2)}px`,
+        // top: `${radius - Math.round(lineHeight / 2)}px`,
+        top: hightlightHeight,
         height: `${lineHeight}px`
       }
     },
     getWrapperHeight () {
       return {
-        height: `${2 * radius}px`
+        // height: `${2 * radius}px`
+        height: `100%`
       }
     },
     getCoverStyle () {
       return {
-        backgroundSize: `100% ${radius - Math.round(lineHeight / 2)}px`
+        // backgroundSize: `100% ${radius - Math.round(lineHeight / 2)}px`
+        // backgroundSize: `100% 40%`
       }
     },
     getDividerStyle () {
       return {
-        top: `${radius - Math.round(lineHeight / 2)}px`,
-        height: `${lineHeight - 2}px`
+        // top: `${radius - Math.round(lineHeight / 2)}px`,
+        top: hightlightHeight,
+        height: `${lineHeight}px`
       }
     },
     animate () {
@@ -194,45 +202,49 @@ export default {
 </script>
 
 <style lang="scss">
-  ul, li{
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .col-wrapper{
-    position: relative;
-    border: 1px solid #CCC;
-    height: 300px;
-    overflow: hidden;
-    text-align: center;
-    .wheel-list{
-      position: absolute;
-      width: 100%;
-      transform-style: preserve-3d;
-      .wheel-item{
-        backface-visibility: hidden;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-      }
-    }
-    .cover{
+@import "../../styles/variables.scss";
+$theme-hightlight: rgba(0, 163, 131, .1);
+$theme-border: rgba(0, 163, 131, .5);
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.col-wrapper {
+  position: relative;
+  background-color: rgba(0, 0, 0, 1);
+  border-left: 1px solid $theme-border;
+  border-right: 1px solid $theme-border;
+  color: gray;
+  height: 100%!important;
+  overflow: hidden;
+  text-align: center;
+  .wheel-list {
+    position: absolute;
+    width: 100%;
+    transform-style: preserve-3d;
+    .wheel-item {
+      backface-visibility: hidden;
       position: absolute;
       left: 0;
       top: 0;
-      right: 0;
-      bottom: 0;
-      background-image: linear-gradient(180deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),linear-gradient(0deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));
-      background-position: top,bottom;
-      background-repeat: no-repeat;
-    }
-    .divider{
-      position: absolute;
       width: 100%;
-      left: 0;
-      border-top: 1px solid #cccccc;
-      border-bottom: 1px solid #cccccc;
     }
   }
+  .cover {
+    width: 100%;
+    height: 100%;
+    // background-image: linear-gradient(180deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6)),linear-gradient(0deg,hsla(0,0%,100%,.95),hsla(0,0%,100%,.6));
+    background-position: top,bottom;
+    background-repeat: no-repeat;
+  }
+  .divider {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    border-top: 1px solid $theme-border;
+    border-bottom: 1px solid $theme-border;
+    background-color: $theme-hightlight;
+  }
+}
 </style>

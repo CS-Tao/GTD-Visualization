@@ -28,6 +28,20 @@ Vue.triggerResize = () => {
 
 Vue.prototype.$triggerResize = Vue.triggerResize
 
+Vue.changeLayout = (instance) => {
+  // console.log(instance.$route.meta.mode)
+  if (instance.$route && instance.$route.meta && instance.$route.meta.mode !== undefined) {
+    instance.$store.dispatch('changeRouterViewShowMode', instance.$route.meta.mode)
+  }
+}
+
+Vue.prototype.$changeLayout = function () {
+  // console.log(this.$route.meta.mode)
+  if (this.$route && this.$route.meta && this.$route.meta.mode !== undefined) {
+    this.$store.dispatch('changeRouterViewShowMode', this.$route.meta.mode)
+  }
+}
+
 Vue.config.productionTip = false
 
 new Vue({ // eslint-disable-line

@@ -5,9 +5,11 @@
     mode="static-dynamic"
     :staticMarkerPosition="staticMarkerLocation"
     :dynamicMarkerPosition="dynamicMarkerLocation"
-    :zoom="mapZoom">
+    :zoom="mapZoom"
+    :lng="mapCenterLng"
+    :lat="mapCenterLat">
     </leaflet-view>
-    <div class="fixed-normal wordcloud-events-view" 
+    <div class="fixed-normal wordcloud-events-view"
     :class="{'fixed-silebar-visiable': sidebar.opened}">
       <word-cloud
        v-loading="wordcloudDataLoading"
@@ -41,7 +43,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Mixin from '../Mixin'
 import ScrollBar from '@/components/Layout/SidebarComponents/ScrollBar'
 import LeafletView from '@/components/MapView/LeafletView'
 import WordCloud from '@/components/WordCloud'
@@ -49,7 +50,6 @@ import { getWordcloudData, getTdInfo } from '@/api/wordCloudAnalysisApi'
 
 export default {
   name: 'WordCloudAnalysis',
-  mixins: [Mixin],
   components: {
     ScrollBar,
     LeafletView,
@@ -63,6 +63,8 @@ export default {
       wordcloudData: [],
       eventsViewerTitle: '事件信息',
       eventsInfoList: [],
+      mapCenterLng: 38,
+      mapCenterLat: 38,
       mapZoom: 2,
       staticMarkerLocation: {},
       dynamicMarkerLocation: {}
@@ -77,7 +79,7 @@ export default {
     }
   },
   mounted () {
-    this.changeLayout()
+    this.$changeLayout()
     this.wordcloudDataLoading = true
     getWordcloudData({
       format: 'json',
@@ -94,6 +96,7 @@ export default {
   methods: {
     showEventInfoList (keyword) {
       this.eventsInfoLoading = true
+      this.eventsViewerTitle = '事件信息 - 关键词: ' + keyword
       getTdInfo({
         format: 'json',
         keyword: keyword
@@ -114,7 +117,6 @@ export default {
               country: item.properties.country.countryName
             })
           })
-          this.eventsViewerTitle = '事件信息 - 关键词: ' + keyword
           this.eventsInfoLoading = false
           this.$notify.success('事件信息读取成功')
         })
@@ -123,6 +125,9 @@ export default {
         })
     },
     clearEventInfoList () {
+      this.mapCenterLng = 38
+      this.mapCenterLat = 38
+      this.mapZoom = 2
       if (this.eventsInfoList.length !== 0) {
         this.eventsInfoList = []
       }
@@ -134,6 +139,8 @@ export default {
       }
     },
     eventSelectChanged (val) {
+      if (!val) { return }
+      this.mapZoom = 5
       this.staticMarkerLocation = {
         lng: val.lng,
         lat: val.lat
@@ -156,13 +163,6 @@ export default {
 .wrap {
   width: 100%;
   height: 100%;
-  .map-view {
-    position: relative!important;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-  }
   .wordcloud-events-view {
     transition: all .3s cubic-bezier(.55, 0, .1, 1);
     background: rgba(255,255,255,.1);
