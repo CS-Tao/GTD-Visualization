@@ -731,7 +731,7 @@ export default {
     },
     getTimeValue (time) {
       var day = Math.floor((time - this.start) / (this.end - this.start) * this.timeList.length)
-      console.log(day)
+
       return day
     },
     getNameById (id) {

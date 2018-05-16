@@ -28,6 +28,10 @@ export default {
       type: String,
       default: '200px'
     },
+    lineColor: {
+      type: String,
+      default: ''
+    },
     title: {
       // 图表标题
       type: String,
@@ -68,14 +72,14 @@ export default {
       // 文本颜色：字符串或一个RGB数组
       type: [String, Array],
       default: function () {
-        return [114, 172, 209]
+        return 'rgb(253, 227, 80)'
       }
     },
     areaColor: {
       // 雷达图区域颜色：从中心到四周透明度逐渐增大
       type: [String, Array],
       default: function () {
-        return [114, 172, 209]
+        return 'rgba(114, 172, 209,0.3)'
       }
     },
     backgroundColor: {
@@ -96,7 +100,7 @@ export default {
     radius: {
       // 半径
       type: Number,
-      default: 120
+      default: 90
     },
     selectName: {
       // 选中的数据名称
@@ -124,10 +128,14 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
+
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
         title: {
           text: this.title,
+          textStyle: {
+            color: 'Orange'
+          },
           x: 'left',
           y: 'top',
           textAlign: 'left'
@@ -179,19 +187,19 @@ export default {
             },
             splitArea: {
               areaStyle: {
-                color: this.getColorList(this.areaColor),
+                color: ['rgba(253, 227, 80,0.3)', 'rgba(253, 227, 80,0.3)'],
                 shadowColor: 'rgba(0, 0, 0, 0.3)',
                 shadowBlur: 10
               }
             },
             axisLine: {
               lineStyle: {
-                color: 'rgba(255, 255, 255, 0.5)'
+                color: 'rgba(253, 227, 80,0.5)'
               }
             },
             splitLine: {
               lineStyle: {
-                color: 'rgba(255, 255, 255, 0.5)'
+                color: 'rgba(253, 227, 80,0.5)'
               }
             }
           }
@@ -206,6 +214,11 @@ export default {
                 lineStyle: {
                   width: 4
                 }
+              },
+              normal: {
+                lineStyle: {color: 'Orange'},
+                areaStyle: {color: 'Orange'},
+                itemStyle: {color: 'Orange'}
               }
             },
             data: [
@@ -216,7 +229,7 @@ export default {
                 symbolSize: 5,
                 lineStyle: {
                   normal: {
-                    type: 'dashed'
+                    type: 'solid'
                   }
                 }
               }

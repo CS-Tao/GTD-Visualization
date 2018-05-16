@@ -3,6 +3,7 @@
         height="100%"
         width="100%"
         :data="params"
+        :title="model+' Type'"
         :selectName="selectName"
         @click-radar="send">
   </radar>
