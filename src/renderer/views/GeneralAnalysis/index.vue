@@ -32,7 +32,6 @@ export default {
         year: year
       }).then(response => {
         this.PieJson = response.data
-        console.log(JSON.stringify(response.data))
       })
       getBar({
         format: 'json',

@@ -155,11 +155,7 @@ export default {
       this.finger.endTime = Date.now()
       this.getInertiaDistance()
       this.if_mousedown = false
-      this.curYear = this.getRangeData(Math.abs(this.finger.currentMove / lineHeight))
-      // if (this.curYear !== this.preYear) {
-      //   this.$emit('change-year', this.curYear)
-      //   this.preYear = this.curYear
-      // }
+      this.curYear = this.getRangeData(Math.round(this.finger.currentMove / lineHeight))
       this.$emit('change-year', this.curYear)
     },
     updateRange (spinAim) {
