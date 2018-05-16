@@ -88,17 +88,29 @@ export default {
         tooltip: {
           position: 'top'
         },
-        backgroundColor: 'rgba(128,0,0,0)',
+        backgroundColor: 'rgba(0,0,0,1)',
         title: [],
         singleAxis: [],
-        series: []
+        series: [],
+        visualMap: {
+          show: false,
+          min: 0,
+          max: this.data.length,
+          dimension: 0,
+          inRange: {
+            color: ['#4a657a', '#308e92', '#b1cfa5', '#f5d69f', '#f5898b', '#ef5055']
+          }
+        }
       }
 
       echarts.util.each(days, function (day, idx) {
         option.title.push({
           textBaseline: 'middle',
           top: (idx + 0.5) * 100 / len + '%',
-          text: day
+          text: day,
+          textStyle: {
+            color: '#fff'
+          }
         })
         option.singleAxis.push({
           left: 150,
@@ -108,8 +120,12 @@ export default {
           top: (idx * 100 / len + 5) + '%',
           height: (100 / len - 10) + '%',
           axisLabel: {
-            interval: 2,
-            inside: true
+            interval: 0,
+            inside: true,
+            color: '#fff'
+          },
+          splitLine: {
+            show: false
           }
         })
         option.series.push({
@@ -118,7 +134,7 @@ export default {
           type: 'scatter',
           data: [],
           symbolSize: function (dataItem) {
-            return dataItem[1] * 4
+            return dataItem[1] * 10
           }
         })
       })
