@@ -75,18 +75,18 @@ export const constantRouterMap = [
       }
     ]
   },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: 'economy-analysis',
-        component: require('@/components/LandingPage').default,
-        name: 'economy-analysis',
-        meta: { title: '经济分析', icon: 'money', noCache: false, mode: 1 }
-      }
-    ]
-  },
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'economy-analysis',
+  //       component: require('@/components/LandingPage').default,
+  //       name: 'economy-analysis',
+  //       meta: { title: '经济分析', icon: 'money', noCache: false, mode: 1 }
+  //     }
+  //   ]
+  // },
   {
     path: '',
     component: Layout,
@@ -99,34 +99,34 @@ export const constantRouterMap = [
       }
     ]
   },
-  {
-    path: '/test',
-    component: Layout,
-    meta: {
-      title: '组件测试',
-      icon: 'password'
-    },
-    children: [
-      {
-        path: 'charts-test',
-        component: require('@/components/Charts').default,
-        name: 'charts-test',
-        meta: { title: '图表测试 - tang-xy', icon: 'chart', noCache: true, mode: 2 }
-      },
-      {
-        path: 'charts-integration-test',
-        component: require('@/components/Charts/integrationChartsTest').default,
-        name: 'charts-integration-test',
-        meta: { title: '图表集成测试 - tang-xy', icon: 'chart', noCache: true, mode: 1 }
-      },
-      {
-        path: 'wordclould-test',
-        component: require('@/components/WordCloud').default,
-        name: 'wordclould-test',
-        meta: { title: '词云测试 - Cong-Zou', icon: 'message', noCache: true, mode: 2 }
-      }
-    ]
-  },
+  // {
+  //   path: '/test',
+  //   component: Layout,
+  //   meta: {
+  //     title: '组件测试',
+  //     icon: 'password'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'charts-test',
+  //       component: require('@/components/Charts').default,
+  //       name: 'charts-test',
+  //       meta: { title: '图表测试 - tang-xy', icon: 'chart', noCache: true, mode: 2 }
+  //     },
+  //     {
+  //       path: 'charts-integration-test',
+  //       component: require('@/components/Charts/integrationChartsTest').default,
+  //       name: 'charts-integration-test',
+  //       meta: { title: '图表集成测试 - tang-xy', icon: 'chart', noCache: true, mode: 1 }
+  //     },
+  //     {
+  //       path: 'wordclould-test',
+  //       component: require('@/components/WordCloud').default,
+  //       name: 'wordclould-test',
+  //       meta: { title: '词云测试 - Cong-Zou', icon: 'message', noCache: true, mode: 2 }
+  //     }
+  //   ]
+  // },
   { path: '/404', component: _import('ErrorPages/404'), hidden: true, mode: 2 }
 ]
 

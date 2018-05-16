@@ -133,7 +133,10 @@ export default {
       })
     },
     staticMarkerPosition () {
-      if (this.mode !== modes[1] || this.staticMarkerPosition === {}) { return }
+      if (this.mode !== modes[1] ||
+      this.staticMarkerPosition === {} ||
+      this.staticMarkerPosition.lat === undefined ||
+      this.staticMarkerPosition.lng === undefined) { return }
       this.staticMarkerLayerGroup.clearLayers()
       let icon = L.icon({
         iconUrl: 'static/icons/pin_red.png',
@@ -142,6 +145,7 @@ export default {
         // className: 'single-point-marker' // define in globe styles
       })
       this.staticMarkerLayerGroup.addLayer(L.marker([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], {icon: icon}))
+      this.map.setView([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], this.zoom)
     },
     dynamicMarkerPosition () {
       if (this.mode !== modes[1] || this.dynamicMarkerPosition === {}) { return }

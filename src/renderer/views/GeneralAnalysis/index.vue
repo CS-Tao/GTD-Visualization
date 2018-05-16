@@ -8,7 +8,7 @@
         <year3-model-pie id='weapon-pie-chart-view' model='weapon' class='weapon-pie-chart-view' :obj='PieJson'></year3-model-pie>
     </div>
 </div>
-</template>
+</template> 
 
 <script>
 import Mixin from '../Mixin'
@@ -26,18 +26,25 @@ export default {
   },
   methods: {
     getYear (year) {
+      console.log(year)
       getPie({
         format: 'json',
         year: year
-      }).then(response => {
-        this.PieJson = response.data
       })
+        .then(response => {
+          this.PieJson = response.data
+        })
+        .catch(() => {
+        })
       getBar({
         format: 'json',
         year: year
-      }).then(response => {
-        this.BarJson = response.data
       })
+        .then(response => {
+          this.BarJson = response.data
+        })
+        .catch(() => {
+        })
     }
   },
   components: {
@@ -46,20 +53,26 @@ export default {
     regionStatisticsBar
   },
   mixins: [Mixin],
-  created () {
+  mounted () {
     this.changeLayout()
     getPie({
       format: 'json',
       year: 1970
-    }).then(response => {
-      this.PieJson = response.data
     })
+      .then(response => {
+        this.PieJson = response.data
+      })
+      .catch(() => {
+      })
     getBar({
       format: 'json',
       year: 1970
-    }).then(response => {
-      this.BarJson = response.data
     })
+      .then(response => {
+        this.BarJson = response.data
+      })
+      .catch(() => {
+      })
   }
 }
 </script>
@@ -71,7 +84,7 @@ export default {
     display: flex;
     .chart-views{
         height: 100%!important;
-        width: 75%!important;
+        width: 90%!important;
         display: flex;
         flex-wrap: wrap;
         .region-bar-chat-view{
@@ -97,9 +110,9 @@ export default {
         }
     }
     .rotate-selecter{
-    // background-color: red;
+    background-color: rgba(247, 197, 185, 0.527);
     height: 100%;
-    width: 25%;
+    width: 10%;
     }
 }
 </style>
