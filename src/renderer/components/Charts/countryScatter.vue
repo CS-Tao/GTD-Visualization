@@ -1,11 +1,11 @@
 <template>
-  <bar :id='id'
+  <scatter :id='id'
         height="100%"
         width="100%"
         :data="params"
         :time="timeList"
-        :countryName="selectName">
-  </bar>
+        :countryName="[selectName]">
+  </scatter>
 </template>
 
 <script>
@@ -21,7 +21,9 @@ export default {
     },
     countryNameList: {
       type: Array,
-      default: ['Canada', 'Greenland', 'Iceland', 'United States']
+      default () {
+        return ['Canada', 'Greenland', 'Iceland', 'United States']
+      }
     },
     start: {
       type: Date,
@@ -647,7 +649,7 @@ export default {
     selectName: {
       // 外部传入，用于指定高亮的country名
       type: String,
-      default: 'Canada'
+      default: 'United States'
     }
   },
   data () {
@@ -689,8 +691,8 @@ export default {
         this.dataList[this.countryNameList[j]] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       }
       for (var i = 0; i < list.length; i++) {
-        var nowTime = new Date(i.properties.year, i.properties.month - 1, i.properties.day)
-        this.dataList[i.properties.country.countryName][this.getTimeValue(nowTime)]++
+        var nowTime = new Date(list[i].properties.year, list[i].properties.month - 1, list[i].properties.day)
+        this.dataList[list[i].properties.country.countryName][this.getTimeValue(nowTime)]++
       }
       var d = this.dataList[this.selectName]
       this.params = d

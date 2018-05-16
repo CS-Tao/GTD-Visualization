@@ -19,10 +19,10 @@
         <year3ModelPie id="country-pie"
         >
         </year3ModelPie>
-        <scatter id="ca"
-        height="100%"
+        <countryScatter id="ca"
+        height="100px"
         width="100%">
-        </scatter>
+        </countryScatter>
       </div>
     </div>
   </div>
@@ -35,11 +35,11 @@ import regionCountBar from './regionCountBar'
 import countryBar from './countryBar'
 import globeTrendLine from './globeTrendLine'
 import year3ModelPie from './year3ModelPie'
-import scatter from './scatter'
+import countryScatter from './countryScatter'
 
 export default {
   name: 'Echarts',
-  components: { keyboard, country3ModelRadar, regionCountBar, countryBar, globeTrendLine, year3ModelPie, scatter }
+  components: { keyboard, country3ModelRadar, regionCountBar, countryBar, globeTrendLine, year3ModelPie, countryScatter }
 
 }
 </script>

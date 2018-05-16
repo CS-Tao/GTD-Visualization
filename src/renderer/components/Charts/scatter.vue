@@ -88,6 +88,7 @@ export default {
         tooltip: {
           position: 'top'
         },
+        backgroundColor: 'rgba(128,0,0,0)',
         title: [],
         singleAxis: [],
         series: []
@@ -107,7 +108,8 @@ export default {
           top: (idx * 100 / len + 5) + '%',
           height: (100 / len - 10) + '%',
           axisLabel: {
-            interval: 2
+            interval: 2,
+            inside: true
           }
         })
         option.series.push({
