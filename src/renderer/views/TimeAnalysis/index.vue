@@ -1,8 +1,10 @@
 <template>
 <div class='time-analysis-container'>
-  <el-date-picker
-   class="fixed-normal datepicker-view"
-   :class="{'fixed-silebar-visiable': sidebar.opened}"
+  <div 
+  class="fixed-normal datepicker-view"
+   :class="{'fixed-silebar-visiable': sidebar.opened}">
+  <el-button icon="el-icon-menu" circle></el-button>
+  <el-date-picker 
    v-on:change="getDate"
    v-model="dateRange" 
    type="daterange" 
@@ -12,6 +14,7 @@
    start-placeholde="起始日期" 
    end-placeholde="结束日期">
    </el-date-picker>
+  </div>
   <time-analysis-map-view
   class="map-view"
   v-on:map-region-hover="selectElement" 
@@ -311,7 +314,7 @@ export default {
     margin: 20px;
     transition: 0.4s all ease-out;
     background-color: transparent;
-    border-width: 2px;
+    border-width: 1px;
   }
   .region-bar-chart {
     position: fix!important;

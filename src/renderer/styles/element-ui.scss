@@ -113,6 +113,19 @@
     color: #ccc!important;
   }
 }
+.el-range-editor{
+  background: transparent;
+}
+.el-popper{
+  background: transparent!important;
+  color: antiquewhite!important;
+}
+.el-date-table__row .in-range{
+  background: rgba(255,255,255,0.1);
+  div{
+    background: rgba(255,255,255,0)!important;
+  }
+}
 
 .el-card__header {
   border-width: 0px!important;
@@ -120,13 +133,11 @@
 }
 .el-range-input {
   background-color: transparent!important;
-  font-weight: 700;
   color: antiquewhite!important;
 }
 
 .el-range-separator {
   color: antiquewhite!important;
-  font-weight: 600;
 }
 
  .el-upload {
