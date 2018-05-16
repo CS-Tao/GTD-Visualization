@@ -1,5 +1,7 @@
 <template>
-  <div id="TimeAnalysisMapView"></div>
+  <div>
+    <div id="TimeAnalysisMapView"></div>
+  </div>
 </template>
 
 <script>
@@ -53,6 +55,35 @@ export default {
     },
     pointType () {
       if (this.displayMode === 'global') {
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointOptions = {
+              radius: 2,
+              stroke: false,
+              color: '#E65217',
+              weight: 1,
+              opacity: 1,
+              fill: true,
+              fillOpacity: 1
+            // render: L.svg(),
+            // className: 'main-point-marker'
+            }
+            const layer = L.circleMarker(latlng, pointOptions)
+            layer.id = geoJsonPoint.id
+            return L.circleMarker(latlng, pointOptions)
+          }
+        }
+      } else if (this.displayMode === 'region') {
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointIcon = L.icon({
+              iconUrl: '../../../../static/icons/point_light.png',
+              iconSize: [10, 10]
+            })
+            return L.marker(latlng, {icon: pointIcon, opacity: 0.8})
+          }
+        }
+      } else if (this.displayMode === 'country') {
         return function (geoJsonPoint, latlng) {
           const pointOptions = {
             radius: 2,
@@ -69,47 +100,38 @@ export default {
           layer.id = geoJsonPoint.id
           return L.circleMarker(latlng, pointOptions)
         }
-      } else if (this.displayMode === 'region') {
-        return function (geoJsonPoint, latlng) {
-          const pointIcon = L.icon({
-            iconUrl: '../../../../static/icons/point_light.png',
-            iconSize: [10, 10]
-          })
-          return L.marker(latlng, {icon: pointIcon, opacity: 0.8})
-        }
-      } else if (this.displayMode === 'country') {
-        return function (geoJsonPoint, latlng) {
-          const layerGroup = L.LayerGroup()
-          const ringOptions = {
-            radius: 10,
-            stroke: true,
-            color: '#E66417',
-            weight: 2,
-            opacity: 1,
-            fill: false,
-            render: L.svg(),
-            className: 'main-firstring-marker'
-          }
-          const firstRingLayer = L.circleMarker(latlng, ringOptions)
-          ringOptions.className = 'main-secondring-marker'
-          const secondRingLayer = L.circleMarker(latlng, ringOptions)
-          layerGroup.addLayer(firstRingLayer)
-          layerGroup.addLayer(secondRingLayer)
-          const pointOptions = {
-            radius: 5,
-            stroke: false,
-            color: '#E65217',
-            weight: 1,
-            opacity: 1,
-            fill: true,
-            fillOpacity: 1,
-            render: L.svg(),
-            className: 'main-point-marker'
-          }
-          const pointLayer = L.circleMarker(latlng, pointOptions)
-          layerGroup.addLayer(pointLayer)
-          return layerGroup
-        }
+        // return function (geoJsonPoint, latlng) {
+        //   const layerGroup = L.LayerGroup()
+        //   const ringOptions = {
+        //     radius: 10,
+        //     stroke: true,
+        //     color: '#E66417',
+        //     weight: 2,
+        //     opacity: 1,
+        //     fill: false,
+        //     render: L.svg(),
+        //     className: 'main-firstring-marker'
+        //   }
+        //   const firstRingLayer = L.circleMarker(latlng, ringOptions)
+        //   ringOptions.className = 'main-secondring-marker'
+        //   const secondRingLayer = L.circleMarker(latlng, ringOptions)
+        //   layerGroup.addLayer(firstRingLayer)
+        //   layerGroup.addLayer(secondRingLayer)
+        //   const pointOptions = {
+        //     radius: 5,
+        //     stroke: false,
+        //     color: '#E65217',
+        //     weight: 1,
+        //     opacity: 1,
+        //     fill: true,
+        //     fillOpacity: 1,
+        //     render: L.svg(),
+        //     className: 'main-point-marker'
+        //   }
+        //   const pointLayer = L.circleMarker(latlng, pointOptions)
+        //   layerGroup.addLayer(pointLayer)
+        //   return layerGroup
+        // }
       }
     },
     polygonEventType () {
@@ -184,12 +206,10 @@ export default {
         onEachFeature: this.polygonEventType
       }
       const geoJSON = L.geoJSON(this.displayGeojsonData, geoJSONOptions)
-      geoJSON.mode = this.displayMode
+      // geoJSON.mode = this.displayMode
       this.currentPolygonLayerGroup.addLayer(geoJSON)
     },
     displayMode (newMode, oldMode) {
-      console.log(newMode)
-      console.log(oldMode)
       const that = this
       if (newMode === 'region') {
         if (oldMode === 'global') {
@@ -197,7 +217,7 @@ export default {
             if (layer.id === that.selectedId) {
               layer.setStyle({fillOpacity: 0.9})
               const bounds = layer.getBounds()
-              that.map.flyToBounds(bounds, {paddingBottomRight: [100, 0]})
+              that.map.flyToBounds(bounds, {paddingBottomRight: [0, 0]})
             }
           })
         }
@@ -213,14 +233,13 @@ export default {
         }
       }
     },
-    displayPointData () {
-    //   this.map.getSource('pointSource').setData(this.displayPointData)
+    displayPointData (newData, oldData) {
       this.currentPointLayerGroup.clearLayers()
       const geoJSONOptions = {
         pointToLayer: this.pointType
       }
-      const geoJSON = L.geoJSON(this.displayPointData, geoJSONOptions)
-      geoJSON.mode = this.displayMode
+      const geoJSON = L.geoJSON(newData, geoJSONOptions)
+      // geoJSON.mode = this.displayMode
       this.currentPointLayerGroup.addLayer(geoJSON)
     },
     selectedId (newId, oldId) {

@@ -12,9 +12,8 @@
    start-placeholde="起始日期" 
    end-placeholde="结束日期">
    </el-date-picker>
-  <time-analysis-map-view 
-  class="map-view" 
-  :class="{'country-map-view': countryCountBarDisplay}"
+  <time-analysis-map-view
+  class="map-view"
   v-on:map-region-hover="selectElement" 
   v-on:map-region-click="clickListener"
   v-on:map-region-unhover="unselectElement"
@@ -27,31 +26,39 @@
   v-on:click-bar="clickListener" 
   v-on:over-bar="selectElement" 
   v-on:out-bar="unselectElement"
-  v-if="regionCountBarDisplay" 
   id="global-bar-chart" 
+  v-if="regionCountBarDisplay"
   :selectId="selectedElement" 
   :obj="statisticsData" 
   class='global-bar-chart' >
   </region-count-bar>
-  <div 
+  <country-scatter
   class="fixed-normal region-bar-chart"
   :class="{'fixed-silebar-visiable': sidebar.opened}"
-  v-if="countryCountBarDisplay">
-  </div>
+  v-if="countryScatterDisplay"
+  id="country-scatter">
+  </country-scatter>
 </div>
 </template>
 
 <script>
+// :start="startTime"
+//   :end="endTime"
+//   :obj="pointsForDisplay"
+//   :selectId="selectedElement"
+//   :countryNameList="countryList">
 import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
+import countryScatter from '@/components/Charts/countryScatter'
 import Mixin from '../Mixin'
 import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
     TimeAnalysisMapView,
-    regionCountBar
+    regionCountBar,
+    countryScatter
   },
   mixins: [Mixin],
   data () {
@@ -61,10 +68,6 @@ export default {
       pointsForDisplay: {},
       statisticsData: [],
       currentMode: 'global',
-      regionCountBarDisplay: true,
-      countryCountBarDisplay: false,
-      singleCountryChartsDisplay: false,
-      detailDisplay: false,
       selectedElement: -1
     }
   },
@@ -77,6 +80,50 @@ export default {
     },
     endTime: function () {
       return this.dateRange[1]
+    },
+    regionCountBarDisplay: function () {
+      if (this.currentMode === 'global') {
+        return true
+      } else {
+        return false
+      }
+    },
+    countryScatterDisplay: function () {
+      if (this.currentMode === 'region') {
+        return true
+      } else {
+        return false
+      }
+    },
+    singleCountryChartsDisplay: function () {
+      if (this.currentMode === 'country') {
+        return true
+      } else {
+        return false
+      }
+    },
+    detailDisplay: function () {
+      if (this.currentMode === 'detail') {
+        return true
+      } else {
+        return false
+      }
+    },
+    countryList: function () {
+      let countries = []
+      if (this.currentMode === 'region') {
+        this.geoJSONForDisplay.features.foreach(function (feature) {
+          let cid = feature.id
+          let cname = feature.properties.countryName
+          countries.push({
+            id: cid,
+            name: cname
+          })
+        })
+        return countries
+      } else {
+        return []
+      }
     }
   },
   mounted () {
@@ -92,7 +139,6 @@ export default {
       })
         .then(response => {
           this.pointsForDisplay = response.data
-          console.log(this.pointsForDisplay.features.length)
         })
         .catch(() => {
         })
@@ -110,17 +156,12 @@ export default {
         end: this.endTime
       })
         .then(response => {
-          // console.log(response.data)
           this.statisticsData = response.data
         })
         .catch(() => {
         })
     },
     initRegionView (regionId) {
-      this.regionCountBarDisplay = false
-      this.countryCountBarDisplay = true
-      this.singleCountryChartsDisplay = false
-      this.detailDisplay = false
       this.currentMode = 'region'
       getGeneral({
         format: 'json',
@@ -129,11 +170,10 @@ export default {
         region: regionId
       }).then(response => {
         this.pointsForDisplay = response.data
-        console.log(this.pointsForDisplay.features.length)
       })
-      // this.pointsForDisplay.features = this.pointsForDisplay.features.filter(function (feature) {
-      //   return feature.properties.country.region === regionId
-      // })
+      this.pointsForDisplay.features = this.pointsForDisplay.features.filter(function (feature) {
+        return feature.properties.country.region === regionId
+      })
       getCountry({
         format: 'json',
         region: regionId
@@ -145,10 +185,6 @@ export default {
         })
     },
     initCountryView (countryId) {
-      this.regionCountBarDisplay = false
-      this.countryCountBarDisplay = false
-      this.singleCountryChartsDisplay = true
-      this.detailDisplay = false
       this.currentMode = 'country'
       getGeneral({
         format: 'json',
@@ -158,9 +194,9 @@ export default {
       }).then(response => {
         this.pointsForDisplay = response.data
       })
-      getCountryById({
+      getCountryById(countryId, {
         format: 'json'
-      }, countryId).then(response => {
+      }).then(response => {
         this.geoJSONForDisplay = response.data
       })
     },
@@ -194,7 +230,7 @@ export default {
   height: 100%;
   display: flex;
   transition: 0.4s all ease-out; 
-  flex-direction: column;
+  // flex-direction: column;
   .map-view {
     width: 100%;
     height: 100%;
@@ -217,16 +253,14 @@ export default {
     transition: 0.4s all ease-out;
   }
   .region-bar-chart {
-    position: initial!important;
+    position: fix!important;
     top: initial!important;
+    bottom: 0!important;
     height: 25%!important;
     width: 100%!important;
     background-color: green;
     transition: 0.4s all;
   }
-}
-.country-map-view {
-  height: 75%!important;
 }
 </style>
 
