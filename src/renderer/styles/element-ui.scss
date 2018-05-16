@@ -106,10 +106,11 @@
 }
 
 .el-notification {
-  border: 1px solid $yo-1;
-  background-color: rgba(0,0,0,.5);
+  border: 1px solid $yo-1!important;
+  background-color: rgba(0,0,0,.5)!important;
+  color: #ccc!important;
   .el-notification__content {
-    color: #ccc;
+    color: #ccc!important;
   }
 }
 

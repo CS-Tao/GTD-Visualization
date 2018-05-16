@@ -5,7 +5,7 @@
     mode="static-dynamic"
     :staticMarkerPosition="staticMarkerLocation"
     :dynamicMarkerPosition="dynamicMarkerLocation"
-    :zoom="mapZoom" class="map-view">
+    :zoom="mapZoom">
     </leaflet-view>
     <div class="fixed-normal wordcloud-events-view" 
     :class="{'fixed-silebar-visiable': sidebar.opened}">
@@ -141,7 +141,7 @@ export default {
         lat: val.lat
       }
       this.$notify({
-        message: this.$createElement('div', {style: 'color: #E66417'}, JSON.stringify(this.staticMarkerLocation))
+        message: this.$createElement('div', {style: 'color: #eee'}, '地点：' + val.city + val.country)
       })
     },
     eventMouseOverChanged (val) {
