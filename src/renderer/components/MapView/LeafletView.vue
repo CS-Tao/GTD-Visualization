@@ -145,6 +145,7 @@ export default {
         // className: 'single-point-marker' // define in globe styles
       })
       this.staticMarkerLayerGroup.addLayer(L.marker([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], {icon: icon}))
+      this.map.setView([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], this.zoom)
     },
     dynamicMarkerPosition () {
       if (this.mode !== modes[1] || this.dynamicMarkerPosition === {}) { return }
