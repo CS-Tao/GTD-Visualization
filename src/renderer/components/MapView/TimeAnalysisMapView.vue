@@ -111,6 +111,35 @@ export default {
           return layerGroup
         }
       }
+    },
+    polygonEventType () {
+      const that = this
+      if (this.displayMode === 'global') {
+        return function (feature, layer) {
+          layer.id = feature.id
+          layer.on('mouseover', function () {
+            that.$emit('map-region-hover', feature.id)
+          })
+          layer.on('mouseout', function () {
+            that.$emit('map-region-unhover', feature.id)
+          })
+          layer.on('click', function () {
+            that.$emit('map-region-click', feature.id)
+          })
+        }
+      } else if (this.displayMode === 'region') {
+        return function (feature, layer) {
+          layer.id = feature.id
+          layer.on('mouseover', function () {
+            that.$emit('map-region-hover', feature.id)
+          })
+          layer.on('click', function () {
+            that.$emit('map-region-click', feature.id)
+          })
+        }
+      } else if (this.displayMode === 'country') {
+        return function (feature, layer) {}
+      }
     }
   },
   components: {},
@@ -119,9 +148,10 @@ export default {
       {
         zoomControl: false,
         attributionControl: false,
-        dragging: false,
+        // dragging: false,
         scrollWheelZoom: false,
-        worldCopyJump: true
+        worldCopyJump: true,
+        doubleClickZoom: false
       })
       .setView(this.mapParams.initCenter, this.mapParams.zoom)
     L.tileLayer(this.mapParams.url, {
@@ -151,37 +181,37 @@ export default {
             interactive: true
           }
         },
-        onEachFeature: function (feature, layer) {
-          layer.id = feature.id
-          layer.on('mouseover', function () {
-            layer.setStyle({
-              fillOpacity: 0.6})
-            that.$emit('map-region-hover', feature.id)
-          })
-          layer.on('mouseout', function () {
-            layer.setStyle({
-              fillOpacity: 0.1
-            })
-            that.$emit('map-region-unhover', feature.id)
-          })
-          layer.on('click', function () {
-            that.$emit('map-region-click', feature.id)
-          })
-        }
+        onEachFeature: this.polygonEventType
       }
       const geoJSON = L.geoJSON(this.displayGeojsonData, geoJSONOptions)
       geoJSON.mode = this.displayMode
       this.currentPolygonLayerGroup.addLayer(geoJSON)
     },
     displayMode (newMode, oldMode) {
+      console.log(newMode)
+      console.log(oldMode)
       const that = this
-      this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
-        if (layer.id === that.selectedId) {
-          layer.setStyle({fillOpacity: 0.9})
-          const bounds = layer.getBounds()
-          that.map.flyToBounds(bounds)
+      if (newMode === 'region') {
+        if (oldMode === 'global') {
+          this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
+            if (layer.id === that.selectedId) {
+              layer.setStyle({fillOpacity: 0.9})
+              const bounds = layer.getBounds()
+              that.map.flyToBounds(bounds, {paddingBottomRight: [100, 0]})
+            }
+          })
         }
-      })
+      } else if (newMode === 'country') {
+        if (oldMode === 'region') {
+          this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
+            if (layer.id === that.selectedId) {
+              layer.setStyle({fillOpacity: 0.9})
+              const bounds = layer.getBounds()
+              that.map.flyToBounds(bounds)
+            }
+          })
+        }
+      }
     },
     displayPointData () {
     //   this.map.getSource('pointSource').setData(this.displayPointData)
@@ -202,6 +232,13 @@ export default {
           }
         })
       } else {
+        if (oldId !== -1) {
+          this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
+            if (layer.id === oldId) {
+              layer.setStyle({fillOpacity: 0.1})
+            }
+          })
+        }
         this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
           if (layer.id === newId) {
             layer.setStyle({fillOpacity: 0.6})
