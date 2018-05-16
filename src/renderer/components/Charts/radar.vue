@@ -28,6 +28,10 @@ export default {
       type: String,
       default: '200px'
     },
+    lineColor: {
+      type: String,
+      default: ''
+    },
     title: {
       // 图表标题
       type: String,
@@ -40,8 +44,8 @@ export default {
         var res =
           [
             {
-              indicator: 'type1',
-              value: 0
+              indicator: 'type1大幅高开是个卡行距过大建行没事v就哈v才看见，HloAH',
+              value: 2
             },
             {
               indicator: 'type2',
@@ -68,14 +72,14 @@ export default {
       // 文本颜色：字符串或一个RGB数组
       type: [String, Array],
       default: function () {
-        return [114, 172, 209]
+        return 'rgb(253, 227, 80)'
       }
     },
     areaColor: {
       // 雷达图区域颜色：从中心到四周透明度逐渐增大
       type: [String, Array],
       default: function () {
-        return [114, 172, 209]
+        return 'rgba(114, 172, 209,0.3)'
       }
     },
     backgroundColor: {
@@ -96,7 +100,7 @@ export default {
     radius: {
       // 半径
       type: Number,
-      default: 120
+      default: 90
     },
     selectName: {
       // 选中的数据名称
@@ -124,10 +128,14 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
+
       this.chart.setOption({
         backgroundColor: this.getColor(this.backgroundColor),
         title: {
           text: this.title,
+          textStyle: {
+            color: 'Orange'
+          },
           x: 'left',
           y: 'top',
           textAlign: 'left'
@@ -141,26 +149,57 @@ export default {
             splitNumber: 4,
             shape: 'rect',
             name: {
-              formatter: '【{value}】',
+              formatter: function (params) {
+                var newParamsName = ''// 最终拼接成的字符串
+                var paramsNameNumber = params.length// 实际标签的个数
+                var provideNumber = 20// 每行能显示的字的个数
+                var rowNumber = Math.ceil(paramsNameNumber / provideNumber)// 换行的话，需要显示几行，向上取整
+                /**
+                * 判断标签的个数是否大于规定的个数， 如果大于，则进行换行处理 如果不大于，即等于或小于，就返回原标签
+                */
+                // 条件等同于rowNumber>1
+                if (paramsNameNumber > provideNumber) {
+                  /** 循环每一行,p表示行 */
+                  for (var p = 0; p < rowNumber; p++) {
+                    var tempStr = ''// 表示每一次截取的字符串
+                    var start = p * provideNumber// 开始截取的位置
+                    var end = start + provideNumber// 结束截取的位置
+                    // 此处特殊处理最后一行的索引值
+                    if (p === rowNumber - 1) {
+                      // 最后一次不换行
+                      tempStr = params.substring(start, paramsNameNumber)
+                    } else {
+                      // 每一次拼接字符串并换行
+                      tempStr = params.substring(start, end) + '\n'
+                    }
+                    newParamsName += tempStr// 最终拼成的字符串
+                  }
+                } else {
+                  // 将旧标签的值赋给新标签
+                  newParamsName = params
+                }
+                // 将最终的字符串返回
+                return newParamsName
+              },
               textStyle: {
                 color: this.getColor(this.textColor)
               }
             },
             splitArea: {
               areaStyle: {
-                color: this.getColorList(this.areaColor),
+                color: ['rgba(253, 227, 80,0.3)', 'rgba(253, 227, 80,0.3)'],
                 shadowColor: 'rgba(0, 0, 0, 0.3)',
                 shadowBlur: 10
               }
             },
             axisLine: {
               lineStyle: {
-                color: 'rgba(255, 255, 255, 0.5)'
+                color: 'rgba(253, 227, 80,0.5)'
               }
             },
             splitLine: {
               lineStyle: {
-                color: 'rgba(255, 255, 255, 0.5)'
+                color: 'rgba(253, 227, 80,0.5)'
               }
             }
           }
@@ -175,6 +214,11 @@ export default {
                 lineStyle: {
                   width: 4
                 }
+              },
+              normal: {
+                lineStyle: {color: 'Orange'},
+                areaStyle: {color: 'Orange'},
+                itemStyle: {color: 'Orange'}
               }
             },
             data: [
@@ -185,7 +229,7 @@ export default {
                 symbolSize: 5,
                 lineStyle: {
                   normal: {
-                    type: 'dashed'
+                    type: 'solid'
                   }
                 }
               }
