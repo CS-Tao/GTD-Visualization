@@ -3,7 +3,6 @@ import Vue from 'vue'
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 
 import Element from 'element-ui'
-import vBlur from 'v-blur'
 
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -15,13 +14,19 @@ import store from './store'
 
 import './icons' // icon
 
-import './mock' // simulation data
+// import './mock' // simulation data
 
 Vue.use(Element, {
   size: 'medium'
 })
 
-Vue.use(vBlur)
+Vue.triggerResize = () => {
+  let e = document.createEvent('Event')
+  e.initEvent('resize', true, true)
+  window.dispatchEvent(e)
+}
+
+Vue.prototype.$triggerResize = Vue.triggerResize
 
 Vue.config.productionTip = false
 
