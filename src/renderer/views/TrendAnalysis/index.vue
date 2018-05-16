@@ -40,12 +40,12 @@ export default {
   created () {
     this.changeLayout()
   },
-  data:function(){
-    return{
-      obj : []
+  data: function () {
+    return {
+      obj: []
     }
   },
-  mounted() {
+  mounted () {
     if (this.$route.name) {
       this.$store.dispatch('addVisitedViews', this.$route)
     }

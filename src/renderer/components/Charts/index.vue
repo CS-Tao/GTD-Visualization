@@ -21,7 +21,7 @@
         </year3ModelPie>
         <scatter id="ca"
         height="100%"
-        wight="100%">
+        width="100%">
         </scatter>
       </div>
     </div>
