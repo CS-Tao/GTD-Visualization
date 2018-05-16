@@ -33,7 +33,6 @@ Vue.changeLayout = (instance) => {
   if (instance.$route && instance.$route.meta && instance.$route.meta.mode !== undefined) {
     instance.$store.dispatch('changeRouterViewShowMode', instance.$route.meta.mode)
   }
-  instance.$triggerResize()
 }
 
 Vue.prototype.$changeLayout = function () {
@@ -41,7 +40,6 @@ Vue.prototype.$changeLayout = function () {
   if (this.$route && this.$route.meta && this.$route.meta.mode !== undefined) {
     this.$store.dispatch('changeRouterViewShowMode', this.$route.meta.mode)
   }
-  this.$triggerResize()
 }
 
 Vue.config.productionTip = false
