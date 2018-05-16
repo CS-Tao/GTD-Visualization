@@ -1,19 +1,22 @@
 <template>
 <div class='time-analysis-container'>
   <el-date-picker
+   class="fixed-normal datepicker-view"
+   :class="{'fixed-silebar-visiable': sidebar.opened}"
    v-on:change="getDate"
    v-model="dateRange" 
    type="daterange" 
    value-format="yyyyMMdd" 
    format="yyyy 年 MM 月 dd 日" 
-   :unlink-panels="false"
+   :unlink-panels="true"
    start-placeholde="起始日期" 
    end-placeholde="结束日期">
    </el-date-picker>
   <time-analysis-map-view 
-  class='map-view' 
+  class="map-view" 
+  :class="{'country-map-view': countryCountBarDisplay}"
   v-on:map-region-hover="selectElement" 
-  v-on:map-region-click="globalToRegion"
+  v-on:map-region-click="clickListener"
   v-on:map-region-unhover="unselectElement"
   :selectedId="selectedElement"
   :displayPointData="pointsForDisplay" 
@@ -21,7 +24,7 @@
   :displayMode="currentMode">
   </time-analysis-map-view>
   <region-count-bar 
-  v-on:click-bar="globalToRegion" 
+  v-on:click-bar="clickListener" 
   v-on:over-bar="selectElement" 
   v-on:out-bar="unselectElement"
   v-if="regionCountBarDisplay" 
@@ -30,10 +33,16 @@
   :obj="statisticsData" 
   class='global-bar-chart' >
   </region-count-bar>
+  <div 
+  class="fixed-normal region-bar-chart"
+  :class="{'fixed-silebar-visiable': sidebar.opened}"
+  v-if="countryCountBarDisplay">
+  </div>
 </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import Mixin from '../Mixin'
@@ -47,16 +56,22 @@ export default {
   mixins: [Mixin],
   data () {
     return {
-      dateRange: ['20150101', '20160101'],
+      dateRange: ['20000101', '20010101'],
       geoJSONForDisplay: {},
       pointsForDisplay: {},
       statisticsData: [],
       currentMode: 'global',
       regionCountBarDisplay: true,
+      countryCountBarDisplay: false,
+      singleCountryChartsDisplay: false,
+      detailDisplay: false,
       selectedElement: -1
     }
   },
   computed: {
+    ...mapGetters([
+      'sidebar'
+    ]),
     startTime: function () {
       return this.dateRange[0]
     },
@@ -68,9 +83,6 @@ export default {
     this.changeLayout()
   },
   mounted () {
-    if (this.$route.name) {
-      this.$store.dispatch('addVisitedViews', this.$route)
-    }
     this.initGlobalView()
   },
   methods: {
@@ -93,28 +105,44 @@ export default {
         start: this.startTime,
         end: this.endTime
       }).then(response => {
-        // console.log(response.data)
         this.statisticsData = response.data
       })
     },
-    initRegionView () {
-
-    },
-    getDate () {
-      this.initGlobalView()
-    },
-    globalToRegion (regionId) {
+    initRegionView (regionId) {
+      console.log(regionId)
       this.regionCountBarDisplay = false
+      this.countryCountBarDisplay = true
       this.currentMode = 'region'
-      this.pointsForDisplay = this.pointsForDisplay.features.filter(function (feature) {
-        return feature.properties.country.region === regionId
+      getGeneral({
+        format: 'json',
+        start: this.startTime,
+        end: this.endTime,
+        region: regionId
+      }).then(response => {
+        this.pointsForDisplay = response.data
+        console.log(this.pointsForDisplay.features.length)
       })
+      // this.pointsForDisplay.features = this.pointsForDisplay.features.filter(function (feature) {
+      //   return feature.properties.country.region === regionId
+      // })
       getCountry({
         format: 'json',
         region: regionId
       }).then(response => {
         this.geoJSONForDisplay = response.data
       })
+    },
+    getDate () {
+      if (this.currentMode === 'global') {
+        this.initGlobalView()
+      } else if (this.currentMode === 'region') {
+        this.initRegionView()
+      }
+    },
+    clickListener (regionId) {
+      if (this.currentMode === 'global') {
+        this.initRegionView(regionId)
+      }
     },
     selectElement (id) {
       this.selectedElement = id
@@ -131,12 +159,13 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-}
-.map-view {
-  width: 100%;
-  height: 100%;
-}
-.global-bar-chart {
+  transition: 0.4s all ease-out; 
+  flex-direction: column;
+  .map-view {
+    width: 100%;
+    height: 100%;
+  }
+  .global-bar-chart {
     position: fixed!important;
     right: 0;
     top: 0;
@@ -146,12 +175,24 @@ export default {
     div, canvas {
       width: 100%!important;
     }
-}
-.el-range-editor--medium.el-input__inner {
-    z-index: 999;
-    position: absolute;
-    left: 0;
+  }
+  .datepicker-view {
+    height: 36px!important;
+    width: 350px!important;
     margin: 20px;
+    transition: 0.4s all ease-out;
+  }
+  .region-bar-chart {
+    position: initial!important;
+    top: initial!important;
+    height: 25%!important;
+    width: 100%!important;
+    background-color: green;
+    transition: 0.4s all;
+  }
+}
+.country-map-view {
+  height: 75%!important;
 }
 </style>
 
