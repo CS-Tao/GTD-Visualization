@@ -46,7 +46,7 @@ import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import Mixin from '../Mixin'
-import { getRegion, getGeneral, getCountry, getGlobalStatistics } from '@/api/timeAnalysisApi'
+import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
@@ -109,9 +109,10 @@ export default {
       })
     },
     initRegionView (regionId) {
-      console.log(regionId)
       this.regionCountBarDisplay = false
       this.countryCountBarDisplay = true
+      this.singleCountryChartsDisplay = false
+      this.detailDisplay = false
       this.currentMode = 'region'
       getGeneral({
         format: 'json',
@@ -132,6 +133,26 @@ export default {
         this.geoJSONForDisplay = response.data
       })
     },
+    initCountryView (countryId) {
+      this.regionCountBarDisplay = false
+      this.countryCountBarDisplay = false
+      this.singleCountryChartsDisplay = true
+      this.detailDisplay = false
+      this.currentMode = 'country'
+      getGeneral({
+        format: 'json',
+        start: this.startTime,
+        end: this.endTime,
+        country: countryId
+      }).then(response => {
+        this.pointsForDisplay = response.data
+      })
+      getCountryById({
+        format: 'json'
+      }, countryId).then(response => {
+        this.geoJSONForDisplay = response.data
+      })
+    },
     getDate () {
       if (this.currentMode === 'global') {
         this.initGlobalView()
@@ -139,9 +160,11 @@ export default {
         this.initRegionView()
       }
     },
-    clickListener (regionId) {
+    clickListener (elementId) {
       if (this.currentMode === 'global') {
-        this.initRegionView(regionId)
+        this.initRegionView(elementId)
+      } else if (this.currentMode === 'region') {
+        this.initCountryView(elementId)
       }
     },
     selectElement (id) {
