@@ -55,7 +55,11 @@ export default {
       objCount.listName = this.model
       objCount.value = []
       for (var i = 0; i < this.obj.length; i++) {
-        objCount.value.push(this.obj[i][this.model])
+        if (this.model === 'sumProp') {
+          objCount.value.push(this.obj[i][this.model] / 1000000)
+        } else {
+          objCount.value.push(this.obj[i][this.model])
+        }
       }
       param.push(objCount)
       this.params = param

@@ -5,6 +5,8 @@
 <script>
 import L from 'leaflet'
 
+const modes = ['space-time', 'static-dynamic']
+
 export default {
   name: 'MapView',
   props: {
@@ -18,6 +20,18 @@ export default {
         return []
       }
     },
+    staticMarkerPosition: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    dynamicMarkerPosition: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     zoom: {
       type: Number,
       default: 3
@@ -29,18 +43,43 @@ export default {
     lat: {
       type: Number,
       default: 38
+    },
+    mode: {
+      type: String,
+      default: modes[0]
     }
   },
   data () {
     return {
       map: null,
       markerLayerGroup: new L.LayerGroup(),
+      staticMarkerLayerGroup: new L.LayerGroup(),
+      dynamicMarkerLayerGroup: new L.LayerGroup(),
       mapParams: {
         url: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ',
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 1,
         maxZoom: 18
       }
+    }
+  },
+  computed: {
+    staticMarker () {
+      if (this.mode === modes[0]) { return {} }
+      var markerOptions = {
+        radius: 10,
+        stroke: true,
+        color: '#E66417',
+        weight: 10,
+        opacity: 1,
+        fill: false,
+        render: L.svg(),
+        className: 'main-firstring-marker'
+      }
+      return L.circleMarker([
+        this.staticMarkerPosition.lat,
+        this.staticMarkerPosition.lng],
+      markerOptions)
     }
   },
   components: {},
@@ -58,9 +97,15 @@ export default {
     }).addTo(map)
     this.map = map
     this.map.addLayer(this.markerLayerGroup)
+
+    if (this.mode === modes[1]) {
+      this.map.addLayer(this.staticMarkerLayerGroup)
+      this.map.addLayer(this.dynamicMarkerLayerGroup)
+    }
   },
   watch: {
     currentDailyData () {
+      if (this.mode !== modes[0]) { return }
       // add new point layers to layer group
       var that = this
       // console.log(this.currentDailyData.length)
@@ -86,6 +131,31 @@ export default {
       deadLayers.forEach(function (value, index, array) {
         that.markerLayerGroup.removeLayer(value)
       })
+    },
+    staticMarkerPosition () {
+      if (this.mode !== modes[1] ||
+      this.staticMarkerPosition === {} ||
+      this.staticMarkerPosition.lat === undefined ||
+      this.staticMarkerPosition.lng === undefined) { return }
+      this.staticMarkerLayerGroup.clearLayers()
+      let icon = L.icon({
+        iconUrl: 'static/icons/pin_red.png',
+        iconSize: [16, 24],
+        iconAnchor: [8, 24]
+        // className: 'single-point-marker' // define in globe styles
+      })
+      this.staticMarkerLayerGroup.addLayer(L.marker([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], {icon: icon}))
+    },
+    dynamicMarkerPosition () {
+      if (this.mode !== modes[1] || this.dynamicMarkerPosition === {}) { return }
+      this.dynamicMarkerLayerGroup.clearLayers()
+      let icon = L.icon({
+        iconUrl: 'static/icons/pin_blue.png',
+        iconSize: [16, 24],
+        iconAnchor: [8, 24]
+        // className: 'single-point-marker' // define in globe styles
+      })
+      this.dynamicMarkerLayerGroup.addLayer(L.marker([this.dynamicMarkerPosition.lat, this.dynamicMarkerPosition.lng], {icon: icon}))
     }
   },
   methods: {

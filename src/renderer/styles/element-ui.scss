@@ -1,3 +1,4 @@
+@import './variables.scss';
  //覆盖一些element-ui样式
 
  .el-breadcrumb__inner, .el-breadcrumb__inner a{
@@ -18,7 +19,7 @@
     padding: 0;
   }
   .el-aside-1 {
-    width: 300px!important;
+    width: 50vw!important;
   }
   .el-main-1 {
     padding: 0;
@@ -43,6 +44,75 @@
   border-bottom: rgba(0,0,0,.12);
 }
 
+.el-loading-mask {
+  background-color: rgba(0,0,0,.1);
+  .el-loading-text {
+    color: $yo-3;
+    font-size: 16px;
+  }
+  .path {
+    stroke: $yo-3;
+  }
+}
+
+.el-table {
+  // color: $yo-3!important;
+  color: $yo-1!important;
+  font-size: 16px;
+  .el-table__body-wrapper {
+    // overflow-y: scroll;
+    .el-table__body {
+      width: 100%!important;
+      tr.current-row>td {
+        background-color: rgba(255, 209, 145, .3);
+      }
+    }
+  }
+  .el-table__header-wrapper {
+    border-bottom: 0;
+  }
+  thead {
+    color: $yo-3!important;
+    font-size: 16px;
+  }
+  tr {
+    background-color: rgba(0,0,0,0)!important;
+  }
+  tr:hover>td {
+    background-color: rgba(255, 209, 145, .1)!important;
+  }
+  th.is-leaf {
+    border-bottom: 2px solid $yo-1;
+  }
+}
+
+.el-table__body tr.el-table__row.hover-row>td{
+  background-color:inherit;
+  }
+
+.el-table--border, .el-table--group {
+  border: 1px solid $yo-1!important;
+  td {
+    border-bottom: 1px solid $yo-1!important;
+    border-right: 0;
+  }
+  th {
+    border-right: 0;
+  }
+}
+
+.el-table--border::after, .el-table--group::after, .el-table::before {
+  background-color: rgba(0,0,0,0);
+}
+
+.el-notification {
+  border: 1px solid $yo-1!important;
+  background-color: rgba(0,0,0,.5)!important;
+  color: #ccc!important;
+  .el-notification__content {
+    color: #ccc!important;
+  }
+}
 
  .el-upload {
    input[type="file"] {
