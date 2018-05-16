@@ -147,7 +147,6 @@ export default {
       param.count = count
       param.sumWound = sumWound
       param.sumKill = sumKill
-      console.log(JSON.stringify(param))
       this.params = param
     },
     sendClick (name) {

@@ -125,6 +125,21 @@
   }
 }
 
+.el-card__header {
+  border-width: 0px!important;
+  box-shadow: inset 0 0 20px orange!important;
+}
+.el-range-input {
+  background-color: transparent!important;
+  font-weight: 700;
+  color: antiquewhite!important;
+}
+
+.el-range-separator {
+  color: antiquewhite!important;
+  font-weight: 600;
+}
+
  .el-upload {
    input[type="file"] {
      display: none !important;

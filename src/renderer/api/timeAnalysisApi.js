@@ -29,8 +29,9 @@ export function getCountry (params) {
 
 // get countries geojson by id
 export function getCountryById (id, params) {
+  const url = '/gtd/api/country/' + JSON.stringify(id)
   return request({
-    url: '/gtd/api/country/' + id,
+    url: url,
     method: 'get',
     params
   })
