@@ -3,7 +3,7 @@
   <div 
   class="fixed-normal datepicker-view"
    :class="{'fixed-silebar-visiable': sidebar.opened}">
-  <el-button icon="el-icon-menu" circle></el-button>
+  <el-button icon="el-icon-menu" circle style="background: transparent" v-on:click="backToHome"></el-button>
   <el-date-picker 
    v-on:change="getDate"
    v-model="dateRange" 
@@ -279,6 +279,10 @@ export default {
     },
     unselectElement (id) {
       this.selectedElement = -1
+    },
+    backToHome () {
+      this.currentMode = 'global'
+      this.initGlobalView()
     }
   }
 }
@@ -308,7 +312,7 @@ export default {
   }
   .datepicker-view {
     height: 36px!important;
-    width: 350px!important;
+    width: 450px!important;
     margin: 20px;
     transition: 0.4s all ease-out;
     background-color: transparent;
@@ -321,6 +325,7 @@ export default {
     height: 25%!important;
     width: 100%!important;
     transition: 0.4s all;
+    background: rgba(0,0,0,0.2)!important;
   }
   .radar-charts-container{
     display: flex;
