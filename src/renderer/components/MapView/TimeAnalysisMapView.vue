@@ -54,6 +54,7 @@ export default {
       }
     },
     pointType () {
+      const that = this
       if (this.displayMode === 'global') {
         return {
           pointToLayer: function (geoJsonPoint, latlng) {
@@ -84,54 +85,41 @@ export default {
           }
         }
       } else if (this.displayMode === 'country') {
-        return function (geoJsonPoint, latlng) {
-          const pointOptions = {
-            radius: 2,
-            stroke: false,
-            color: '#E65217',
-            weight: 1,
-            opacity: 1,
-            fill: true,
-            fillOpacity: 1
-            // render: L.svg(),
-            // className: 'main-point-marker'
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointOptions = {
+              radius: 7,
+              stroke: false,
+              color: '#E66417',
+              weight: 1,
+              opacity: 1,
+              fill: true,
+              fillOpacity: 1,
+              render: L.svg(),
+              className: 'main-point-marker'
+            }
+            const layer = L.circleMarker(latlng, pointOptions)
+            layer.id = geoJsonPoint.id
+            return L.circleMarker(latlng, pointOptions)
+          },
+          onEachFeature: function (feature, layer) {
+            const ringOptions = {
+              radius: 16,
+              stroke: true,
+              color: '#E66417',
+              weight: 2,
+              opacity: 1,
+              fill: false,
+              render: L.svg(),
+              className: 'main-firstring-marker'
+            }
+            const firstRingLayer = L.circleMarker(layer.getLatLng(), ringOptions)
+            ringOptions.className = 'main-secondring-marker'
+            const secondRingLayer = L.circleMarker(layer.getLatLng(), ringOptions)
+            that.currentPointLayerGroup.addLayer(firstRingLayer)
+            that.currentPointLayerGroup.addLayer(secondRingLayer)
           }
-          const layer = L.circleMarker(latlng, pointOptions)
-          layer.id = geoJsonPoint.id
-          return L.circleMarker(latlng, pointOptions)
         }
-        // return function (geoJsonPoint, latlng) {
-        //   const layerGroup = L.LayerGroup()
-        //   const ringOptions = {
-        //     radius: 10,
-        //     stroke: true,
-        //     color: '#E66417',
-        //     weight: 2,
-        //     opacity: 1,
-        //     fill: false,
-        //     render: L.svg(),
-        //     className: 'main-firstring-marker'
-        //   }
-        //   const firstRingLayer = L.circleMarker(latlng, ringOptions)
-        //   ringOptions.className = 'main-secondring-marker'
-        //   const secondRingLayer = L.circleMarker(latlng, ringOptions)
-        //   layerGroup.addLayer(firstRingLayer)
-        //   layerGroup.addLayer(secondRingLayer)
-        //   const pointOptions = {
-        //     radius: 5,
-        //     stroke: false,
-        //     color: '#E65217',
-        //     weight: 1,
-        //     opacity: 1,
-        //     fill: true,
-        //     fillOpacity: 1,
-        //     render: L.svg(),
-        //     className: 'main-point-marker'
-        //   }
-        //   const pointLayer = L.circleMarker(latlng, pointOptions)
-        //   layerGroup.addLayer(pointLayer)
-        //   return layerGroup
-        // }
       }
     },
     polygonEventType () {
@@ -194,7 +182,7 @@ export default {
           return {
             stroke: true,
             color: that.themeColor,
-            weight: 1,
+            weight: 2,
             opacity: 1,
             fill: true,
             fillColor: that.themeColor,
@@ -235,10 +223,7 @@ export default {
     },
     displayPointData (newData, oldData) {
       this.currentPointLayerGroup.clearLayers()
-      const geoJSONOptions = {
-        pointToLayer: this.pointType
-      }
-      const geoJSON = L.geoJSON(newData, geoJSONOptions)
+      const geoJSON = L.geoJSON(newData, this.pointType)
       // geoJSON.mode = this.displayMode
       this.currentPointLayerGroup.addLayer(geoJSON)
     },
@@ -272,7 +257,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url("../../../../node_modules/leaflet/dist/leaflet.css");
 #TimeAnalysisMapView {
   // position: absolute;
   // top: 0;
@@ -286,21 +270,27 @@ export default {
 .main-point-marker {
     animation: blink 3s ease-out;
     -webkit-animation: blink 3s ease-out;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
 
 .main-firstring-marker {
-    animation: diffusion 2s ease-out forwards 1;
-    -webkit-animation: diffusion 2s ease-out forwards 1;
+    animation: diffusion 2s ease-out forwards infinite!important;
+    -webkit-animation: diffusion 2s ease-out forwards infinite!important;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
 
 .main-secondring-marker {
     opacity: 0;
-    animation: diffusion 2s ease-out 1s;
-    -webkit-animation: diffusion 2s ease-out 1s;
+    animation: diffusion 2s ease-out 1s infinite!important;
+    -webkit-animation: diffusion 2s ease-out 1s infinite!important;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }

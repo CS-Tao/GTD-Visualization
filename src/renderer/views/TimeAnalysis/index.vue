@@ -38,6 +38,41 @@
   v-if="countryScatterDisplay"
   id="country-scatter">
   </country-scatter>
+  <div class="radar-charts-container" v-if="singleCountryChartsDisplay">
+  <country3-model-radar
+  id="attack-radar"
+  class="attack-radar-char-view"
+  :obj="statisticsData"
+  model="attack">
+  </country3-model-radar>
+  <country3-model-radar
+  id="target-radar"
+  class="target-radar-char-view"
+  :obj="statisticsData"
+  model="target">
+  </country3-model-radar>
+  <country3-model-radar
+  id="weapon-radar"
+  class="weapon-radar-char-view"
+  :obj="statisticsData"
+  model="weapon">
+  </country3-model-radar>
+  </div>
+  <el-card 
+  class="fixed-normal country-statistics-card"
+  :class="{'fixed-silebar-visiable': sidebar.opened}"
+  v-if=singleCountryChartsDisplay>
+  <div slot="header" 
+  class="card-header" >
+    <span>损失情况</span>
+  </div>
+  <div class="card-item-name">死亡</div>
+  <div class="card-item-num">{{lossData.kill}} 人</div>
+  <div class="card-item-name">受伤</div>
+  <div class="card-item-num">{{lossData.wound}} 人</div>
+  <div class="card-item-name">造成经济损失</div>
+  <div class="card-item-num">{{lossData.prop}} 美元</div>
+  </el-card>
 </div>
 </template>
 
@@ -52,13 +87,15 @@ import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import Mixin from '../Mixin'
-import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById } from '@/api/timeAnalysisApi'
+import country3ModelRadar from '@/components/Charts/country3ModelRadar'
+import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById, getStatistics } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
     TimeAnalysisMapView,
     regionCountBar,
-    countryScatter
+    countryScatter,
+    country3ModelRadar
   },
   mixins: [Mixin],
   data () {
@@ -68,7 +105,8 @@ export default {
       pointsForDisplay: {},
       statisticsData: [],
       currentMode: 'global',
-      selectedElement: -1
+      selectedElement: -1,
+      lossData: {kill: 0, wound: 0, prop: 0}
     }
   },
   computed: {
@@ -170,9 +208,7 @@ export default {
         region: regionId
       }).then(response => {
         this.pointsForDisplay = response.data
-      })
-      this.pointsForDisplay.features = this.pointsForDisplay.features.filter(function (feature) {
-        return feature.properties.country.region === regionId
+      }).catch(() => {
       })
       getCountry({
         format: 'json',
@@ -185,6 +221,7 @@ export default {
         })
     },
     initCountryView (countryId) {
+      this.statisticsData = {}
       this.currentMode = 'country'
       getGeneral({
         format: 'json',
@@ -193,11 +230,32 @@ export default {
         country: countryId
       }).then(response => {
         this.pointsForDisplay = response.data
+      }).catch(() => {
       })
       getCountryById(countryId, {
         format: 'json'
       }).then(response => {
         this.geoJSONForDisplay = response.data
+      }).catch(() => {
+      })
+      getStatistics({
+        format: 'json',
+        startTime: this.startTime,
+        endTime: this.endTime,
+        country: countryId
+      }).then(response => {
+        console.log(response.data)
+        this.statisticsData = response.data
+        if (response.data.kill !== null) {
+          this.lossData.kill = response.data.kill
+        }
+        if (response.data.wound !== null) {
+          this.lossData.wound = response.data.wound
+        }
+        if (response.data.prop !== null) {
+          this.lossData.prop = response.data.prop
+        }
+      }).catch(() => {
       })
     },
     getDate () {
@@ -208,6 +266,7 @@ export default {
       }
     },
     clickListener (elementId) {
+      console.log(this.currentMode)
       if (this.currentMode === 'global') {
         this.initRegionView(elementId)
       } else if (this.currentMode === 'region') {
@@ -258,8 +317,63 @@ export default {
     bottom: 0!important;
     height: 25%!important;
     width: 100%!important;
-    background-color: green;
     transition: 0.4s all;
+  }
+  .radar-charts-container{
+    display: flex;
+    flex-direction: column;
+    position: fixed!important;
+    right: 0;
+    top: 7vh;
+    height: 93vh!important;
+    width: 25%!important;
+    z-index: 999;
+    .attack-radar-char-view, .target-radar-char-view, .weapon-radar-char-view {
+      width: 100%!important;
+      height: 33%!important;
+      background-color: rgba(0, 0, 0, 0)!important;
+    }
+    .attack-radar-char-view {
+      height: 34%!important;
+    }
+  }
+  .country-statistics-card {
+    top: 25vh!important;
+    margin-left: 20px;
+    background-color: transparent;
+    width: 350px!important;
+    height: 60%!important;
+    border-color: orange;
+    border-width: 0px!important;
+    box-shadow: 0 0 20px orange!important;
+    .el-card__header {
+      border-width: 0px!important;
+      box-shadow: inset 0 0 20px orange!important;
+      .card-header {
+        font-family: 'STXihei'!important;
+        font-size: 25px;
+        color: orange;
+        text-align: left;
+        font-weight: 700;
+      }
+    }
+    .card-item-name{
+      color: orangered;
+      font-family: 'SimHei';
+      font-weight: 700;
+      font-size: 25px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    .card-item-num{
+      color: orange;
+      font-family: 'SimHei';
+      font-weight: 700;
+      font-size: 25px;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      text-align: right;
+    }
   }
 }
 </style>
