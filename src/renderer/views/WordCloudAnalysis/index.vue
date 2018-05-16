@@ -5,9 +5,11 @@
     mode="static-dynamic"
     :staticMarkerPosition="staticMarkerLocation"
     :dynamicMarkerPosition="dynamicMarkerLocation"
-    :zoom="mapZoom">
+    :zoom="mapZoom"
+    :lng="mapCenterLng"
+    :lat="mapCenterLat">
     </leaflet-view>
-    <div class="fixed-normal wordcloud-events-view" 
+    <div class="fixed-normal wordcloud-events-view"
     :class="{'fixed-silebar-visiable': sidebar.opened}">
       <word-cloud
        v-loading="wordcloudDataLoading"
@@ -63,6 +65,8 @@ export default {
       wordcloudData: [],
       eventsViewerTitle: '事件信息',
       eventsInfoList: [],
+      mapCenterLng: 38,
+      mapCenterLat: 38,
       mapZoom: 2,
       staticMarkerLocation: {},
       dynamicMarkerLocation: {}
@@ -123,6 +127,9 @@ export default {
         })
     },
     clearEventInfoList () {
+      this.mapCenterLng = 38
+      this.mapCenterLat = 38
+      this.mapZoom = 2
       if (this.eventsInfoList.length !== 0) {
         this.eventsInfoList = []
       }
@@ -134,6 +141,8 @@ export default {
       }
     },
     eventSelectChanged (val) {
+      if (!val) { return }
+      this.mapZoom = 5
       this.staticMarkerLocation = {
         lng: val.lng,
         lat: val.lat
