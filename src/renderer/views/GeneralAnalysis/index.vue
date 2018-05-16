@@ -72,7 +72,7 @@ export default {
     display: flex;
     .chart-views{
         height: 100%!important;
-        width: 75%!important;
+        width: 90%!important;
         display: flex;
         flex-wrap: wrap;
         .region-bar-chat-view{
@@ -98,9 +98,9 @@ export default {
         }
     }
     .rotate-selecter{
-    // background-color: red;
+    background-color: rgba(247, 197, 185, 0.527);
     height: 100%;
-    width: 25%;
+    width: 10%;
     }
 }
 </style>
