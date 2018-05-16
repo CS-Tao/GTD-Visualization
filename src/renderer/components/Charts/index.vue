@@ -20,8 +20,9 @@
         >
         </year3ModelPie>
         <countryScatter id="ca"
-        height="100px"
-        width="100%">
+        height="100%"
+        width="100%"
+        endString="19910101">
         </countryScatter>
       </div>
     </div>
