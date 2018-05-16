@@ -76,10 +76,8 @@ export default {
       return this.eventsInfoList.length === 0 && !this.eventsInfoLoading
     }
   },
-  created () {
-    this.changeLayout()
-  },
   mounted () {
+    this.changeLayout()
     this.wordcloudDataLoading = true
     getWordcloudData({
       format: 'json',

@@ -10,7 +10,7 @@
 <script>
 import Animate from '../../utils/animate'
 const a = -0.003 // 加速度
-const radius = 500 // 半径
+const radius = 400 // 半径
 const lineHeight = 100 // 文字行高
 let isInertial = false // 是否正在惯性滑动
 // 根据三角形余弦公式
@@ -45,23 +45,6 @@ export default {
       preYear: 1970
     }
   },
-  // props: {
-  //   values: [1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
-  //   finger: {
-  //     startY: 0,
-  //     endY: 0,
-  //     startTime: 0, // 开始滑动时间（单位：毫秒）
-  //     entTime: 0, // 结束滑动时间（单位：毫秒）
-  //     currentMove: 0,
-  //     prevMove: 0
-  //   },
-  //   range: {
-  //     start: -space,
-  //     end: space,
-  //     space
-  //   },
-  //   if_mousedown: false
-  // },
   computed: {
     scrollValues () {
       const result = []
@@ -109,18 +92,6 @@ export default {
     this.$el.removeEventListener('mousemove', this.listenerTouchMove, false)
     this.$el.removeEventListener('mouseup', this.listenerTouchEnd, false)
   },
-  // watch: {
-  //   finger (newfinger, oldfinger) {
-  //     if (newfinger.currentMove !== oldfinger.currentMove && this.if_mousedown === false) {
-  //       this.$emit('change-year', this.getSelectValue(newfinger.currentMove))
-  //     }
-  //   }
-  // },
-
-  // watch: {
-  //   curYear (newYear, oldYear) {
-  //   }
-  // },
   methods: {
     initWheelItemDeg (index) {
       return {
@@ -155,10 +126,8 @@ export default {
       this.finger.endTime = Date.now()
       this.getInertiaDistance()
       this.if_mousedown = false
-      this.curYear = this.getRangeData(Math.abs(this.finger.currentMove / lineHeight))
-      if (this.curYear !== this.preYear) {
-        this.$emit('change-year', this.curYear)
-      }
+      this.curYear = this.getRangeData(Math.round(this.finger.currentMove / lineHeight))
+      this.$emit('change-year', this.curYear)
     },
     updateRange (spinAim) {
       this.range.start = (this.range.space * -1) + spinAim

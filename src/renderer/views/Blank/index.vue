@@ -7,7 +7,7 @@ import Mixin from '../Mixin'
 export default {
   name: 'Blank',
   mixins: [Mixin],
-  created () {
+  mounted () {
     this.changeLayout()
   }
 }

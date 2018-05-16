@@ -30,30 +30,31 @@
 <script>
 import globeTrendLine from '@/components/Charts/globeTrendLine'
 import Mixin from '../Mixin'
-import {getTrend} from '@/api/trendAnalysisApi'
+import { getTrend } from '@/api/trendAnalysisApi'
 
 export default {
   components: {
     globeTrendLine
   },
   mixins: [Mixin],
-  created () {
-    this.changeLayout()
-  },
-  data:function(){
-    return{
-      obj : []
+  data: function () {
+    return {
+      obj: []
     }
   },
-  mounted() {
+  mounted () {
+    this.changeLayout()
     if (this.$route.name) {
       this.$store.dispatch('addVisitedViews', this.$route)
     }
     getTrend({
       format: 'json'
-    }).then(response => {
-      this.obj = response.data
     })
+      .then(response => {
+        this.obj = response.data
+      })
+      .catch(() => {
+      })
   }
 }
 </script>
