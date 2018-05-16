@@ -45,7 +45,6 @@
 import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
-import Mixin from '../Mixin'
 import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById } from '@/api/timeAnalysisApi'
 
 export default {
@@ -53,7 +52,6 @@ export default {
     TimeAnalysisMapView,
     regionCountBar
   },
-  mixins: [Mixin],
   data () {
     return {
       dateRange: ['20000101', '20010101'],
@@ -80,7 +78,7 @@ export default {
     }
   },
   mounted () {
-    this.changeLayout()
+    this.$changeLayout()
     this.initGlobalView()
   },
   methods: {

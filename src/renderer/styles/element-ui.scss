@@ -60,6 +60,11 @@
   color: $yo-1!important;
   font-size: 16px;
   .el-table__body-wrapper {
+    .el-table__row {
+      .cell {
+        text-indent: 1em;
+      }
+    }
     // overflow-y: scroll;
     .el-table__body {
       width: 100%!important;
@@ -83,6 +88,12 @@
   }
   th.is-leaf {
     border-bottom: 2px solid $yo-1;
+  }
+}
+
+.el-table--medium {
+  td {
+    padding: 15px 10px
   }
 }
 
