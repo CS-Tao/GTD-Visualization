@@ -41,8 +41,8 @@ export default {
     return {
       params: [
         {
-          indicator: 'type1',
-          value: 0
+          indicator: 'type1jfhgfhgfhdhdhfhgfhdhgdgfdgfdddgdgfdgfdgfdhgdgfqwertyuiopasdfghjkl',
+          value: 2
         },
         {
           indicator: 'type2',
