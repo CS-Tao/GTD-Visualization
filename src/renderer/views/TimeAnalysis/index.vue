@@ -86,7 +86,6 @@ import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
-import Mixin from '../Mixin'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
 import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById, getStatistics } from '@/api/timeAnalysisApi'
 
@@ -97,7 +96,6 @@ export default {
     countryScatter,
     country3ModelRadar
   },
-  mixins: [Mixin],
   data () {
     return {
       dateRange: ['20000101', '20010101'],
@@ -165,7 +163,7 @@ export default {
     }
   },
   mounted () {
-    this.changeLayout()
+    this.$changeLayout()
     this.initGlobalView()
   },
   methods: {

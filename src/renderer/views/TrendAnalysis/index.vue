@@ -29,21 +29,19 @@
 
 <script>
 import globeTrendLine from '@/components/Charts/globeTrendLine'
-import Mixin from '../Mixin'
 import { getTrend } from '@/api/trendAnalysisApi'
 
 export default {
   components: {
     globeTrendLine
   },
-  mixins: [Mixin],
   data: function () {
     return {
       obj: []
     }
   },
   mounted () {
-    this.changeLayout()
+    this.$changeLayout()
     if (this.$route.name) {
       this.$store.dispatch('addVisitedViews', this.$route)
     }
