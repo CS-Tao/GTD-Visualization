@@ -15,6 +15,8 @@
 .main-point-marker {
     animation: blink 3s ease-out;
     -webkit-animation: blink 3s ease-out;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
@@ -22,6 +24,8 @@
 .main-firstring-marker {
     animation: diffusion 2s ease-out forwards 1;
     -webkit-animation: diffusion 2s ease-out forwards 1;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
@@ -30,6 +34,8 @@
     opacity: 0;
     animation: diffusion 2s ease-out 1s;
     -webkit-animation: diffusion 2s ease-out 1s;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }

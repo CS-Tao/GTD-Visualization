@@ -104,6 +104,12 @@ export default {
     }
   },
   watch: {
+    zoom () {
+      this.staticMarkerLayerGroup.clearLayers()
+      this.dynamicMarkerLayerGroup.clearLayers()
+      this.map.setView([this.lng, this.lat], this.zoom)
+      this.$triggerResize()
+    },
     currentDailyData () {
       if (this.mode !== modes[0]) { return }
       // add new point layers to layer group
@@ -148,7 +154,10 @@ export default {
       this.map.setView([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], this.zoom)
     },
     dynamicMarkerPosition () {
-      if (this.mode !== modes[1] || this.dynamicMarkerPosition === {}) { return }
+      if (this.mode !== modes[1] ||
+      this.dynamicMarkerPosition === {} ||
+      this.dynamicMarkerPosition.lat === undefined ||
+      this.dynamicMarkerPosition.lng === undefined) { return }
       this.dynamicMarkerLayerGroup.clearLayers()
       let icon = L.icon({
         iconUrl: 'static/icons/pin_blue.png',

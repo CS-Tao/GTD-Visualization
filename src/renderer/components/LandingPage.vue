@@ -31,14 +31,12 @@
 
 <script>
 import SystemInformation from './LandingPage/SystemInformation'
-import Mixin from '@/views/Mixin'
 
 export default {
   name: 'landing-page',
-  mixins: [Mixin],
   components: { SystemInformation },
   created () {
-    this.changeLayout()
+    this.$changeLayout()
   },
   methods: {
     open (link) {
