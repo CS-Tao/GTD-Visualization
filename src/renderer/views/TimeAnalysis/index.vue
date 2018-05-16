@@ -310,6 +310,8 @@ export default {
     width: 350px!important;
     margin: 20px;
     transition: 0.4s all ease-out;
+    background-color: transparent;
+    border-width: 2px;
   }
   .region-bar-chart {
     position: fix!important;
@@ -346,16 +348,12 @@ export default {
     border-color: orange;
     border-width: 0px!important;
     box-shadow: 0 0 20px orange!important;
-    .el-card__header {
-      border-width: 0px!important;
-      box-shadow: inset 0 0 20px orange!important;
-      .card-header {
-        font-family: 'STXihei'!important;
-        font-size: 25px;
-        color: orange;
-        text-align: left;
-        font-weight: 700;
-      }
+    .card-header {
+      font-family: 'STXihei'!important;
+      font-size: 25px;
+      color: orange;
+      text-align: left;
+      font-weight: 700;
     }
     .card-item-name{
       color: orangered;
