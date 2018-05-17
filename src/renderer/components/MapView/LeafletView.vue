@@ -47,6 +47,10 @@ export default {
     mode: {
       type: String,
       default: modes[0]
+    },
+    mapUrl: {
+      type: String,
+      default: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ'
     }
   },
   data () {
@@ -56,7 +60,7 @@ export default {
       staticMarkerLayerGroup: new L.LayerGroup(),
       dynamicMarkerLayerGroup: new L.LayerGroup(),
       mapParams: {
-        url: 'https://api.mapbox.com/styles/v1/hideinme/cjbd5v7f18sxz2rmxt2ewnqtt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ',
+        url: this.mapUrl,
         attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 1,
         maxZoom: 18
@@ -122,7 +126,7 @@ export default {
 
         let lng = item.geometry.coordinates[0]
         let lat = item.geometry.coordinates[1]
-        that.addSinglePoint(that.markerLayerGroup, lng, lat)
+        that.addSinglePoint(that.markerLayerGroup, lng, lat, '#E66417')
       })
       // remove point layers running out life time
       // console.log(this.markerLayerGroup.getLayers().length)
@@ -144,13 +148,14 @@ export default {
       this.staticMarkerPosition.lat === undefined ||
       this.staticMarkerPosition.lng === undefined) { return }
       this.staticMarkerLayerGroup.clearLayers()
-      let icon = L.icon({
-        iconUrl: 'static/icons/pin_red.png',
-        iconSize: [16, 24],
-        iconAnchor: [8, 24]
-        // className: 'single-point-marker' // define in globe styles
-      })
-      this.staticMarkerLayerGroup.addLayer(L.marker([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], {icon: icon}))
+      this.addSinglePoint(this.staticMarkerLayerGroup, this.staticMarkerPosition.lng, this.staticMarkerPosition.lat, '#38B2CE')
+      // let icon = L.icon({
+      //   iconUrl: 'static/icons/pin_red.png',
+      //   iconSize: [16, 24],
+      //   iconAnchor: [8, 24]
+      //   // className: 'single-point-marker' // define in globe styles
+      // })
+      // this.staticMarkerLayerGroup.addLayer(L.marker([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], {icon: icon}))
       this.map.setView([this.staticMarkerPosition.lat, this.staticMarkerPosition.lng], this.zoom)
     },
     dynamicMarkerPosition () {
@@ -159,21 +164,22 @@ export default {
       this.dynamicMarkerPosition.lat === undefined ||
       this.dynamicMarkerPosition.lng === undefined) { return }
       this.dynamicMarkerLayerGroup.clearLayers()
-      let icon = L.icon({
-        iconUrl: 'static/icons/pin_blue.png',
-        iconSize: [16, 24],
-        iconAnchor: [8, 24]
-        // className: 'single-point-marker' // define in globe styles
-      })
-      this.dynamicMarkerLayerGroup.addLayer(L.marker([this.dynamicMarkerPosition.lat, this.dynamicMarkerPosition.lng], {icon: icon}))
+      this.addSinglePoint(this.dynamicMarkerLayerGroup, this.dynamicMarkerPosition.lng, this.dynamicMarkerPosition.lat, '#39E639')
+      // let icon = L.icon({
+      //   iconUrl: 'static/icons/pin_blue.png',
+      //   iconSize: [16, 24],
+      //   iconAnchor: [8, 24]
+      //   // className: 'single-point-marker' // define in globe styles
+      // })
+      // this.dynamicMarkerLayerGroup.addLayer(L.marker([this.dynamicMarkerPosition.lat, this.dynamicMarkerPosition.lng], {icon: icon}))
     }
   },
   methods: {
-    addSinglePoint (layerGroup, lng, lat) {
+    addSinglePoint (layerGroup, lng, lat, color) {
       var ringOptions = {
         radius: 10,
         stroke: true,
-        color: '#E66417',
+        color: color,
         weight: 2,
         opacity: 1,
         fill: false,
@@ -192,7 +198,7 @@ export default {
       var pointOptions = {
         radius: 5,
         stroke: false,
-        color: '#E65217',
+        color: color,
         weight: 1,
         opacity: 1,
         fill: true,
