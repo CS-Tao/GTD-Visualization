@@ -47,7 +47,7 @@ export default {
     .no-redirect {
       color: $yo-1;
       cursor: text;
-      font-family: 'SimHei';
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 1.5rem;
     }
   }

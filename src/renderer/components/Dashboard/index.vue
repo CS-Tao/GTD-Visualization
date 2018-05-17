@@ -79,7 +79,7 @@ export default {
         this.currentDate = getDateByDaysInYear(this.currentDay, this.year)
       }
       this.currentDay = this.currentDay % this.totalDays + 1
-      const that = this
+      // const that = this
       // if (this.dailyDataForMapView.length > 0 && this.routerViewMode === 0) {
       //   const dateStr = that.dateToEnglish(that.currentDate)
       //   let messageStr = '<div style="color: rgb(230, 100, 23);">' + dateStr + '</div>'

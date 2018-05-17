@@ -127,7 +127,7 @@ import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
-import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
+import { getRegion, getGeneral2, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
@@ -207,7 +207,7 @@ export default {
   },
   methods: {
     initGlobalView () {
-      getGeneral({
+      getGeneral2({
         format: 'json',
         start: this.startTime,
         end: this.endTime
@@ -244,7 +244,13 @@ export default {
     },
     initRegionView (regionId) {
       this.currentMode = 'region'
-      getGeneral({
+      // console.log(this.pointsForDisplay.features.length)
+      // const tmp = this.pointsForDisplay.features.filter(feature => {
+      //   return feature.properties.country.region === regionId
+      // })
+      // console.log(tmp.length)
+      // this.$set(this.pointsForDisplay, 'features', tmp)
+      getGeneral2({
         format: 'json',
         start: this.startTime,
         end: this.endTime,
@@ -275,7 +281,13 @@ export default {
       this.statisticsData = {}
       this.currentMode = 'country'
       this.displayMode = 'country'
-      getGeneral({
+      // console.log(this.pointsForDisplay.features.length)
+      // const tmp = this.pointsForDisplay.features.filter(feature => {
+      //   return feature.properties.country.region === countryId
+      // })
+      // console.log(tmp.length)
+      // this.$set(this.pointsForDisplay, 'features', tmp)
+      getGeneral2({
         format: 'json',
         start: this.startTime,
         end: this.endTime,
