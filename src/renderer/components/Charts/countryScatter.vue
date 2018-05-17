@@ -661,7 +661,7 @@ export default {
     return {
       params: [],
       timeList: [],
-      dataList: [],
+      dataList: {},
       monthList: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
     }
   },
@@ -673,10 +673,10 @@ export default {
       return this.getNameById(this.selectId)
     },
     start () {
-      return (Number(this.startString.substring(0, 4)) - 1970) * 12 + Number(this.startString.substring(4, 6))
+      return (Number(this.startString.substring(0, 4)) - 1970) * 12 + Number(this.startString.substring(4, 6)) - 1
     },
     end () {
-      return (Number(this.endString.substring(0, 4)) - 1970) * 12 + Number(this.endString.substring(4, 6)) + 1
+      return (Number(this.endString.substring(0, 4)) - 1970) * 12 + Number(this.endString.substring(4, 6))
     }
   },
   watch: {
@@ -719,18 +719,23 @@ export default {
       this.timeList = res
       var list = this.obj.features
       for (var j = 0; j < this.countryNameList.length; j++) {
-        this.dataList[this.countryNameList[j].name] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        this.dataList[this.countryNameList[j].name] = Array.apply(null, Array(this.timeList.length)).map(() => 0)
       }
       for (var i = 0; i < list.length; i++) {
+        if (list[i].properties.month === null) {
+          list[i].properties.month = Number(this.startString.substring(4, 6)) - 1
+        }
         var nowTime = (list[i].properties.year - 1970) * 12 + list[i].properties.month - 1
-        this.dataList[list[i].properties.country.countryName][this.getTimeValue(nowTime)]++
+        if (typeof (this.dataList[list[i].properties.country.countryName]) === 'undefined') {
+          // console.log(list[i].properties.country.countryName)
+          // console.log(JSON.stringify(this.dataList))
+        } else { this.dataList[list[i].properties.country.countryName][this.getTimeValue(nowTime)]++ }
       }
       var d = this.dataList[this.getNameById(this.selectId)]
       this.params = d
     },
     getTimeValue (time) {
       var day = Math.floor((time - this.start) / (this.end - this.start) * this.timeList.length)
-
       return day
     },
     getNameById (id) {
@@ -740,6 +745,9 @@ export default {
           return this.countryNameList[i].name
         }
       }
+      console.log(JSON.stringify(this.countryNameList))
+      console.log(id)
+      console.log('id error!')
     }
   }
 }
