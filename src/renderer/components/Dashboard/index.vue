@@ -79,9 +79,51 @@ export default {
         this.currentDate = getDateByDaysInYear(this.currentDay, this.year)
       }
       this.currentDay = this.currentDay % this.totalDays + 1
+      const that = this
+      if (this.dailyDataForMapView.length > 0 && this.routerViewMode === 0) {
+        const dateStr = that.dateToEnglish(that.currentDate)
+        let messageStr = '<div style="color: rgb(230, 100, 23);">' + dateStr + '</div>'
+        for (var i = 0; i < that.dailyDataForMapView.length; i++) {
+          let placeStr = ''
+          if (that.dailyDataForMapView[i].properties.city !== null) {
+            placeStr += that.dailyDataForMapView[i].properties.city + ', '
+            placeStr += that.dailyDataForMapView[i].properties.country.countryName
+          } else {
+            placeStr += that.dailyDataForMapView[i].properties.country.countryName
+          }
+          messageStr += '<div style="color: rgb(253, 227, 80);>' + placeStr + '</div>'
+        }
+        that.$notify({
+          message: messageStr,
+          duration: 1500,
+          position: 'top-right',
+          showClose: false,
+          offset: 100,
+          dangerouslyUseHTMLString: true
+        })
+      }
+      // this.$createElement('div', {style: 'color: #eee'}, '地点：' + val.city + val.country)
       // console.log(this.currentDate.getFullYear() + '年' +
       //     (this.currentDate.getMonth() + 1) + '月' +
       //     this.currentDate.getDate() + '日')
+    },
+    dateToEnglish (date) {
+      const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Spt', 'Oct', 'Nov', 'Dec']
+      const w = ['Monday', 'Tuseday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      const d = ['st', 'nd', 'rd', 'th']
+      const mn = date.getMonth()
+      const wn = date.getDay()
+      const dn = date.getDate()
+      let dns = ''
+      if (((dn) < 1) || ((dn) > 3)) {
+        dns = d[3]
+      } else {
+        dns = d[(dn) - 1]
+        if ((dn === 11) || (dn === 12)) {
+          dns = d[3]
+        }
+      }
+      return m[mn] + ' ' + dn + dns + ' ' + w[wn - 1] + ' ' + date.getFullYear()
     }
   }
 }

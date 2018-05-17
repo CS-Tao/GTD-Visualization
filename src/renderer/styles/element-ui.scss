@@ -57,7 +57,7 @@
 
 .el-table {
   // color: $yo-3!important;
-  color: $yo-1!important;
+  color: $yo-3!important;
   font-size: 16px;
   .el-table__body-wrapper {
     .el-table__row {
@@ -77,8 +77,9 @@
     border-bottom: 0;
   }
   thead {
-    color: $yo-3!important;
-    font-size: 16px;
+    color: $yo-1!important;
+    font-family: 'Times New Roman'!important;
+    font-size: 20px;
   }
   tr {
     background-color: rgba(0,0,0,0)!important;
@@ -87,7 +88,7 @@
     background-color: rgba(255, 209, 145, .1)!important;
   }
   th.is-leaf {
-    border-bottom: 2px solid $yo-1;
+    border-bottom: 1px solid $yo-3;
   }
 }
 
@@ -102,9 +103,9 @@
   }
 
 .el-table--border, .el-table--group {
-  border: 1px solid $yo-1!important;
+  border: 1px solid $yo-3!important;
   td {
-    border-bottom: 1px solid $yo-1!important;
+    border-bottom: 1px solid $yo-3!important;
     border-right: 0;
   }
   th {
@@ -115,6 +116,13 @@
 .el-table--border::after, .el-table--group::after, .el-table::before {
   background-color: rgba(0,0,0,0);
 }
+.el-table_1_column_2 {
+  padding-top: 15px!important;
+  padding-bottom: 15px!important;
+  div{
+    line-height: 30px!important;
+  }
+} 
 
 .el-notification {
   border: 1px solid $yo-1!important;
@@ -124,8 +132,12 @@
     color: #ccc!important;
   }
 }
+
 .el-range-editor{
   background: transparent;
+}
+.is-disabled{
+  background: transparent!important;
 }
 .el-popper{
   background: transparent!important;
