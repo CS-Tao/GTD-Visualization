@@ -62,8 +62,6 @@ export default {
         param.push(dic)
       }
       this.params = param
-
-      // console.log(JSON.stringify(param))
     },
     send (param) {
       this.$emit('click-pie', param)
@@ -75,8 +73,6 @@ export default {
     },
     model (newModel, oldModel) {
       if (newModel === 'target') { this.color = '#A60000' } else if (newModel === '#attack') { this.color = '#009999' } else { this.color = '#9FE00' }
-
-      console.log(this.color)
     }
   }
 }
