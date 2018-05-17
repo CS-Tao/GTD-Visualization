@@ -7,6 +7,7 @@
         :end="2017"
         :t="model"
         :selectName="selectName"
+        backgroundColor='rgba(0,0,0,0)'
         @click-radar="send">
   </ePolyline>
 </template>
