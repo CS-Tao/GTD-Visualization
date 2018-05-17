@@ -7,7 +7,8 @@
     :dynamicMarkerPosition="dynamicMarkerLocation"
     :zoom="mapZoom"
     :lng="mapCenterLng"
-    :lat="mapCenterLat">
+    :lat="mapCenterLat"
+    url="https://api.mapbox.com/styles/v1/hideinme/cjhaowf2w176k2sr3qw1l0l8n/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiaGlkZWlubWUiLCJhIjoiY2o4MXB3eWpvNnEzZzJ3cnI4Z3hzZjFzdSJ9.FIWmaUbuuwT2Jl3OcBx1aQ">
     </leaflet-view>
     <div class="fixed-normal wordcloud-events-view"
     :class="{'fixed-silebar-visiable': sidebar.opened}">
@@ -118,7 +119,11 @@ export default {
             })
           })
           this.eventsInfoLoading = false
-          this.$notify.success('Loading information succeeds.')
+          this.$notify({
+            type: 'success',
+            message: 'Loading information succeeds.',
+            offset: 50
+          })
         })
         .catch(() => {
           this.eventsInfoLoading = false
@@ -146,7 +151,8 @@ export default {
         lat: val.lat
       }
       this.$notify({
-        message: this.$createElement('div', {style: 'color: #eee'}, 'Location：' + val.city + val.country)
+        message: this.$createElement('div', {style: 'color: #eee'}, 'Location：' + val.city + val.country),
+        offset: 50
       })
     },
     eventMouseOverChanged (val) {
