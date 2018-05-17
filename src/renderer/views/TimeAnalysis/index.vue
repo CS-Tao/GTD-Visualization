@@ -10,6 +10,7 @@
    type="daterange" 
    value-format="yyyyMMdd" 
    format="yyyy 年 MM 月 dd 日" 
+   :disabled="!regionCountBarDisplay"
    :unlink-panels="true"
    start-placeholde="起始日期" 
    end-placeholde="结束日期">
@@ -72,14 +73,40 @@
   v-if=singleCountryChartsDisplay>
   <div slot="header" 
   class="card-header" >
-    <span>损失情况</span>
+    <span>Loss Summary</span>
   </div>
-  <div class="card-item-name">死亡</div>
-  <div class="card-item-num">{{lossData.kill}} 人</div>
-  <div class="card-item-name">受伤</div>
-  <div class="card-item-num">{{lossData.wound}} 人</div>
-  <div class="card-item-name">造成经济损失</div>
-  <div class="card-item-num">{{lossData.prop}} 美元</div>
+  <div class="card-item-name">Victims</div>
+  <div class="card-item-num">{{lossData.kill}}</div>
+  <div class="card-item-name">Woundeds</div>
+  <div class="card-item-num">{{lossData.wound}}</div>
+  <div class="card-item-name">Economic losses</div>
+  <div class="card-item-num">$ {{lossData.prop}}</div>
+  </el-card>
+  <el-card 
+  class="detail-card"
+  v-if=detailDisplay>
+  <div slot="header" 
+  class="card-header" >
+    <span>Attack Record</span>
+  </div>
+  <div class="card-item-name">Time:</div>
+  <div class="card-item-num">{{detailData.time}}</div>
+  <div class="card-item-name">Place:</div>
+  <div class="card-item-num">{{detailData.place}}</div>
+  <div class="card-item-name">Group:</div>
+  <div class="card-item-num">{{detailData.group}}</div>
+  <div class="card-item-name">Attack type:</div>
+  <div class="card-item-num">{{detailData.attack}}</div>
+  <div class="card-item-name">Attack target</div>
+  <div class="card-item-num">{{detailData.target}}</div>
+  <div class="card-item-name">Weapon type:</div>
+  <div class="card-item-num">{{detailData.weapon}}</div>
+  <div class="card-item-name">Victims/Woundeds:</div>
+  <div class="card-item-num">{{detailData.victims}} / {{detailData.woundeds}}</div>
+  <div class="card-item-name">Incident report:</div>
+  <div class="card-item-num">{{detailData.summary}} 人</div>
+  <div class="card-item-name">Loss details:</div>
+  <div class="card-item-num">{{detailData.prop}}</div>
   </el-card>
 </div>
 </template>
@@ -90,7 +117,7 @@ import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
-import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById, getStatistics } from '@/api/timeAnalysisApi'
+import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
@@ -110,7 +137,19 @@ export default {
       lossData: {kill: 0, wound: 0, prop: 0},
       loading: true,
       countryList: [],
-      displayMode: 'global'
+      displayMode: 'global',
+      detailData: {
+        time: '2010-10-20',
+        place: 'Ankara, Turkey',
+        group: 'unknown',
+        attack: 'unknown',
+        target: 'unknown',
+        weapon: 'unknown',
+        victims: 0,
+        woundeds: 0,
+        summary: 'No record.',
+        prop: 'No record.'
+      }
     }
   },
   computed: {
@@ -216,8 +255,8 @@ export default {
             name: response.data.features[i].properties.countryName
           })
         }
-        console.log(countries)
-        console.log(countries[0].id)
+        // console.log(countries)
+        // console.log(countries[0].id)
         this.selectedElement = countries[0].id
         this.countryList = countries
         this.displayMode = 'region'
@@ -227,6 +266,7 @@ export default {
     initCountryView (countryId) {
       this.statisticsData = {}
       this.currentMode = 'country'
+      this.displayMode = 'country'
       getGeneral({
         format: 'json',
         start: this.startTime,
@@ -248,7 +288,7 @@ export default {
         endTime: this.endTime,
         country: countryId
       }).then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         this.statisticsData = response.data
         if (response.data.kill !== null) {
           this.lossData.kill = response.data.kill
@@ -262,11 +302,59 @@ export default {
       }).catch(() => {
       })
     },
+    initDetailView (eventId) {
+      console.log(eventId)
+      getEventById(eventId, {
+        format: 'json'
+      }).then(response => {
+        console.log(response.data)
+        this.currentMode = 'detail'
+        this.displayMode = 'detail'
+        this.pointsForDisplay = response.data
+        const detail = response.data.properties
+        if (detail.data !== null) {
+          this.detailData.time = detail.date
+        } else {
+          this.detailData.time = detail.year + ''
+        }
+        if (detail.city !== null && detail.city !== '') {
+          this.detailData.place = detail.city + ', ' + detail.country.countryName
+        } else {
+          this.detailData.place = detail.country.countryName
+        }
+        if (detail.groupName !== null && detail.groupName !== '' && detail.groupName !== ' ') {
+          this.detailData.group = detail.groupName
+        }
+        if (detail.attackType !== null) {
+          this.detailData.attack = detail.attackType.attackTypeName
+        }
+        if (detail.targetType !== null) {
+          this.detailData.target = detail.targetType.targetTypeName
+        }
+        if (detail.weaponType !== null) {
+          this.detailData.weapon = detail.weaponType.weaponTypeName
+        }
+        if (detail.numKill !== null) {
+          this.detailData.victims = detail.numKill
+        }
+        if (detail.numWound !== null) {
+          this.detailData.woundeds = detail.numWound
+        }
+        if (detail.summary !== null && detail.summary !== '' && detail.summary !== ' ') {
+          this.detailData.summary = detail.summary
+        }
+        if (detail.propComment !== null && detail.propComment !== '' && detail.propComment !== ' ') {
+          this.detailData.prop = detail.propComment
+        }
+      })
+    },
     getDate () {
       if (this.currentMode === 'global') {
         this.initGlobalView()
       } else if (this.currentMode === 'region') {
         this.initRegionView()
+      } else if (this.currentMode === 'country') {
+        this.initCountryView()
       }
     },
     clickListener (elementId) {
@@ -274,10 +362,12 @@ export default {
         this.initRegionView(elementId)
       } else if (this.currentMode === 'region') {
         this.initCountryView(elementId)
+      } else if (this.currentMode === 'country') {
+        this.initDetailView(elementId)
       }
     },
     selectElement (id) {
-      console.log(id)
+      // console.log(id)
       this.selectedElement = id
     },
     unselectElement (id) {
@@ -381,6 +471,43 @@ export default {
       font-size: 25px;
       margin-top: 30px;
       margin-bottom: 30px;
+      text-align: right;
+    }
+  }
+  .detail-card{
+    top: 25vh!important;
+    right: 0px;
+    margin-right: 50px;
+    background-color: transparent;
+    width: 350px!important;
+    height: 60%!important;
+    border-color: orange;
+    border-width: 0px!important;
+    box-shadow: 0 0 20px orange!important;
+    position: fixed;
+    z-index: 999;
+    .card-header {
+      font-family: 'STXihei'!important;
+      font-size: 25px;
+      color: orange;
+      text-align: left;
+      font-weight: 700;
+    }
+    .card-item-name{
+      color: orangered;
+      font-family: 'SimHei';
+      font-weight: 700;
+      font-size: 25px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+    .card-item-num{
+      color: orange;
+      font-family: 'SimHei';
+      font-weight: 700;
+      font-size: 25px;
+      margin-top: 2px;
+      margin-bottom: 2px;
       text-align: right;
     }
   }
