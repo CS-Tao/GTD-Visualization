@@ -1,12 +1,7 @@
  <template>
   <div :class="className"
    :id="id" 
-   :style="{height:height,width:width}" 
-   :title="title" :data="data" 
-   :textcolor="textColor"
-   :backgroundColor="backgroundColor"
-   :indicatorName="indicatorName"
-   :value="valueName">
+   :style="{height:height,width:width}" >
   </div>
 </template>
 
@@ -37,6 +32,10 @@ export default {
       // 图表标题
       type: String,
       default: ''
+    },
+    itemColor: {
+      type: String,
+      default: '#c23531'
     },
     data: {
       // 图表数据，格式为[{国家名：'中国',字段名：值}]
@@ -213,7 +212,7 @@ export default {
             },
             itemStyle: {
               normal: {
-                color: '#c23531',
+                color: this.itemColor,
                 shadowBlur: 200,
                 shadowColor: 'rgba(0, 0, 0, 0.5)'
               }
@@ -354,6 +353,9 @@ export default {
   },
   watch: {
     data (newData, oldData) {
+      this.initChart()
+    },
+    itemColor () {
       this.initChart()
     },
     selectName (newSelect, oldSelect) {

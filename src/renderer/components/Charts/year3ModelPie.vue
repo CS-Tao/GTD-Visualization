@@ -5,6 +5,7 @@
         :data="params"
         :selectName="selectName"
         :title="model+' type'"
+        :itemColor="color"
         @click-pie="send">
   </pie>
 </template>
@@ -40,10 +41,12 @@ export default {
   },
   data () {
     return {
-      params: []
+      params: [],
+      color: ''
     }
   },
   mounted () {
+    if (this.model === 'target') { this.color = '#A60000' } else if (this.model === 'attack') { this.color = '#009999' } else { this.color = '#9FEE00' }
   },
   methods: {
 
@@ -69,6 +72,11 @@ export default {
   watch: {
     obj () {
       this.initChart()
+    },
+    model (newModel, oldModel) {
+      if (newModel === 'target') { this.color = '#A60000' } else if (newModel === '#attack') { this.color = '#009999' } else { this.color = '#9FE00' }
+
+      console.log(this.color)
     }
   }
 }
