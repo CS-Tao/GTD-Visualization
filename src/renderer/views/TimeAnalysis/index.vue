@@ -1,5 +1,5 @@
 <template>
-<div class='time-analysis-container'>
+<div class='time-analysis-container' v-loading="loading" element-loading-text="数据加载中...">
   <div 
   class="fixed-normal datepicker-view"
    :class="{'fixed-silebar-visiable': sidebar.opened}">
@@ -39,7 +39,12 @@
   class="fixed-normal region-bar-chart"
   :class="{'fixed-silebar-visiable': sidebar.opened}"
   v-if="countryScatterDisplay"
-  id="country-scatter">
+  id="country-scatter"
+  :startString="startTime"
+  :endString="endTime"
+  :obj="pointsForDisplay"
+  :selectId="selectedElement"
+  :countryNameList="countryList">
   </country-scatter>
   <div class="radar-charts-container" v-if="singleCountryChartsDisplay">
   <country3-model-radar
@@ -80,11 +85,6 @@
 </template>
 
 <script>
-// :start="startTime"
-//   :end="endTime"
-//   :obj="pointsForDisplay"
-//   :selectId="selectedElement"
-//   :countryNameList="countryList">
 import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
@@ -107,7 +107,8 @@ export default {
       statisticsData: [],
       currentMode: 'global',
       selectedElement: -1,
-      lossData: {kill: 0, wound: 0, prop: 0}
+      lossData: {kill: 0, wound: 0, prop: 0},
+      loading: true
     }
   },
   computed: {
@@ -178,8 +179,14 @@ export default {
       })
         .then(response => {
           this.pointsForDisplay = response.data
+          if (this.loading) {
+            this.loading = false
+          }
         })
         .catch(() => {
+          if (this.loading) {
+            this.loading = false
+          }
         })
       getRegion({
         format: 'json'
@@ -282,6 +289,7 @@ export default {
     },
     backToHome () {
       this.currentMode = 'global'
+      this.loading = true
       this.initGlobalView()
     }
   }
