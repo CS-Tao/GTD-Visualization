@@ -6,7 +6,7 @@
         :selectName="selectName"
         :vertical="false"
         title="loss by region"
-        formatter="{b}: <br/>造成损失 : {c0} <br/>受伤人数 : {c1} <br/>死亡人数 : {c2}"
+        formatter="{b}: <br/>SUM of Prop : {c0} <br/>SUM of Wound : {c1} <br/>SUM of Kill : {c2}"
         @click-bar="sendClick"
         @over-bar="sendOver"
         @out-bar="sendOut">
