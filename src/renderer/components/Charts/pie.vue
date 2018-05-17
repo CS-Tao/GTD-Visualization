@@ -125,9 +125,9 @@ export default {
           text: this.title,
           show: true,
           left: 'center',
-          top: 'bottom',
+          bottom: '5%',
           textStyle: {
-            color: '#00A383'
+            color: '#ccc'
           }
         },
 
