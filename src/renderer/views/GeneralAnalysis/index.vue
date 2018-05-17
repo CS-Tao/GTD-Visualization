@@ -81,14 +81,16 @@ export default {
 .general-analysis-container {
   height: 100%;
   width: 100%;
+  position: relative;
   display: flex;
   flex-flow: row;
-  align-items: stretch;
   .rotate-selecter {
-    flex: 1;
+    width: 10%;
+    height: 100%;
   }
   .chart-views {
-    flex: 9;
+    height: 100%;
+    width: 90%;
     display: flex;
     flex-flow: column;
     align-items: stretch;
