@@ -108,7 +108,9 @@ export default {
       currentMode: 'global',
       selectedElement: -1,
       lossData: {kill: 0, wound: 0, prop: 0},
-      loading: true
+      loading: true,
+      countryList: [],
+      displayMode: 'global'
     }
   },
   computed: {
@@ -122,47 +124,31 @@ export default {
       return this.dateRange[1]
     },
     regionCountBarDisplay: function () {
-      if (this.currentMode === 'global') {
+      if (this.displayMode === 'global') {
         return true
       } else {
         return false
       }
     },
     countryScatterDisplay: function () {
-      if (this.currentMode === 'region') {
+      if (this.displayMode === 'region') {
         return true
       } else {
         return false
       }
     },
     singleCountryChartsDisplay: function () {
-      if (this.currentMode === 'country') {
+      if (this.displayMode === 'country') {
         return true
       } else {
         return false
       }
     },
     detailDisplay: function () {
-      if (this.currentMode === 'detail') {
+      if (this.displayMode === 'detail') {
         return true
       } else {
         return false
-      }
-    },
-    countryList: function () {
-      let countries = []
-      if (this.currentMode === 'region') {
-        this.geoJSONForDisplay.features.foreach(function (feature) {
-          let cid = feature.id
-          let cname = feature.properties.countryName
-          countries.push({
-            id: cid,
-            name: cname
-          })
-        })
-        return countries
-      } else {
-        return []
       }
     }
   },
@@ -221,12 +207,22 @@ export default {
       getCountry({
         format: 'json',
         region: regionId
+      }).then(response => {
+        this.geoJSONForDisplay = response.data
+        let countries = []
+        for (var i = 0; i < response.data.features.length; i++) {
+          countries.push({
+            id: response.data.features[i].id,
+            name: response.data.features[i].properties.countryName
+          })
+        }
+        console.log(countries)
+        console.log(countries[0].id)
+        this.selectedElement = countries[0].id
+        this.countryList = countries
+        this.displayMode = 'region'
+      }).catch(() => {
       })
-        .then(response => {
-          this.geoJSONForDisplay = response.data
-        })
-        .catch(() => {
-        })
     },
     initCountryView (countryId) {
       this.statisticsData = {}
@@ -274,7 +270,6 @@ export default {
       }
     },
     clickListener (elementId) {
-      console.log(this.currentMode)
       if (this.currentMode === 'global') {
         this.initRegionView(elementId)
       } else if (this.currentMode === 'region') {
@@ -282,6 +277,7 @@ export default {
       }
     },
     selectElement (id) {
+      console.log(id)
       this.selectedElement = id
     },
     unselectElement (id) {
@@ -289,6 +285,7 @@ export default {
     },
     backToHome () {
       this.currentMode = 'global'
+      this.displayMode = 'global'
       this.loading = true
       this.initGlobalView()
     }
