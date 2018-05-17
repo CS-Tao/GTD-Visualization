@@ -1,8 +1,10 @@
 <template>
-<div class='time-analysis-container'>
-  <el-date-picker
-   class="fixed-normal datepicker-view"
-   :class="{'fixed-silebar-visiable': sidebar.opened}"
+<div class='time-analysis-container' v-loading="loading" element-loading-text="数据加载中...">
+  <div 
+  class="fixed-normal datepicker-view"
+   :class="{'fixed-silebar-visiable': sidebar.opened}">
+  <el-button icon="el-icon-menu" circle style="background: transparent" v-on:click="backToHome"></el-button>
+  <el-date-picker 
    v-on:change="getDate"
    v-model="dateRange" 
    type="daterange" 
@@ -12,6 +14,7 @@
    start-placeholde="起始日期" 
    end-placeholde="结束日期">
    </el-date-picker>
+  </div>
   <time-analysis-map-view
   class="map-view"
   v-on:map-region-hover="selectElement" 
@@ -36,7 +39,12 @@
   class="fixed-normal region-bar-chart"
   :class="{'fixed-silebar-visiable': sidebar.opened}"
   v-if="countryScatterDisplay"
-  id="country-scatter">
+  id="country-scatter"
+  :startString="startTime"
+  :endString="endTime"
+  :obj="pointsForDisplay"
+  :selectId="selectedElement"
+  :countryNameList="countryList">
   </country-scatter>
   <div class="radar-charts-container" v-if="singleCountryChartsDisplay">
   <country3-model-radar
@@ -77,11 +85,6 @@
 </template>
 
 <script>
-// :start="startTime"
-//   :end="endTime"
-//   :obj="pointsForDisplay"
-//   :selectId="selectedElement"
-//   :countryNameList="countryList">
 import { mapGetters } from 'vuex'
 import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
@@ -104,7 +107,10 @@ export default {
       statisticsData: [],
       currentMode: 'global',
       selectedElement: -1,
-      lossData: {kill: 0, wound: 0, prop: 0}
+      lossData: {kill: 0, wound: 0, prop: 0},
+      loading: true,
+      countryList: [],
+      displayMode: 'global'
     }
   },
   computed: {
@@ -118,47 +124,31 @@ export default {
       return this.dateRange[1]
     },
     regionCountBarDisplay: function () {
-      if (this.currentMode === 'global') {
+      if (this.displayMode === 'global') {
         return true
       } else {
         return false
       }
     },
     countryScatterDisplay: function () {
-      if (this.currentMode === 'region') {
+      if (this.displayMode === 'region') {
         return true
       } else {
         return false
       }
     },
     singleCountryChartsDisplay: function () {
-      if (this.currentMode === 'country') {
+      if (this.displayMode === 'country') {
         return true
       } else {
         return false
       }
     },
     detailDisplay: function () {
-      if (this.currentMode === 'detail') {
+      if (this.displayMode === 'detail') {
         return true
       } else {
         return false
-      }
-    },
-    countryList: function () {
-      let countries = []
-      if (this.currentMode === 'region') {
-        this.geoJSONForDisplay.features.foreach(function (feature) {
-          let cid = feature.id
-          let cname = feature.properties.countryName
-          countries.push({
-            id: cid,
-            name: cname
-          })
-        })
-        return countries
-      } else {
-        return []
       }
     }
   },
@@ -175,8 +165,14 @@ export default {
       })
         .then(response => {
           this.pointsForDisplay = response.data
+          if (this.loading) {
+            this.loading = false
+          }
         })
         .catch(() => {
+          if (this.loading) {
+            this.loading = false
+          }
         })
       getRegion({
         format: 'json'
@@ -211,12 +207,22 @@ export default {
       getCountry({
         format: 'json',
         region: regionId
+      }).then(response => {
+        this.geoJSONForDisplay = response.data
+        let countries = []
+        for (var i = 0; i < response.data.features.length; i++) {
+          countries.push({
+            id: response.data.features[i].id,
+            name: response.data.features[i].properties.countryName
+          })
+        }
+        console.log(countries)
+        console.log(countries[0].id)
+        this.selectedElement = countries[0].id
+        this.countryList = countries
+        this.displayMode = 'region'
+      }).catch(() => {
       })
-        .then(response => {
-          this.geoJSONForDisplay = response.data
-        })
-        .catch(() => {
-        })
     },
     initCountryView (countryId) {
       this.statisticsData = {}
@@ -264,7 +270,6 @@ export default {
       }
     },
     clickListener (elementId) {
-      console.log(this.currentMode)
       if (this.currentMode === 'global') {
         this.initRegionView(elementId)
       } else if (this.currentMode === 'region') {
@@ -272,10 +277,17 @@ export default {
       }
     },
     selectElement (id) {
+      console.log(id)
       this.selectedElement = id
     },
     unselectElement (id) {
       this.selectedElement = -1
+    },
+    backToHome () {
+      this.currentMode = 'global'
+      this.displayMode = 'global'
+      this.loading = true
+      this.initGlobalView()
     }
   }
 }
@@ -305,11 +317,11 @@ export default {
   }
   .datepicker-view {
     height: 36px!important;
-    width: 350px!important;
+    width: 450px!important;
     margin: 20px;
     transition: 0.4s all ease-out;
     background-color: transparent;
-    border-width: 2px;
+    border-width: 1px;
   }
   .region-bar-chart {
     position: fix!important;
@@ -318,6 +330,7 @@ export default {
     height: 25%!important;
     width: 100%!important;
     transition: 0.4s all;
+    background: rgba(0,0,0,0.2)!important;
   }
   .radar-charts-container{
     display: flex;

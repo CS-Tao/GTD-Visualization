@@ -219,6 +219,8 @@ export default {
             }
           })
         }
+      } else if (newMode === 'global') {
+        this.map.setView([37, 38], 2)
       }
     },
     displayPointData (newData, oldData) {
