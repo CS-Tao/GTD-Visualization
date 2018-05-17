@@ -126,15 +126,15 @@ export default {
           text: this.title,
           show: true,
           left: 'center',
-          top: 20,
+          top: 'bottom',
           textStyle: {
-            color: '#ccc'
+            color: '#00A383'
           }
         },
 
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          formatter: this.title + ' <br/>{b} : {c} ({d}%)'
         },
 
         visualMap: {
@@ -155,7 +155,8 @@ export default {
           {
             name: this.wo,
             type: 'pie',
-            radius: '55%',
+            // radius: '55%',
+            radius: ['20%', '55%'],
             center: ['50%', '50%'],
             data: values.sort(function (a, b) { return a.value - b.value }),
             roseType: 'radius',
