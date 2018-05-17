@@ -72,3 +72,13 @@ export function getGlobalStatistics (params) {
     params
   })
 }
+
+// get detail information by event id
+export function getEventById (id, params) {
+  const url = '/gtd/api/tdinfo/' + id
+  return request({
+    url: url,
+    method: 'get',
+    params
+  })
+}

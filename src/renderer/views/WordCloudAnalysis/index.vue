@@ -13,7 +13,7 @@
     :class="{'fixed-silebar-visiable': sidebar.opened}">
       <word-cloud
        v-loading="wordcloudDataLoading"
-       element-loading-text="词云加载中..."
+       element-loading-text="Loading wordcloud..."
       :data="wordcloudData"
       @item-clicked="showEventInfoList"
       @blank-clicked="clearEventInfoList"
@@ -23,7 +23,7 @@
       </word-cloud>
       <el-table
       v-loading="eventsInfoLoading"
-      element-loading-text="事件详情加载中..."
+      element-loading-text="Loading event details..."
       border
       height="100%"
       :data="eventsInfoList"
@@ -61,7 +61,7 @@ export default {
       eventsInfoLoading: false,
       wordcouldFontSize: [10, 80],
       wordcloudData: [],
-      eventsViewerTitle: '事件信息',
+      eventsViewerTitle: 'Event Information',
       eventsInfoList: [],
       mapCenterLng: 38,
       mapCenterLat: 38,
@@ -96,7 +96,7 @@ export default {
   methods: {
     showEventInfoList (keyword) {
       this.eventsInfoLoading = true
-      this.eventsViewerTitle = '事件信息 - 关键词: ' + keyword
+      this.eventsViewerTitle = 'Event Information - Keyword: ' + keyword
       getTdInfo({
         format: 'json',
         keyword: keyword
@@ -118,7 +118,7 @@ export default {
             })
           })
           this.eventsInfoLoading = false
-          this.$notify.success('事件信息读取成功')
+          this.$notify.success('Loading information succeeds.')
         })
         .catch(() => {
           this.eventsInfoLoading = false
@@ -146,7 +146,7 @@ export default {
         lat: val.lat
       }
       this.$notify({
-        message: this.$createElement('div', {style: 'color: #eee'}, '地点：' + val.city + val.country)
+        message: this.$createElement('div', {style: 'color: #eee'}, 'Location：' + val.city + val.country)
       })
     },
     eventMouseOverChanged (val) {
@@ -175,6 +175,9 @@ export default {
       flex: 1.5;
       background: rgba(255,255,255,0);
       transition: all .3s cubic-bezier(.55, 0, .1, 1);
+      border-radius: 10px;
+      margin-right: 10px!important;
+      margin-top: 5px!important;
     }
     .events-view-hide {
       display: none;

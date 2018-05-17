@@ -127,6 +127,10 @@ export default {
       type: [String],
       default: 'value'
     },
+    formatter: {
+      type: [String, Function],
+      default: ''
+    },
     selectName: {
       // 选中的数据名称
       type: String,
@@ -150,6 +154,17 @@ export default {
   },
   mounted () {
     this.initChart()
+    var that = this
+    this.chart.on('click', function (params) {
+      // 发送点击消息
+      that.$emit('click-bar', params.name)
+    })
+    this.chart.on('mouseover', function (params) {
+      that.$emit('over-bar', params.name)
+    })
+    this.chart.on('mouseout', function (params) {
+      that.$emit('out-bar', params.name)
+    })
   },
   beforeDestroy () {
     if (!this.chart) {
@@ -163,6 +178,13 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
 
       this.chart.setOption({
+        title: {
+          text: this.title,
+          left: 'center',
+          textStyle: {
+            color: '#ccc'
+          }
+        },
         backgroundColor: this.getColor(this.backgroundColor),
         grid: {
           left: '3%',
@@ -177,7 +199,8 @@ export default {
             shadowStyle: {
               color: 'rgba(0,0,0,0)'
             }
-          }
+          },
+          formatter: this.formatter
         },
 
         xAxis: [{
@@ -256,17 +279,6 @@ export default {
         animationDelayUpdate (idx) {
           return idx * 20
         }
-      })
-      var that = this
-      this.chart.on('click', function (params) {
-        // 发送点击消息
-        that.$emit('click-bar', params.name)
-      })
-      this.chart.on('mouseover', function (params) {
-        that.$emit('over-bar', params.name)
-      })
-      this.chart.on('mouseout', function (params) {
-        that.$emit('out-bar', params.name)
       })
     },
     getIndicator (data) {

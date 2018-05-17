@@ -13,7 +13,7 @@ export default {
       type: Object,
       default: {}
     },
-    // global/region/country
+    // global/region/country/detail
     displayMode: {
       type: String,
       default: 'global'
@@ -87,20 +87,54 @@ export default {
       } else if (this.displayMode === 'country') {
         return {
           pointToLayer: function (geoJsonPoint, latlng) {
-            const pointOptions = {
-              radius: 7,
-              stroke: false,
-              color: '#E66417',
-              weight: 1,
-              opacity: 1,
-              fill: true,
-              fillOpacity: 1,
-              render: L.svg(),
-              className: 'main-point-marker'
-            }
-            const layer = L.circleMarker(latlng, pointOptions)
-            layer.id = geoJsonPoint.id
-            return L.circleMarker(latlng, pointOptions)
+            const pointIcon = L.icon({
+              iconUrl: 'static/icons/pin_red.png',
+              iconSize: [16, 24],
+              iconAnchor: [8, 24]
+            })
+            const activeIcon = L.icon({
+              iconUrl: 'static/icons/pin_blue.png',
+              iconSize: [16, 24],
+              iconAnchor: [8, 24]
+            })
+            const layer = L.marker(latlng, {
+              icon: pointIcon,
+              riseOnHover: true
+            })
+            // const pointOptions = {
+            //   radius: 7,
+            //   stroke: false,
+            //   color: '#E66417',
+            //   weight: 1,
+            //   opacity: 1,
+            //   fill: true,
+            //   fillOpacity: 1,
+            //   render: L.svg(),
+            //   className: 'main-point-marker'
+            // }
+            // const layer = L.circleMarker(latlng, pointOptions)
+            // layer.id = geoJsonPoint.id
+            // layer.on('mouseover', function () {
+            //   layer.setStyle({
+            //     fillColor: '#EA0037'
+            //   })
+            // })
+            // layer.on('mouseout', function () {
+            //   layer.setStyle({
+            //     fillColor: '#E66417'
+            //   })
+            // })
+            layer.on('mouseover', function () {
+              layer.setIcon(activeIcon)
+            })
+            layer.on('mouseout', function () {
+              layer.setIcon(pointIcon)
+            })
+            layer.on('click', function () {
+              that.map.flyTo(L.latLng(layer.getLatLng().lat, layer.getLatLng().lng + 2), that.map.getZoom() + 2)
+              that.$emit('map-region-click', geoJsonPoint.id)
+            })
+            return layer
           },
           onEachFeature: function (feature, layer) {
             const ringOptions = {
@@ -108,6 +142,73 @@ export default {
               stroke: true,
               color: '#E66417',
               weight: 2,
+              opacity: 1,
+              fill: false,
+              render: L.svg(),
+              className: 'main-firstring-marker'
+            }
+            const firstRingLayer = L.circleMarker(layer.getLatLng(), ringOptions)
+            ringOptions.className = 'main-secondring-marker'
+            const secondRingLayer = L.circleMarker(layer.getLatLng(), ringOptions)
+            firstRingLayer.on('mouseover', function () {
+              firstRingLayer.setStyle({
+                color: '#F80012'
+              })
+            })
+            secondRingLayer.on('mouseover', function () {
+              secondRingLayer.setStyle({
+                color: '#F80012'
+              })
+            })
+            firstRingLayer.on('mouseout', function () {
+              firstRingLayer.setStyle({
+                color: '#F80012'
+              })
+            })
+            secondRingLayer.on('mouseout', function () {
+              secondRingLayer.setStyle({
+                color: '#F80012'
+              })
+            })
+            that.currentPointLayerGroup.addLayer(firstRingLayer)
+            // that.currentPointLayerGroup.addLayer(secondRingLayer)
+            // layer.on('mouseover', function () {
+            //   layer.setStyle({
+            //     fillColor: '#EA0037'
+            //   })
+            // })
+            // layer.on('mouseout', function () {
+            //   layer.setStyle({
+            //     fillColor: '#E66417'
+            //   })
+            // })
+            // layer.on('click', function () {
+            //   that.$emit('map-region-click', feature.id)
+            // })
+          }
+        }
+      } else if (this.displayMode === 'detail') {
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointOptions = {
+              radius: 10,
+              stroke: false,
+              color: '#F80012',
+              weight: 1,
+              opacity: 1,
+              fill: true,
+              fillOpacity: 1,
+              render: L.svg(),
+              className: 'main-point-marker'
+            }
+            return L.circleMarker(latlng, pointOptions)
+          },
+          onEachFeature: function (feature, layer) {
+            const ringOptions = {
+              radius: 30,
+              stroke: true,
+              color: '#F80012',
+              weight: 3,
               opacity: 1,
               fill: false,
               render: L.svg(),
@@ -219,6 +320,8 @@ export default {
             }
           })
         }
+      } else if (newMode === 'global') {
+        this.map.setView([37, 38], 2)
       }
     },
     displayPointData (newData, oldData) {
