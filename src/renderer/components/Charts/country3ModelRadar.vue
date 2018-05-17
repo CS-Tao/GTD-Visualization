@@ -3,6 +3,7 @@
         height="100%"
         width="100%"
         :data="params"
+        :title="model+' Type'"
         :selectName="selectName"
         @click-radar="send">
   </radar>
@@ -38,23 +39,39 @@ export default {
     }
   },
   data () {
-    var param = []
-    for (var i = 0; i < 5; i++) {
-      var dic = {}
-      dic.indicator = this.obj[this.model][i][this.model + 'TypeName']
-      dic.value = this.obj[this.model][i].count
-      param.push(dic)
-    }
     return {
-      params: param
+      params: [
+        {
+          indicator: 'type1jfhgfhgfhdhdhfhgfhdhgdgfdgfdddgdgfdgfdgfdhgdgfqwertyuiopasdfghjkl',
+          value: 2
+        },
+        {
+          indicator: 'type2',
+          value: 0
+        },
+        {
+          indicator: 'type3',
+          value: 1
+        },
+        {
+          indicator: 'type4',
+          value: 0
+        },
+        {
+          indicator: 'type5',
+          value: 0
+        }
+      ]
     }
   },
   mounted () {
-    this.initChart()
   },
   methods: {
 
     initChart () {
+      if (this.obj === {}) {
+        return
+      }
       var param = []
       for (var i = 0; i < 5; i++) {
         var dic = {}

@@ -3,12 +3,10 @@
 </template>
 
 <script>
-import Mixin from '../Mixin'
 export default {
   name: 'Blank',
-  mixins: [Mixin],
-  created () {
-    this.changeLayout()
+  mounted () {
+    this.$changeLayout()
   }
 }
 </script>

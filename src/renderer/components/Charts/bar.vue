@@ -28,10 +28,18 @@ export default {
       type: String,
       default: '100%'
     },
+    strack: {
+      type: Boolean,
+      default: false
+    },
     title: {
       // 图表标题
       type: String,
       default: ''
+    },
+    barBorderRadius: {
+      type: Number,
+      default: 10
     },
     vertical: {
       // bar是否竖直排列：布尔型
@@ -287,6 +295,9 @@ export default {
       var res = []
       for (var key in data) {
         var dic = {}
+        if (this.strack) {
+          dic.stack = 'one'
+        }
         dic.name = key
         dic.type = 'bar'
         dic.data = this.getValue(data[key])
@@ -294,7 +305,7 @@ export default {
         dic.z = 0
         dic.itemStyle = {
           normal: {
-            barBorderRadius: 10,
+            barBorderRadius: this.barBorderRadius,
             color: this.vertical ? '#0D58A6' : ''
           },
           emphasis: {
@@ -394,7 +405,6 @@ export default {
   },
   watch: {
     data (newData, oldData) {
-      console.log(this.data)
       this.initChart()
     },
     selectName (newSelect, oldSelect) {

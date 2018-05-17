@@ -47,6 +47,9 @@ export default {
   methods: {
 
     initChart () {
+      if (this.obj === {}) {
+        return
+      }
       var param = []
       for (var i = 0; i < 5; i++) {
         var dic = {}

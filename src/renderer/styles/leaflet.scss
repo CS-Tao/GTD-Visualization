@@ -1,5 +1,10 @@
 @import './variables.scss';
 
+.single-static-point-marker {
+    animation: static-point-marker-in .5s ease-out;
+    transform-origin: 50% 50% 0;
+    box-shadow: 0 0 10px red;
+}
 
 .single-point-marker {
     animation: blink 3s ease-out;
@@ -10,6 +15,8 @@
 .main-point-marker {
     animation: blink 3s ease-out;
     -webkit-animation: blink 3s ease-out;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
@@ -17,6 +24,8 @@
 .main-firstring-marker {
     animation: diffusion 2s ease-out forwards 1;
     -webkit-animation: diffusion 2s ease-out forwards 1;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
@@ -25,6 +34,8 @@
     opacity: 0;
     animation: diffusion 2s ease-out 1s;
     -webkit-animation: diffusion 2s ease-out 1s;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
@@ -50,6 +61,7 @@
           opacity: 0;
       }
 }
+
 @keyframes blink {
     0% {
         opacity: 0;
@@ -80,5 +92,29 @@
     100% {
         opacity: 0;
         -webkit-transform: scale(0);
+    }
+}
+
+@keyframes static-point-marker-in {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+        -webkit-transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.0);
+        -webkit-transform: scale(1);
+    }
+}
+
+@-webkit-keyframes static-point-marker-in {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
     }
 }

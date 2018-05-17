@@ -1,5 +1,5 @@
 <template>
-  <div class="map-view">
+  <div class="map-view" v-loading="loading" element-loading-text="数据加载中...">
     <leaflet-view mapId="dashboard-leaflet-map" :currentDailyData="dailyDataForMapView"></leaflet-view>
     <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval" :hidden="routerViewMode === 2"></date-display>
   </div>
@@ -26,7 +26,8 @@ export default {
       dailyDataForMapView: [],
       currentDate: new Date(),
       totalDays: 365,
-      freshInterval: 300
+      freshInterval: 300,
+      loading: true
     }
   },
   computed: {
@@ -35,23 +36,29 @@ export default {
     ])
   },
   mounted () {
+    // Add this view to cache
     if (this.$route.name) {
       this.$store.dispatch('addVisitedViews', this.$route)
     }
     getGeneral({
       year: this.year,
       format: 'json'
-    }).then(response => {
-      this.geojsonData = response.data
-      if (this.geojsonData && this.geojsonData.features &&
-      this.geojsonData.features.length > 1 && this.geojsonData.features[0]) {
-        this.year = this.geojsonData.features[0].properties.year
-        if (isLeapYear(this.geojsonData.features[0].properties.year)) {
-          this.totalDays = 366
-        }
-      }
-      this.startUpdateTimer()
     })
+      .then(response => {
+        this.geojsonData = response.data
+        if (this.geojsonData && this.geojsonData.features &&
+        this.geojsonData.features.length > 1 && this.geojsonData.features[0]) {
+          this.year = this.geojsonData.features[0].properties.year
+          if (isLeapYear(this.geojsonData.features[0].properties.year)) {
+            this.totalDays = 366
+          }
+        }
+        if (this.loading) { this.loading = false }
+        this.startUpdateTimer()
+      })
+      .catch(() => {
+        if (this.loading) { this.loading = false }
+      })
   },
   methods: {
     startUpdateTimer () {

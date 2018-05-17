@@ -75,18 +75,18 @@ export const constantRouterMap = [
       }
     ]
   },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: 'economy-analysis',
-        component: require('@/components/LandingPage').default,
-        name: 'economy-analysis',
-        meta: { title: '经济分析', icon: 'money', noCache: false, mode: 1 }
-      }
-    ]
-  },
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'economy-analysis',
+  //       component: require('@/components/LandingPage').default,
+  //       name: 'economy-analysis',
+  //       meta: { title: '经济分析', icon: 'money', noCache: false, mode: 1 }
+  //     }
+  //   ]
+  // },
   {
     path: '',
     component: Layout,

@@ -23,11 +23,9 @@
 <script>
 import img404 from '@/assets/404_images/404.png'
 import img404cloud from '@/assets/404_images/404_cloud.png'
-import Mixin from '../Mixin'
 
 export default {
   name: 'page404',
-  mixins: [Mixin],
   data () {
     return {
       img404,
@@ -39,8 +37,8 @@ export default {
       return '特朗普说这个页面你不能进......'
     }
   },
-  created () {
-    this.changeLayout()
+  mounted () {
+    this.$changeLayout()
   }
 }
 </script>

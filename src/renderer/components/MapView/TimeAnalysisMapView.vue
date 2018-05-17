@@ -1,5 +1,7 @@
 <template>
-  <div id="TimeAnalysisMapView"></div>
+  <div>
+    <div id="TimeAnalysisMapView"></div>
+  </div>
 </template>
 
 <script>
@@ -52,64 +54,101 @@ export default {
       }
     },
     pointType () {
+      const that = this
       if (this.displayMode === 'global') {
-        return function (geoJsonPoint, latlng) {
-          const pointOptions = {
-            radius: 2,
-            stroke: false,
-            color: '#E65217',
-            weight: 1,
-            opacity: 1,
-            fill: true,
-            fillOpacity: 1
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointOptions = {
+              radius: 2,
+              stroke: false,
+              color: '#E65217',
+              weight: 1,
+              opacity: 1,
+              fill: true,
+              fillOpacity: 1
             // render: L.svg(),
             // className: 'main-point-marker'
+            }
+            const layer = L.circleMarker(latlng, pointOptions)
+            layer.id = geoJsonPoint.id
+            return L.circleMarker(latlng, pointOptions)
           }
-          const layer = L.circleMarker(latlng, pointOptions)
-          layer.id = geoJsonPoint.id
-          return L.circleMarker(latlng, pointOptions)
         }
       } else if (this.displayMode === 'region') {
-        return function (geoJsonPoint, latlng) {
-          const pointIcon = L.icon({
-            iconUrl: '../../../../static/icons/point_light.png',
-            iconSize: [10, 10]
-          })
-          return L.marker(latlng, {icon: pointIcon, opacity: 0.8})
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointIcon = L.icon({
+              iconUrl: '../../../../static/icons/point_light.png',
+              iconSize: [10, 10]
+            })
+            return L.marker(latlng, {icon: pointIcon, opacity: 0.8})
+          }
         }
       } else if (this.displayMode === 'country') {
-        return function (geoJsonPoint, latlng) {
-          const layerGroup = L.LayerGroup()
-          const ringOptions = {
-            radius: 10,
-            stroke: true,
-            color: '#E66417',
-            weight: 2,
-            opacity: 1,
-            fill: false,
-            render: L.svg(),
-            className: 'main-firstring-marker'
+        return {
+          pointToLayer: function (geoJsonPoint, latlng) {
+            const pointOptions = {
+              radius: 7,
+              stroke: false,
+              color: '#E66417',
+              weight: 1,
+              opacity: 1,
+              fill: true,
+              fillOpacity: 1,
+              render: L.svg(),
+              className: 'main-point-marker'
+            }
+            const layer = L.circleMarker(latlng, pointOptions)
+            layer.id = geoJsonPoint.id
+            return L.circleMarker(latlng, pointOptions)
+          },
+          onEachFeature: function (feature, layer) {
+            const ringOptions = {
+              radius: 16,
+              stroke: true,
+              color: '#E66417',
+              weight: 2,
+              opacity: 1,
+              fill: false,
+              render: L.svg(),
+              className: 'main-firstring-marker'
+            }
+            const firstRingLayer = L.circleMarker(layer.getLatLng(), ringOptions)
+            ringOptions.className = 'main-secondring-marker'
+            const secondRingLayer = L.circleMarker(layer.getLatLng(), ringOptions)
+            that.currentPointLayerGroup.addLayer(firstRingLayer)
+            that.currentPointLayerGroup.addLayer(secondRingLayer)
           }
-          const firstRingLayer = L.circleMarker(latlng, ringOptions)
-          ringOptions.className = 'main-secondring-marker'
-          const secondRingLayer = L.circleMarker(latlng, ringOptions)
-          layerGroup.addLayer(firstRingLayer)
-          layerGroup.addLayer(secondRingLayer)
-          const pointOptions = {
-            radius: 5,
-            stroke: false,
-            color: '#E65217',
-            weight: 1,
-            opacity: 1,
-            fill: true,
-            fillOpacity: 1,
-            render: L.svg(),
-            className: 'main-point-marker'
-          }
-          const pointLayer = L.circleMarker(latlng, pointOptions)
-          layerGroup.addLayer(pointLayer)
-          return layerGroup
         }
+      }
+    },
+    polygonEventType () {
+      const that = this
+      if (this.displayMode === 'global') {
+        return function (feature, layer) {
+          layer.id = feature.id
+          layer.on('mouseover', function () {
+            that.$emit('map-region-hover', feature.id)
+          })
+          layer.on('mouseout', function () {
+            that.$emit('map-region-unhover', feature.id)
+          })
+          layer.on('click', function () {
+            that.$emit('map-region-click', feature.id)
+          })
+        }
+      } else if (this.displayMode === 'region') {
+        return function (feature, layer) {
+          layer.id = feature.id
+          layer.on('mouseover', function () {
+            that.$emit('map-region-hover', feature.id)
+          })
+          layer.on('click', function () {
+            that.$emit('map-region-click', feature.id)
+          })
+        }
+      } else if (this.displayMode === 'country') {
+        return function (feature, layer) {}
       }
     }
   },
@@ -119,9 +158,10 @@ export default {
       {
         zoomControl: false,
         attributionControl: false,
-        dragging: false,
+        // dragging: false,
         scrollWheelZoom: false,
-        worldCopyJump: true
+        worldCopyJump: true,
+        doubleClickZoom: false
       })
       .setView(this.mapParams.initCenter, this.mapParams.zoom)
     L.tileLayer(this.mapParams.url, {
@@ -142,7 +182,7 @@ export default {
           return {
             stroke: true,
             color: that.themeColor,
-            weight: 1,
+            weight: 2,
             opacity: 1,
             fill: true,
             fillColor: that.themeColor,
@@ -151,46 +191,40 @@ export default {
             interactive: true
           }
         },
-        onEachFeature: function (feature, layer) {
-          layer.id = feature.id
-          layer.on('mouseover', function () {
-            layer.setStyle({
-              fillOpacity: 0.6})
-            that.$emit('map-region-hover', feature.id)
-          })
-          layer.on('mouseout', function () {
-            layer.setStyle({
-              fillOpacity: 0.1
-            })
-            that.$emit('map-region-unhover', feature.id)
-          })
-          layer.on('click', function () {
-            that.$emit('map-region-click', feature.id)
-          })
-        }
+        onEachFeature: this.polygonEventType
       }
       const geoJSON = L.geoJSON(this.displayGeojsonData, geoJSONOptions)
-      geoJSON.mode = this.displayMode
+      // geoJSON.mode = this.displayMode
       this.currentPolygonLayerGroup.addLayer(geoJSON)
     },
     displayMode (newMode, oldMode) {
       const that = this
-      this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
-        if (layer.id === that.selectedId) {
-          layer.setStyle({fillOpacity: 0.9})
-          const bounds = layer.getBounds()
-          that.map.flyToBounds(bounds)
+      if (newMode === 'region') {
+        if (oldMode === 'global') {
+          this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
+            if (layer.id === that.selectedId) {
+              layer.setStyle({fillOpacity: 0.9})
+              const bounds = layer.getBounds()
+              that.map.flyToBounds(bounds, {paddingBottomRight: [0, 0]})
+            }
+          })
         }
-      })
-    },
-    displayPointData () {
-    //   this.map.getSource('pointSource').setData(this.displayPointData)
-      this.currentPointLayerGroup.clearLayers()
-      const geoJSONOptions = {
-        pointToLayer: this.pointType
+      } else if (newMode === 'country') {
+        if (oldMode === 'region') {
+          this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
+            if (layer.id === that.selectedId) {
+              layer.setStyle({fillOpacity: 0.9})
+              const bounds = layer.getBounds()
+              that.map.flyToBounds(bounds)
+            }
+          })
+        }
       }
-      const geoJSON = L.geoJSON(this.displayPointData, geoJSONOptions)
-      geoJSON.mode = this.displayMode
+    },
+    displayPointData (newData, oldData) {
+      this.currentPointLayerGroup.clearLayers()
+      const geoJSON = L.geoJSON(newData, this.pointType)
+      // geoJSON.mode = this.displayMode
       this.currentPointLayerGroup.addLayer(geoJSON)
     },
     selectedId (newId, oldId) {
@@ -202,6 +236,13 @@ export default {
           }
         })
       } else {
+        if (oldId !== -1) {
+          this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
+            if (layer.id === oldId) {
+              layer.setStyle({fillOpacity: 0.1})
+            }
+          })
+        }
         this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
           if (layer.id === newId) {
             layer.setStyle({fillOpacity: 0.6})
@@ -216,7 +257,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url("../../../../node_modules/leaflet/dist/leaflet.css");
 #TimeAnalysisMapView {
   // position: absolute;
   // top: 0;
@@ -230,21 +270,27 @@ export default {
 .main-point-marker {
     animation: blink 3s ease-out;
     -webkit-animation: blink 3s ease-out;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
 
 .main-firstring-marker {
-    animation: diffusion 2s ease-out forwards 1;
-    -webkit-animation: diffusion 2s ease-out forwards 1;
+    animation: diffusion 2s ease-out forwards infinite!important;
+    -webkit-animation: diffusion 2s ease-out forwards infinite!important;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
 
 .main-secondring-marker {
     opacity: 0;
-    animation: diffusion 2s ease-out 1s;
-    -webkit-animation: diffusion 2s ease-out 1s;
+    animation: diffusion 2s ease-out 1s infinite!important;
+    -webkit-animation: diffusion 2s ease-out 1s infinite!important;
+    animation-iteration-count: infinite!important;
+    -webkit-animation-iteration-count: infinite!important;
     transform-origin: 50% 50% 0;
     -webkit-transform-origin: 50% 50% 0;
 }
