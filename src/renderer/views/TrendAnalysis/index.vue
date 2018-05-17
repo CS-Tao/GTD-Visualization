@@ -1,29 +1,29 @@
 <template>
   <div class="trend-analysis">
-      <globeTrendLine
-      id='count'
-      class="chart-wrap"
-      height='100%'
-      width='100%'
-      model="count"
-      :obj="obj">
-      </globeTrendLine>
-      <globeTrendLine
-      id='sumKill'
-      class="chart-wrap"
-      height='100%'
-      width='100%'
-      model='sumKill'
-      :obj="obj">
-      </globeTrendLine>
-      <globeTrendLine
-      id='sumProp'
-      class="chart-wrap"
-      height='100%'
-      width='100%'
-      model='sumProp'
-      :obj="obj">
-      </globeTrendLine>
+    <globeTrendLine
+    id='sumCunt'
+    class="chart-wrap"
+    height='100%'
+    width='100%'
+    model="count"
+    :obj="obj">
+    </globeTrendLine>
+    <globeTrendLine
+    id='sumKill'
+    class="chart-wrap"
+    height='100%'
+    width='100%'
+    model='sumKill'
+    :obj="obj">
+    </globeTrendLine>
+    <globeTrendLine
+    id='sumProp'
+    class="chart-wrap"
+    height='100%'
+    width='100%'
+    model='sumProp'
+    :obj="obj">
+    </globeTrendLine>
   </div>
 </template>
 
@@ -60,9 +60,13 @@ export default {
 <style lang="scss" scoped>
 .trend-analysis {
   width: 100%;
-  height: 33%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: stretch;
   .chart-wrap {
     display: block;
+    flex: 1;
   }
 }
 </style>

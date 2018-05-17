@@ -28,7 +28,7 @@ export default {
       type: String,
       default: '200px'
     },
-    title: {
+    t: {
       // 图表标题
       type: String,
       default: ''
@@ -105,8 +105,13 @@ export default {
     }
   },
   data () {
+    var t = null
+    if (this.t === 'sumProp') { t = 'SUM of Prop' }
+    if (this.t === 'count') { t = 'SUM of Count' }
+    if (this.t === 'sumKill') { t = 'SUM of Kill' }
     return {
-      chart: null
+      chart: null,
+      title: t
     }
   },
   mounted () {
@@ -122,13 +127,19 @@ export default {
   methods: {
     initChart () {
       this.chart = echarts.init(document.getElementById(this.id))
+      var that = this
       this.chart.setOption({
+        animationDuration: 5000,
         backgroundColor: this.getColor(this.backgroundColor),
         title: {
-          text: this.title
+          text: this.title,
+          top: '8%',
+          textStyle: {
+            color: 'Orange'
+          }
         },
         legend: {
-          data: this.getIndicator(this.data),
+          data: this.title,
           textStyle: {
             color: this.getColor(this.textColor)
           },
@@ -142,6 +153,7 @@ export default {
         },
         tooltip: {
           trigger: 'axis',
+          formatter: this.title + ' <br/>{b} : {c}',
           axisPointer: {
             type: 'cross',
             crossStyle: {
@@ -158,11 +170,15 @@ export default {
           }
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(128,128,128,0.1)'
+            }
+          }
         },
         series: this.setSeriesByData()
       })
-      var that = this
       this.chart.on('click', function (params) {
         // 发送点击消息
         that.$emit('click-eployline', params.name)

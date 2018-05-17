@@ -181,6 +181,7 @@ export default {
         title: {
           text: this.title,
           left: 'center',
+          top: 10,
           textStyle: {
             color: '#ccc'
           }
@@ -318,10 +319,13 @@ export default {
         dic.itemStyle = {
           normal: {
             barBorderRadius: this.barBorderRadius,
-            color: this.vertical ? '#0D58A6' : ''
+            color: this.vertical ? 'rgba(255,108,3,0.3)' : '',
+            borderColor: this.vertical ? 'rgb(255,108,3)' : '',
+            borderWidth: this.vertical ? 2 : 0
           },
           emphasis: {
             color: this.vertical ? '#FF9900' : ''
+
           }
         }
         res.push(dic)
