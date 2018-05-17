@@ -18,7 +18,6 @@ service.interceptors.request.use(config => {
   return config
 }, error => {
   // Do something with request error
-  console.log(error) // for debug
   Promise.reject(error)
 })
 
@@ -26,7 +25,6 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => response,
   error => {
-    console.log('err' + error)// for debug
     Notification({
       message: error.message,
       type: 'error',

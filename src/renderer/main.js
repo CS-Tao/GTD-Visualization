@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import '@/styles/index.scss' // global css
 
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+
 import App from './App'
 import router from './router'
 import store from './store'
@@ -16,8 +19,11 @@ import './icons' // icon
 
 // import './mock' // simulation data
 
+locale.use(lang)
+
 Vue.use(Element, {
-  size: 'medium'
+  size: 'medium',
+  locale
 })
 
 Vue.triggerResize = () => {

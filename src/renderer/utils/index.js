@@ -193,7 +193,6 @@ export function param (json) {
 }
 
 export function param2Obj (url) {
-  console.log(url)
   const search = url.split('?')[1]
   if (!search) {
     return {}
@@ -235,7 +234,6 @@ export function scrollTo (element, to, duration) {
   const difference = to - element.scrollTop
   const perTick = difference / duration * 10
   setTimeout(() => {
-    console.log(new Date())
     element.scrollTop = element.scrollTop + perTick
     if (element.scrollTop === to) return
     scrollTo(element, to, duration - 10)

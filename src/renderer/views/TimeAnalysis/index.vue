@@ -9,11 +9,11 @@
    v-model="dateRange" 
    type="daterange" 
    value-format="yyyyMMdd" 
-   format="yyyy 年 MM 月 dd 日" 
+   format="yyyy / MM / dd" 
    :disabled="!regionCountBarDisplay"
    :unlink-panels="true"
-   start-placeholde="起始日期" 
-   end-placeholde="结束日期">
+   start-placeholde="Start Date" 
+   end-placeholde="End Date">
    </el-date-picker>
   </div>
   <time-analysis-map-view
@@ -265,8 +265,6 @@ export default {
             name: response.data.features[i].properties.countryName
           })
         }
-        // console.log(countries)
-        // console.log(countries[0].id)
         this.selectedElement = countries[0].id
         this.countryList = countries
         this.displayMode = 'region'
@@ -298,7 +296,6 @@ export default {
         endTime: this.endTime,
         country: countryId
       }).then(response => {
-        // console.log(response.data)
         this.statisticsData = response.data
         if (response.data.kill !== null) {
           this.lossData.kill = response.data.kill
@@ -313,11 +310,9 @@ export default {
       })
     },
     initDetailView (eventId) {
-      console.log(eventId)
       getEventById(eventId, {
         format: 'json'
       }).then(response => {
-        console.log(response.data)
         this.currentMode = 'detail'
         this.displayMode = 'detail'
         this.pointsForDisplay = response.data
@@ -377,7 +372,6 @@ export default {
       }
     },
     selectElement (id) {
-      // console.log(id)
       this.selectedElement = id
     },
     unselectElement (id) {
@@ -459,6 +453,7 @@ export default {
     border-color: orange;
     border-width: 0px!important;
     box-shadow: 0 0 20px orange!important;
+    border-radius: 10px;
     .card-header {
       font-family: Arial, Helvetica, sans-serif!important;
       font-size: 25px;
@@ -496,6 +491,7 @@ export default {
     box-shadow: 0 0 20px orange!important;
     position: fixed;
     z-index: 999;
+    border-radius: 10px;
     .card-header {
       font-family: 'STXihei'!important;
       font-size: 25px;

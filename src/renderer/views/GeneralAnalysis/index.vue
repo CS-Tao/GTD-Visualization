@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     getYear (year) {
-      console.log(year)
       getPie({
         format: 'json',
         year: year
