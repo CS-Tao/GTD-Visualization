@@ -40,6 +40,16 @@ export function getCountryById (id, params) {
 // get points geojson
 export function getGeneral (params) {
   return request({
+    url: '/gtd/api/tdgeneral',
+    method: 'get',
+    params
+  })
+}
+
+// get points geojson
+export function getGeneral2 (params) {
+  console.log('111111')
+  return request({
     url: '/gtd/api/tdgeneral2',
     method: 'get',
     params

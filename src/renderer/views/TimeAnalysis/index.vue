@@ -127,7 +127,7 @@ import TimeAnalysisMapView from '@/components/MapView/TimeAnalysisMapView'
 import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
-import { getRegion, getGeneral, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
+import { getRegion, getGeneral2, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
 
 export default {
   components: {
@@ -207,7 +207,7 @@ export default {
   },
   methods: {
     initGlobalView () {
-      getGeneral({
+      getGeneral2({
         format: 'json',
         start: this.startTime,
         end: this.endTime
@@ -250,7 +250,7 @@ export default {
       // })
       // console.log(tmp.length)
       // this.$set(this.pointsForDisplay, 'features', tmp)
-      getGeneral({
+      getGeneral2({
         format: 'json',
         start: this.startTime,
         end: this.endTime,
@@ -287,7 +287,7 @@ export default {
       // })
       // console.log(tmp.length)
       // this.$set(this.pointsForDisplay, 'features', tmp)
-      getGeneral({
+      getGeneral2({
         format: 'json',
         start: this.startTime,
         end: this.endTime,

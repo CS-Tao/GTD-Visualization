@@ -103,7 +103,7 @@ export default {
         keyword: keyword
       })
         .then((response) => {
-          // this.eventsInfoList = response.data.features
+          this.eventsInfoList = []
           response.data.features.forEach(item => {
             this.eventsInfoList.push({
               id: item.id,
@@ -118,6 +118,7 @@ export default {
               country: item.properties.country.countryName
             })
           })
+          console.log(JSON.stringify(this.eventsInfoList[0]))
           this.eventsInfoLoading = false
           this.$notify({
             type: 'success',

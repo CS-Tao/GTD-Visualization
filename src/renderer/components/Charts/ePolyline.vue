@@ -134,6 +134,7 @@ export default {
         title: {
           text: this.title,
           top: '8%',
+          left: '8%',
           textStyle: {
             color: 'Orange'
           }
