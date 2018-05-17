@@ -5,6 +5,8 @@
         :data="params"
         :selectName="selectName"
         :vertical="false"
+        title="loss by region"
+        formatter="{b}: <br/>SUM of Prop : {c0} <br/>SUM of Wound : {c1} <br/>SUM of Kill : {c2}"
         @click-bar="sendClick"
         @over-bar="sendOver"
         @out-bar="sendOut">

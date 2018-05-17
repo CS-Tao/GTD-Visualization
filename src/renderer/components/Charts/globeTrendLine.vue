@@ -5,6 +5,7 @@
         :data="params"
         :start="1970"
         :end="2017"
+        :t="model"
         :selectName="selectName"
         @click-radar="send">
   </ePolyline>

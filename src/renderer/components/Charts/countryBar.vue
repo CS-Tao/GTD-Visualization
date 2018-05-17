@@ -6,6 +6,7 @@
         :selectName="selectName"
         :vertical="false"
         :strack="true"
+        formatter="{b} <br/>zzz : {c1} <br/>xxx:{c2})"
         :barBorderRadius="0"
         @click-bar="sendClick"
         @over-bar="sendOver"

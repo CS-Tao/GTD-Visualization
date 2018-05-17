@@ -127,6 +127,10 @@ export default {
       type: [String],
       default: 'value'
     },
+    formatter: {
+      type: [String, Function],
+      default: ''
+    },
     selectName: {
       // 选中的数据名称
       type: String,
@@ -150,6 +154,17 @@ export default {
   },
   mounted () {
     this.initChart()
+    var that = this
+    this.chart.on('click', function (params) {
+      // 发送点击消息
+      that.$emit('click-bar', params.name)
+    })
+    this.chart.on('mouseover', function (params) {
+      that.$emit('over-bar', params.name)
+    })
+    this.chart.on('mouseout', function (params) {
+      that.$emit('out-bar', params.name)
+    })
   },
   beforeDestroy () {
     if (!this.chart) {
@@ -163,6 +178,14 @@ export default {
       this.chart = echarts.init(document.getElementById(this.id))
 
       this.chart.setOption({
+        title: {
+          text: this.title,
+          left: 'center',
+          top: 10,
+          textStyle: {
+            color: '#ccc'
+          }
+        },
         backgroundColor: this.getColor(this.backgroundColor),
         grid: {
           left: '3%',
@@ -177,7 +200,8 @@ export default {
             shadowStyle: {
               color: 'rgba(0,0,0,0)'
             }
-          }
+          },
+          formatter: this.formatter
         },
 
         xAxis: [{
@@ -257,17 +281,6 @@ export default {
           return idx * 20
         }
       })
-      var that = this
-      this.chart.on('click', function (params) {
-        // 发送点击消息
-        that.$emit('click-bar', params.name)
-      })
-      this.chart.on('mouseover', function (params) {
-        that.$emit('over-bar', params.name)
-      })
-      this.chart.on('mouseout', function (params) {
-        that.$emit('out-bar', params.name)
-      })
     },
     getIndicator (data) {
       var list = []
@@ -306,10 +319,13 @@ export default {
         dic.itemStyle = {
           normal: {
             barBorderRadius: this.barBorderRadius,
-            color: this.vertical ? '#0D58A6' : ''
+            color: this.vertical ? 'rgba(255,108,3,0.3)' : '',
+            borderColor: this.vertical ? 'rgb(255,108,3)' : '',
+            borderWidth: this.vertical ? 2 : 0
           },
           emphasis: {
             color: this.vertical ? '#FF9900' : ''
+
           }
         }
         res.push(dic)
