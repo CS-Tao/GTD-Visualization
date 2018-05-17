@@ -4,7 +4,7 @@
 		<div class="main-container">
 			<app-header></app-header>
       <el-container @click.native="hide">
-        <el-aside :class="['el-aside-' + routerViewMode]">
+        <el-aside :class="['el-aside-' + routerViewMode, (routerViewMode === 1 && sidebar.opened) ? 'fixed-silebar-visiable': '']">
           <app-router-view></app-router-view>
         </el-aside>
         <el-main :class="['el-main-' + routerViewMode]">
@@ -32,6 +32,7 @@ export default {
       return this.$store.state.app.sidebar
     },
     ...mapGetters([
+      'sidebar',
       'routerViewMode'
     ])
   },

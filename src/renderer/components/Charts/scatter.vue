@@ -134,7 +134,6 @@ export default {
           type: 'scatter',
           data: [],
           symbolSize: function (dataItem) {
-            console.log(dataItem[1] / Math.max.apply(null, data))
             return dataItem[1] / Math.max.apply(null, data) * 80
           }
         })

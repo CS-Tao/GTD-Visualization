@@ -19,7 +19,11 @@
     padding: 0;
   }
   .el-aside-1 {
-    width: 50vw!important;
+    position: fixed;
+    top: 7vh;
+    bottom: 0;
+    width: 50%!important;
+    z-index: 999;
   }
   .el-main-1 {
     padding: 0;
@@ -143,7 +147,7 @@
   background: transparent!important;
   color: antiquewhite!important;
 }
-.el-date-table__row .in-range{
+.el-date-table__row .in-range {
   background: rgba(255,255,255,0.1);
   div{
     background: rgba(255,255,255,0)!important;
@@ -186,8 +190,8 @@
    }
  }
 
- .fixed-width{
-  .el-button--mini{
+ .fixed-width {
+  .el-button--mini {
     padding: 7px 10px;
     width: 60px;
   }

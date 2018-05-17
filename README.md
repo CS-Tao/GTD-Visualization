@@ -1,6 +1,6 @@
 # gtd-visualization
 
-> 全球恐怖袭击数据可视化
+> Global Terrorist Attacks Visualization System
 
 [![Build Status](https://travis-ci.org/CS-Tao/GTD-Visualization.svg?branch=master)](https://travis-ci.org/CS-Tao/GTD-Visualization)
 

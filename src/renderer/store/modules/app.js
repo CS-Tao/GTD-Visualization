@@ -1,5 +1,19 @@
 import Vue from 'vue'
 
+const nextTickInterval = 300 // 更新时长由 styles/sidebar.scss 的 hideSidebar 类的动画决定
+
+function reactForSidebar () {
+  Vue.nextTick(() => {
+    let timer = setInterval(() => {
+      Vue.triggerResize()
+    }, 300 / 30)
+    setTimeout(() => {
+      clearInterval(timer)
+      Vue.triggerResize()
+    }, nextTickInterval)
+  })
+}
+
 const app = {
   state: {
     sidebar: {
@@ -13,20 +27,11 @@ const app = {
   mutations: {
     TOGGLE_SIDEBAR: state => {
       state.sidebar.opened = !state.sidebar.opened
-      const nextTickInterval = 300 // 更新时长由 styles/sidebar.scss 的 hideSidebar 类的动画决定
-      Vue.nextTick(() => {
-        let timer = setInterval(() => {
-          Vue.triggerResize()
-        }, 300 / 30)
-        setTimeout(() => {
-          clearInterval(timer)
-          Vue.triggerResize()
-        }, nextTickInterval)
-      })
+      reactForSidebar()
     },
     CHANGE_TOGGLE_SIDEBAR_STATUS: (state, bool) => {
       state.sidebar.opened = bool
-      Vue.triggerResize()
+      reactForSidebar()
     },
     CHANGE_ROUTER_VIEW_SHOW_MODE: (state, mode) => {
       state.routerView.showMode = mode
