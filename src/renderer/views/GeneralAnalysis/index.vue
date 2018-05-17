@@ -3,9 +3,11 @@
     <rotate-selector class='rotate-selecter' v-on:change-year='getYear'></rotate-selector>
     <div class='chart-views'>
       <region-statistics-bar id='region-bar-chat-view' class='region-bar-chat-view' :obj='BarJson'></region-statistics-bar>
-      <year3-model-pie id='attack-pie-chart-view' model='attack' class='attack-pie-chart-view' :obj='PieJson'></year3-model-pie>
-      <year3-model-pie id='target-pie-chart-view' model='target' class='target-pie-chart-view' :obj='PieJson'></year3-model-pie>
-      <year3-model-pie id='weapon-pie-chart-view' model='weapon' class='weapon-pie-chart-view' :obj='PieJson'></year3-model-pie>
+      <div class="pie-charts-view">
+        <year3-model-pie id='attack-pie-chart-view' model='attack' class='attack-pie-chart-view' :obj='PieJson'></year3-model-pie>
+        <year3-model-pie id='target-pie-chart-view' model='target' class='target-pie-chart-view' :obj='PieJson'></year3-model-pie>
+        <year3-model-pie id='weapon-pie-chart-view' model='weapon' class='weapon-pie-chart-view' :obj='PieJson'></year3-model-pie>
+      </div>
     </div>
   </div>
 </template>
@@ -79,37 +81,37 @@ export default {
 .general-analysis-container {
   height: 100%;
   width: 100%;
+  position: relative;
   display: flex;
   flex-flow: row;
   .rotate-selecter {
-    // background-color: rgba(247, 197, 185, 0.527);
-    height: 100%;
     width: 10%;
+    height: 100%;
   }
   .chart-views {
-    height: 100%!important;
-    width: 90%!important;
+    height: 100%;
+    width: 90%;
     display: flex;
-    flex-wrap: wrap;
-      .region-bar-chat-view {
-        height: 50%!important;
-        width: 100%!important;
-      }
+    flex-flow: column;
+    align-items: stretch;
+    .region-bar-chat-view {
+      flex: 1;
+    }
+    .pie-charts-view {
+      flex: 1;
+      display: flex;
+      flex-flow: row;
+      align-items: stretch;
       .attack-pie-chart-view {
-        // background-color: yellow;
-        height: 50%!important;
-        width: 33%!important;
+        flex: 1;
       }
       .target-pie-chart-view {
-        // background-color: orange;
-        height: 50%!important;
-        width: 33%!important;
+        flex: 1;
       }
       .weapon-pie-chart-view {
-        // background-color: green;
-        height: 50%!important;
-        width: 34%!important;
+        flex: 1;
       }
+    }
   }
 }
 </style>

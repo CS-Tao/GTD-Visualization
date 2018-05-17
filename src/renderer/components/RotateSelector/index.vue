@@ -94,11 +94,13 @@ export default {
     this.$el.addEventListener('mousedown', this.listenerTouchStart, false)
     this.$el.addEventListener('mousemove', this.listenerTouchMove, false)
     this.$el.addEventListener('mouseup', this.listenerTouchEnd, false)
+    this.$el.addEventListener('mouseleave', this.listenerTouchEnd, false)
   },
   beforeDestory () {
     this.$el.removeEventListener('mousedown', this.listenerTouchStart, false)
     this.$el.removeEventListener('mousemove', this.listenerTouchMove, false)
     this.$el.removeEventListener('mouseup', this.listenerTouchEnd, false)
+    this.$el.removeEventListener('mouseleave', this.listenerTouchEnd, false)
   },
   methods: {
     initWheelItemDeg (index) {
