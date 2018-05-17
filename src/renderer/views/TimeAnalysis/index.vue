@@ -2,7 +2,7 @@
 <div class='time-analysis-container' v-loading="loading" element-loading-text="数据加载中...">
   <div 
   class="fixed-normal datepicker-view"
-   :class="{'fixed-silebar-visiable': sidebar.opened}">
+  :class="{'fixed-silebar-visiable': sidebar.opened}">
   <el-button icon="el-icon-menu" circle style="background: transparent" v-on:click="backToHome"></el-button>
   <el-date-picker 
    v-on:change="getDate"
@@ -26,6 +26,7 @@
   :displayGeojsonData="geoJSONForDisplay" 
   :displayMode="currentMode">
   </time-analysis-map-view>
+  <transition name="right">
   <region-count-bar 
   v-on:click-bar="clickListener" 
   v-on:over-bar="selectElement" 
@@ -36,6 +37,8 @@
   :obj="statisticsData" 
   class='global-bar-chart' >
   </region-count-bar>
+  </transition>
+  <transition name="bottom">
   <country-scatter
   class="fixed-normal region-bar-chart"
   :class="{'fixed-silebar-visiable': sidebar.opened}"
@@ -47,6 +50,8 @@
   :selectId="selectedElement"
   :countryNameList="countryList">
   </country-scatter>
+  </transition>
+  <transition name="right">
   <div class="radar-charts-container" v-if="singleCountryChartsDisplay">
   <country3-model-radar
   id="attack-radar"
@@ -67,6 +72,8 @@
   model="weapon">
   </country3-model-radar>
   </div>
+  </transition>
+  <transition name="left">
   <el-card 
   class="fixed-normal country-statistics-card"
   :class="{'fixed-silebar-visiable': sidebar.opened}"
@@ -82,6 +89,8 @@
   <div class="card-item-name">Economic losses:</div>
   <div class="card-item-num">$ {{lossData.prop}}</div>
   </el-card>
+  </transition>
+  <transition name="up">
   <el-card 
   class="detail-card"
   v-if=detailDisplay>
@@ -108,6 +117,7 @@
   <div class="card-item-name">Loss details</div>
   <div class="card-item-text">{{detailData.prop}}</div>
   </el-card>
+  </transition>
 </div>
 </template>
 
@@ -494,14 +504,14 @@ export default {
       font-weight: 700;
     }
     .card-item-name{
-      color: orangered;
-      font-family: Arial, Helvetica, sans-serif;
+      color: orange;
+      font-family: Helvetica;
       font-size: 25px;
       margin-top: 2px;
       margin-bottom: 2px;
     }
     .card-item-str{
-      color: orange;
+      color: orangered;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 20px;
       margin-top: 2px;
@@ -509,7 +519,7 @@ export default {
       text-align: right;
     }
     .card-item-text{
-      color: orange;
+      color: orangered;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 15px;
       margin-top: 2px;
@@ -517,6 +527,33 @@ export default {
       text-align: left;
     }
   }
+}
+.right-enter-active, .right-leave-active {
+  transition: 0.5s transform ease 0s!important;
+}
+.right-enter, .right-leave-to {
+  transform: translateX(30vw)!important;
+}
+.left-enter-active, .left-leave-active {
+  transition: 0.5s transform ease 0s!important;
+}
+.left-enter, .left-leave-to {
+  transform: translateX(-30vw)!important;
+}
+.up-enter-active {
+  transition: 0.5s transform ease 0s!important;
+}
+.up-leave-active {
+  transition: 0.5s transform ease 0s!important;
+}
+.up-enter, .up-leave-to {
+  transform: translateY(-100vh)!important;
+}
+.bottom-enter-active, .bottmo-leave-active {
+  transition: 0.5s transform ease 0s!important;
+}
+.bottom-enter, .bottom-leave-to {
+  transform: translateY(20vh)!important;
 }
 </style>
 
