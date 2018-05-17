@@ -244,6 +244,12 @@ export default {
     },
     initRegionView (regionId) {
       this.currentMode = 'region'
+      // console.log(this.pointsForDisplay.features.length)
+      // const tmp = this.pointsForDisplay.features.filter(feature => {
+      //   return feature.properties.country.region === regionId
+      // })
+      // console.log(tmp.length)
+      // this.$set(this.pointsForDisplay, 'features', tmp)
       getGeneral({
         format: 'json',
         start: this.startTime,
@@ -275,6 +281,12 @@ export default {
       this.statisticsData = {}
       this.currentMode = 'country'
       this.displayMode = 'country'
+      // console.log(this.pointsForDisplay.features.length)
+      // const tmp = this.pointsForDisplay.features.filter(feature => {
+      //   return feature.properties.country.region === countryId
+      // })
+      // console.log(tmp.length)
+      // this.$set(this.pointsForDisplay, 'features', tmp)
       getGeneral({
         format: 'json',
         start: this.startTime,
