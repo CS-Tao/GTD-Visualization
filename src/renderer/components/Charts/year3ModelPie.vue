@@ -4,6 +4,7 @@
         width="100%"
         :data="params"
         :selectName="selectName"
+        :title="model+' type'"
         @click-pie="send">
   </pie>
 </template>
