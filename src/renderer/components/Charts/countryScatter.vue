@@ -692,21 +692,20 @@ export default {
       for (var i = this.start; i < newEnd; i++) {
         res.push(this.monthList[i % 12])
       }
-      console.log(res)
       this.timeList = res
     },
-    selectName (newName, oldName) {
-      if (this.obj === {}) {
-        return this.countryNameList[0].name
+    selectId (newId, oldId) {
+      if (this.obj === {} || newId === -1) {
+        return
       }
-      var d = this.dataList[this.newName]
+      var d = this.dataList[this.getNameById(newId)]
       this.params = d
     }
   },
   methods: {
 
     initChart () {
-      if (this.obj === {}) {
+      if (this.obj === {} || this.selectId === -1) {
         return
       }
       var res = []
@@ -726,7 +725,7 @@ export default {
         var nowTime = (list[i].properties.year - 1970) * 12 + list[i].properties.month - 1
         this.dataList[list[i].properties.country.countryName][this.getTimeValue(nowTime)]++
       }
-      var d = this.dataList[this.selectName]
+      var d = this.dataList[this.getNameById(this.selectId)]
       this.params = d
     },
     getTimeValue (time) {
@@ -735,7 +734,7 @@ export default {
       return day
     },
     getNameById (id) {
-      if (id < 0 || id > this.countryNameList.length) { return '' }
+      if (id < 0) { return '' }
       for (var i = 0; i < this.countryNameList.length; i++) {
         if (this.countryNameList[i].id === id) {
           return this.countryNameList[i].name
