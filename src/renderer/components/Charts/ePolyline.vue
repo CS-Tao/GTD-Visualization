@@ -133,6 +133,7 @@ export default {
         backgroundColor: this.getColor(this.backgroundColor),
         title: {
           text: this.title,
+          top: '8%',
           textStyle: {
             color: 'Orange'
           }
@@ -169,7 +170,12 @@ export default {
           }
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(128,128,128,0.1)'
+            }
+          }
         },
         series: this.setSeriesByData()
       })
