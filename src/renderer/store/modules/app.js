@@ -26,7 +26,16 @@ const app = {
     },
     CHANGE_TOGGLE_SIDEBAR_STATUS: (state, bool) => {
       state.sidebar.opened = bool
-      Vue.triggerResize()
+      const nextTickInterval = 300 // 更新时长由 styles/sidebar.scss 的 hideSidebar 类的动画决定
+      Vue.nextTick(() => {
+        let timer = setInterval(() => {
+          Vue.triggerResize()
+        }, 300 / 30)
+        setTimeout(() => {
+          clearInterval(timer)
+          Vue.triggerResize()
+        }, nextTickInterval)
+      })
     },
     CHANGE_ROUTER_VIEW_SHOW_MODE: (state, mode) => {
       state.routerView.showMode = mode
