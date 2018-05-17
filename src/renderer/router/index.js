@@ -35,31 +35,7 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: require('@/views/Blank').default,
         name: 'space-time',
-        meta: { title: '时空动态分析', icon: 'international', noCache: false, mode: 0 }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: 'general-analysis',
-        component: require('@/views/GeneralAnalysis').default,
-        name: 'general-analysis',
-        meta: { title: '总体分析', icon: 'component', noCache: false, mode: 2 }
-      }
-    ]
-  },
-  {
-    path: '',
-    component: Layout,
-    children: [
-      {
-        path: 'time-analysis',
-        component: require('@/views/TimeAnalysis').default,
-        name: 'time-analysis',
-        meta: { title: '时段分析', icon: 'example', noCache: false, mode: 2 }
+        meta: { title: 'Spatio-temporal', icon: 'international', noCache: false, mode: 0 }
       }
     ]
   },
@@ -71,22 +47,34 @@ export const constantRouterMap = [
         path: 'trend-analysis',
         component: require('@/views/TrendAnalysis').default,
         name: 'trend-analysis',
-        meta: { title: '趋势分析', icon: 'form', noCache: false, mode: 1 }
+        meta: { title: 'Occurrence Trend', icon: 'form', noCache: false, mode: 1 }
       }
     ]
   },
-  // {
-  //   path: '',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'economy-analysis',
-  //       component: require('@/components/LandingPage').default,
-  //       name: 'economy-analysis',
-  //       meta: { title: '经济分析', icon: 'money', noCache: false, mode: 1 }
-  //     }
-  //   ]
-  // },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'time-analysis',
+        component: require('@/views/TimeAnalysis').default,
+        name: 'time-analysis',
+        meta: { title: 'Period Analysis', icon: 'example', noCache: false, mode: 2 }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'general-analysis',
+        component: require('@/views/GeneralAnalysis').default,
+        name: 'general-analysis',
+        meta: { title: 'Attack Details', icon: 'component', noCache: false, mode: 2 }
+      }
+    ]
+  },
   {
     path: '',
     component: Layout,
@@ -95,7 +83,7 @@ export const constantRouterMap = [
         path: 'wordcloud-analysis',
         component: require('@/views/WordCloudAnalysis').default,
         name: 'wordcloud-analysis',
-        meta: { title: '词云分析', icon: 'message', noCache: false, mode: 2 }
+        meta: { title: 'Motive Analysis', icon: 'message', noCache: false, mode: 2 }
       }
     ]
   },
