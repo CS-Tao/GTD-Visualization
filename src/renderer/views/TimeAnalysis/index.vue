@@ -75,11 +75,11 @@
   class="card-header" >
     <span>Loss Summary</span>
   </div>
-  <div class="card-item-name">Victims</div>
+  <div class="card-item-name">Victims:</div>
   <div class="card-item-num">{{lossData.kill}}</div>
-  <div class="card-item-name">Woundeds</div>
+  <div class="card-item-name">Woundeds:</div>
   <div class="card-item-num">{{lossData.wound}}</div>
-  <div class="card-item-name">Economic losses</div>
+  <div class="card-item-name">Economic losses:</div>
   <div class="card-item-num">$ {{lossData.prop}}</div>
   </el-card>
   <el-card 
@@ -89,24 +89,24 @@
   class="card-header" >
     <span>Attack Record</span>
   </div>
-  <div class="card-item-name">Time:</div>
-  <div class="card-item-num">{{detailData.time}}</div>
-  <div class="card-item-name">Place:</div>
-  <div class="card-item-num">{{detailData.place}}</div>
-  <div class="card-item-name">Group:</div>
-  <div class="card-item-num">{{detailData.group}}</div>
-  <div class="card-item-name">Attack type:</div>
-  <div class="card-item-num">{{detailData.attack}}</div>
+  <div class="card-item-name">Time</div>
+  <div class="card-item-str">{{detailData.time}}</div>
+  <div class="card-item-name">Place</div>
+  <div class="card-item-str">{{detailData.place}}</div>
+  <div class="card-item-name">Group</div>
+  <div class="card-item-str">{{detailData.group}}</div>
+  <div class="card-item-name">Attack type</div>
+  <div class="card-item-str">{{detailData.attack}}</div>
   <div class="card-item-name">Attack target</div>
-  <div class="card-item-num">{{detailData.target}}</div>
-  <div class="card-item-name">Weapon type:</div>
-  <div class="card-item-num">{{detailData.weapon}}</div>
-  <div class="card-item-name">Victims/Woundeds:</div>
-  <div class="card-item-num">{{detailData.victims}} / {{detailData.woundeds}}</div>
-  <div class="card-item-name">Incident report:</div>
-  <div class="card-item-num">{{detailData.summary}} 人</div>
-  <div class="card-item-name">Loss details:</div>
-  <div class="card-item-num">{{detailData.prop}}</div>
+  <div class="card-item-str">{{detailData.target}}</div>
+  <div class="card-item-name">Weapon type</div>
+  <div class="card-item-str">{{detailData.weapon}}</div>
+  <div class="card-item-name">Victims/Woundeds</div>
+  <div class="card-item-str">{{detailData.victims}} / {{detailData.woundeds}}</div>
+  <div class="card-item-name">Incident report</div>
+  <div class="card-item-text">{{detailData.summary}}</div>
+  <div class="card-item-name">Loss details</div>
+  <div class="card-item-text">{{detailData.prop}}</div>
   </el-card>
 </div>
 </template>
@@ -396,11 +396,11 @@ export default {
   }
   .global-bar-chart {
     position: fixed!important;
-    right: 0;
+    right: -3vw;
     top: 0;
     height: 100%!important;
-    width: 40%!important;
-    z-index: 999;
+    width: 50%!important;
+    z-index: 400;
     div, canvas {
       width: 100%!important;
     }
@@ -450,7 +450,7 @@ export default {
     border-width: 0px!important;
     box-shadow: 0 0 20px orange!important;
     .card-header {
-      font-family: 'STXihei'!important;
+      font-family: Arial, Helvetica, sans-serif!important;
       font-size: 25px;
       color: orange;
       text-align: left;
@@ -458,15 +458,15 @@ export default {
     }
     .card-item-name{
       color: orangered;
-      font-family: 'SimHei';
+      font-family: Arial, Helvetica, sans-serif;
       font-weight: 700;
       font-size: 25px;
-      margin-top: 30px;
-      margin-bottom: 30px;
+      margin-top: 35px;
+      margin-bottom: 35px;
     }
     .card-item-num{
       color: orange;
-      font-family: 'SimHei';
+      font-family: Arial, Helvetica, sans-serif;
       font-weight: 700;
       font-size: 25px;
       margin-top: 30px;
@@ -475,12 +475,12 @@ export default {
     }
   }
   .detail-card{
-    top: 25vh!important;
+    top: 10vh!important;
     right: 0px;
     margin-right: 50px;
     background-color: transparent;
     width: 350px!important;
-    height: 60%!important;
+    height: 86%!important;
     border-color: orange;
     border-width: 0px!important;
     box-shadow: 0 0 20px orange!important;
@@ -495,20 +495,26 @@ export default {
     }
     .card-item-name{
       color: orangered;
-      font-family: 'SimHei';
-      font-weight: 700;
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 25px;
       margin-top: 2px;
       margin-bottom: 2px;
     }
-    .card-item-num{
+    .card-item-str{
       color: orange;
-      font-family: 'SimHei';
-      font-weight: 700;
-      font-size: 25px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
       margin-top: 2px;
       margin-bottom: 2px;
       text-align: right;
+    }
+    .card-item-text{
+      color: orange;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+      text-align: left;
     }
   }
 }
