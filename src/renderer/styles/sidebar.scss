@@ -3,12 +3,13 @@
 #app {
   // 主体区域
   .main-container {
+    background-color: black;
     min-height: 100%;
-    transition: margin-left 0.28s;
+    transition: margin-left 0.28s cubic-bezier(.55, 0, .1, 1);
     margin-left: 180px;
   } // 侧边栏
   .sidebar-container {
-    transition: width 0.28s;
+    transition: width 0.28s cubic-bezier(.55, 0, .1, 1);
     width: 180px!important;
     height: 100%;
     position: fixed;
@@ -32,10 +33,12 @@
   }
   .hideSidebar {
     .sidebar-container,.sidebar-container .el-menu {
+      transition: width 0.28s cubic-bezier(.55, 0, .1, 1);
       width: 0px!important;
       // overflow: inherit;
     }
     .main-container {
+      transition: margin-left 0.28s cubic-bezier(.55, 0, .1, 1);
       margin-left: 0px;
     }
   }
