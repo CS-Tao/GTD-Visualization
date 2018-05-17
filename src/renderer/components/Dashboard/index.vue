@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       mapId: 'dashboard-leaflet-map',
-      year: 1970,
+      year: 2001,
       geojsonData: {},
       currentDay: 1,
       dailyDataForMapView: [],
@@ -80,28 +80,28 @@ export default {
       }
       this.currentDay = this.currentDay % this.totalDays + 1
       const that = this
-      if (this.dailyDataForMapView.length > 0 && this.routerViewMode === 0) {
-        const dateStr = that.dateToEnglish(that.currentDate)
-        let messageStr = '<div style="color: rgb(230, 100, 23);">' + dateStr + '</div>'
-        for (var i = 0; i < that.dailyDataForMapView.length; i++) {
-          let placeStr = ''
-          if (that.dailyDataForMapView[i].properties.city !== null) {
-            placeStr += that.dailyDataForMapView[i].properties.city + ', '
-            placeStr += that.dailyDataForMapView[i].properties.country.countryName
-          } else {
-            placeStr += that.dailyDataForMapView[i].properties.country.countryName
-          }
-          messageStr += '<div style="color: rgb(253, 227, 80);>' + placeStr + '</div>'
-        }
-        that.$notify({
-          message: messageStr,
-          duration: 1500,
-          position: 'top-right',
-          showClose: false,
-          offset: 100,
-          dangerouslyUseHTMLString: true
-        })
-      }
+      // if (this.dailyDataForMapView.length > 0 && this.routerViewMode === 0) {
+      //   const dateStr = that.dateToEnglish(that.currentDate)
+      //   let messageStr = '<div style="color: rgb(230, 100, 23);">' + dateStr + '</div>'
+      //   for (var i = 0; i < that.dailyDataForMapView.length; i++) {
+      //     let placeStr = ''
+      //     if (that.dailyDataForMapView[i].properties.city !== null) {
+      //       placeStr += that.dailyDataForMapView[i].properties.city + ', '
+      //       placeStr += that.dailyDataForMapView[i].properties.country.countryName
+      //     } else {
+      //       placeStr += that.dailyDataForMapView[i].properties.country.countryName
+      //     }
+      //     messageStr += '<div style="color: rgb(253, 227, 80);>' + placeStr + '</div>'
+      //   }
+      //   that.$notify({
+      //     message: messageStr,
+      //     duration: 1000,
+      //     position: 'top-right',
+      //     showClose: false,
+      //     offset: 100,
+      //     dangerouslyUseHTMLString: true
+      //   })
+      // }
       // this.$createElement('div', {style: 'color: #eee'}, '地点：' + val.city + val.country)
       // console.log(this.currentDate.getFullYear() + '年' +
       //     (this.currentDate.getMonth() + 1) + '月' +
