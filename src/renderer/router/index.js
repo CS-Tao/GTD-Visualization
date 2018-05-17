@@ -35,7 +35,7 @@ export const constantRouterMap = [
         path: 'dashboard',
         component: require('@/views/Blank').default,
         name: 'space-time',
-        meta: { title: 'Spatio-temporal', icon: 'international', noCache: false, mode: 0 }
+        meta: { title: 'Overview', icon: 'international', noCache: false, mode: 0 }
       }
     ]
   },
