@@ -62,14 +62,14 @@
 yarn
 
 # 以开发模式运行, 运行在 2018 端口
-npm run dev
+yarn run dev
 
 # 生成应用程序
-npm run build
+yarn run build
 
 
 # 单元测试和端到端测试
-npm test
+yarn test
 
 # 对 src 文件夹下的 Vue/Js 文件进行语法检查
 npm run lint
