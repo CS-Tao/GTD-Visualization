@@ -1,11 +1,11 @@
 <template>
-  <bar :id=id
+  <bar :id="id"
         height="100%"
         width="100%"
         :data="params"
         :selectName="selectName"
         xPosition="top"
-        textColor="#FFFB73"
+        textColor="#FF9900"
         backgroundColor="rgba(128,0,0,0)"
         :vertical="true"
         @click-bar="sendClick"
@@ -27,7 +27,7 @@ export default {
     },
     obj: {
       // 接受到的数据
-      type: Array,
+      type: [Object, Array],
       default: function () {
         return []
       }
