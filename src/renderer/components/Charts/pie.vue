@@ -195,7 +195,6 @@ export default {
                     newParamsName = params
                   }
                   // 将最终的字符串返回
-                  console.log(JSON.stringify(newParamsName))
                   return newParamsName
                 }
               }
