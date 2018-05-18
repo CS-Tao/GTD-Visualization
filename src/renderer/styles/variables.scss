@@ -1,13 +1,30 @@
-$blue:#324157;
-$light-blue:#3A71A8;
-$red:#C03639;
-$pink: #E65D6E;
-$green: #30B08F;
-$tiffany: #4AB7BD;
-$yellow:#FEC171;
-$panGreen: #30B08F;
+$blue: rgb(50, 65, 87);
+$light-blue: rgb(58, 113, 168);
+$red: rgb(192, 54, 57);
+$pink: rgb(230, 93, 110);
+$green: rgb(48, 176, 143);
+$tiffany: rgb(74, 183, 189);
+$yellow: rgb(254, 193, 113);
+$panGreen: rgb(48, 176, 143);
+
+// theme
+// yellow&orange
+$yo-0: rgb(255, 209, 145);
+$yo-1: rgb(253, 227, 80);
+$yo-2: rgb(255, 150, 40);
+$yo-3: rgb(230, 100, 23);
+
+// gray&black
+$gb-0: rgba(120, 120, 120, 0.7);
+$gb-1: rgba(80, 80, 80, 0.7);
+$gb-2: rgba(50, 50, 50, 0.8);
+$gb-3: rgba(20, 20, 20, 0.9);
+$gb-4: rgba(0, 0, 0, 1);
 
 //sidebar
-$menuBg:#304156;
-$subMenuBg:#1f2d3d;
-$menuHover:#001528;
+$menuBg: rgb(48, 65, 86);
+$subMenuBg: rgb(31, 45, 61);
+$menuHover: rgb(0, 21 ,40);
+
+// opacity of sldebar and header
+$Opacity: 1;

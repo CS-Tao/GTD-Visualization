@@ -6,6 +6,24 @@
         height='100%' 
         width='100%'>
         </keyboard>
+        <country3ModelRadar id="country-radar">
+        </country3ModelRadar>
+        <regionCountBar id="region-bar">
+        </regionCountBar>
+        <countryBar id="statistic-bar">
+        </countryBar>
+        <globeTrendLine id="trend-line"
+        height="100%"
+        width="100%">
+        </globeTrendLine>
+        <year3ModelPie id="country-pie"
+        >
+        </year3ModelPie>
+        <countryScatter id="ca"
+        height="100%"
+        width="100%"
+        endString="19910101">
+        </countryScatter>
       </div>
     </div>
   </div>
@@ -13,10 +31,17 @@
 
 <script>
 import keyboard from './keyboard'
+import country3ModelRadar from './country3ModelRadar'
+import regionCountBar from './regionCountBar'
+import countryBar from './countryBar'
+import globeTrendLine from './globeTrendLine'
+import year3ModelPie from './year3ModelPie'
+import countryScatter from './countryScatter'
 
 export default {
   name: 'Echarts',
-  components: { keyboard }
+  components: { keyboard, country3ModelRadar, regionCountBar, countryBar, globeTrendLine, year3ModelPie, countryScatter }
+
 }
 </script>
 

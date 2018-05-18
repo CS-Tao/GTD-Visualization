@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/views/Main'
+import Layout from '@/views/Layout'
 const _import = require('./_import_' + process.env.NODE_ENV)
 // in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
 // detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
@@ -23,54 +23,71 @@ Vue.use(Router)
     title: 'title'               the name show in submenu and breadcrumb (recommend set)
     icon: 'svg-name'             the icon show in the sidebar,
     noCache: true                if true ,the page will no be cached(default is false)
+    mode: 0                      aside, 0 for hidden, 1 for normal, 2 for maxsize
   }
 **/
 export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    meta: {
-      title: '主页面',
-      icon: 'dashboard'
-    },
     children: [
       {
-        path: 'one1',
-        component: require('@/components/MapView/LeafletView').default,
-        name: 'leaflet-map',
-        meta: { title: '地图页面', icon: 'form', noCache: false }
-      },
-      {
-        path: 'one2',
-        component: require('@/components/Charts').default,
-        name: 'two',
-        meta: { title: 'Echarts 图表', icon: 'chart', noCache: true }
+        path: 'dashboard',
+        component: require('@/views/Blank').default,
+        name: 'space-time',
+        meta: { title: 'Overview', icon: 'international', noCache: false, mode: 0 }
       }
     ]
   },
   {
-    path: '/test',
+    path: '',
     component: Layout,
-    meta: {
-      title: '测试页面',
-      icon: 'password'
-    },
     children: [
       {
-        path: 'two1',
-        component: _import('ErrorPages/404'),
-        name: 'three',
-        meta: { title: '404测试', icon: '404', noCache: true }
-      },
-      {
-        path: 'two2',
-        component: require('@/components/LandingPage').default,
-        name: 'four',
-        meta: { title: '测试页面2', icon: 'user', noCache: true }
+        path: 'trend-analysis',
+        component: require('@/views/TrendAnalysis').default,
+        name: 'trend-analysis',
+        meta: { title: 'Occurrence Trend', icon: 'form', noCache: false, mode: 1 }
       }
     ]
   },
-  { path: '/404', component: _import('ErrorPages/404'), hidden: true }
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'time-analysis',
+        component: require('@/views/TimeAnalysis').default,
+        name: 'time-analysis',
+        meta: { title: 'Period Analysis', icon: 'example', noCache: false, mode: 2 }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'general-analysis',
+        component: require('@/views/GeneralAnalysis').default,
+        name: 'general-analysis',
+        meta: { title: 'Attack Details', icon: 'component', noCache: false, mode: 2 }
+      }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    children: [
+      {
+        path: 'wordcloud-analysis',
+        component: require('@/views/WordCloudAnalysis').default,
+        name: 'wordcloud-analysis',
+        meta: { title: 'Motive Analysis', icon: 'message', noCache: false, mode: 2 }
+      }
+    ]
+  },
+  { path: '/404', component: _import('ErrorPages/404'), hidden: true, mode: 2 }
 ]
 
 export default new Router({

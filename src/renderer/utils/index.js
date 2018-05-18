@@ -73,6 +73,91 @@ export function getQueryObject (url) {
   return obj
 }
 
+export function isLeapYear (year) {
+  return (year % 4 === 0) && (year % 100 !== 0 || year % 400 === 0)
+}
+
+function sumArraySpecifyCount (numArray, count) {
+  if (numArray.length < count) { return -1 }
+  var sum = 0
+  for (var i = 0; i < count; i++) {
+    sum += numArray[i]
+  }
+  return sum
+}
+
+export function getDateByDaysInYear (daysInYear, year) {
+  var month = 0
+  var day = 0
+  const FEB = isLeapYear(year) ? 29 : 28
+  const monthArray = [
+    31,
+    FEB,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31
+  ]
+  const monthSumArray = [
+    sumArraySpecifyCount(monthArray, 1),
+    sumArraySpecifyCount(monthArray, 2),
+    sumArraySpecifyCount(monthArray, 3),
+    sumArraySpecifyCount(monthArray, 4),
+    sumArraySpecifyCount(monthArray, 5),
+    sumArraySpecifyCount(monthArray, 6),
+    sumArraySpecifyCount(monthArray, 7),
+    sumArraySpecifyCount(monthArray, 8),
+    sumArraySpecifyCount(monthArray, 9),
+    sumArraySpecifyCount(monthArray, 10),
+    sumArraySpecifyCount(monthArray, 11),
+    sumArraySpecifyCount(monthArray, 12)
+  ]
+  if (daysInYear <= monthSumArray[0]) {
+    month = 1
+    day = daysInYear
+  } else if (daysInYear <= monthSumArray[1]) {
+    month = 2
+    day = daysInYear - monthSumArray[0]
+  } else if (daysInYear <= monthSumArray[2]) {
+    month = 3
+    day = daysInYear - monthSumArray[1]
+  } else if (daysInYear <= monthSumArray[3]) {
+    month = 4
+    day = daysInYear - monthSumArray[2]
+  } else if (daysInYear <= monthSumArray[4]) {
+    month = 5
+    day = daysInYear - monthSumArray[3]
+  } else if (daysInYear <= monthSumArray[5]) {
+    month = 6
+    day = daysInYear - monthSumArray[4]
+  } else if (daysInYear <= monthSumArray[6]) {
+    month = 7
+    day = daysInYear - monthSumArray[5]
+  } else if (daysInYear <= monthSumArray[7]) {
+    month = 8
+    day = daysInYear - monthSumArray[6]
+  } else if (daysInYear <= monthSumArray[8]) {
+    month = 9
+    day = daysInYear - monthSumArray[7]
+  } else if (daysInYear <= monthSumArray[9]) {
+    month = 10
+    day = daysInYear - monthSumArray[8]
+  } else if (daysInYear <= monthSumArray[10]) {
+    month = 11
+    day = daysInYear - monthSumArray[9]
+  } else {
+    month = 12
+    day = daysInYear - monthSumArray[10]
+  }
+  return new Date(year, month - 1, day)
+}
+
 /**
  *get getByteLen
  * @param {Sting} val input value
@@ -149,7 +234,6 @@ export function scrollTo (element, to, duration) {
   const difference = to - element.scrollTop
   const perTick = difference / duration * 10
   setTimeout(() => {
-    console.log(new Date())
     element.scrollTop = element.scrollTop + perTick
     if (element.scrollTop === to) return
     scrollTo(element, to, duration - 10)

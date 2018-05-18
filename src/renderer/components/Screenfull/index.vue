@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import screenfull from 'screenfull'
 
 export default {
@@ -35,8 +36,12 @@ export default {
   },
   data () {
     return {
-      isFullscreen: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isAppFullScreen'
+    ])
   },
   methods: {
     click () {
@@ -48,16 +53,18 @@ export default {
         return false
       }
       screenfull.toggle()
+      this.$store.dispatch('toggleFullScreen', screenfull.isFullscreen)
     }
   }
 }
 </script>
 
-<style scoped>
+<style rel="stylesheet/scss" lang="scss" scoped>
+@import '../../styles/variables.scss';
 .screenfull-svg {
   display: flex;
   cursor: pointer;
-  fill: #5a5e66;;
+  fill: $yo-3;
   width: 20px;
 }
 </style>

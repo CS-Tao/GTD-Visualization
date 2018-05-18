@@ -36,6 +36,9 @@ export default {
     message () {
       return '特朗普说这个页面你不能进......'
     }
+  },
+  mounted () {
+    this.$changeLayout()
   }
 }
 </script>

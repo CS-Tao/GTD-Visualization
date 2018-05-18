@@ -4,6 +4,8 @@
 @import './element-ui.scss';
 @import './sidebar.scss';
 @import './btn.scss';
+@import './leaflet.scss';
+@import './flex.scss';
 
 body {
   height: 100%;
@@ -21,6 +23,8 @@ html {
   height: 100%;
   box-sizing: border-box;
 }
+
+::-webkit-scrollbar{ width:0px }
 
 #app{
   height: 100%;
@@ -113,14 +117,14 @@ code {
   }
 }
 
-.warn-content{
+.warn-content {
   background: rgba(66,185,131,.1);
   border-radius: 2px;
   padding: 16px;
   padding: 1rem;
   line-height: 1.6rem;
   word-spacing: .05rem;
-  a{
+  a {
     color: #42b983;
     font-weight: 600;
   }
@@ -129,6 +133,7 @@ code {
 //main-container全局样式
 .app-container {
   padding: 20px;
+  background-color: black;
 }
 
 .components-container {
@@ -190,4 +195,21 @@ code {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+
+.fixed-normal {
+  position: fixed!important;
+  top: 7vh!important;
+  left: 0px!important;
+  right: 0px;
+  bottom: 0px;
+  width: 100%!important;
+  height: 100%!important;
+  z-index: 999!important;
+  transition: left 0.28s cubic-bezier(.55, 0, .1, 1);
+}
+
+.fixed-silebar-visiable {
+  left: 180px!important;
+  transition: left 0.28s cubic-bezier(.55, 0, .1, 1);
 }
