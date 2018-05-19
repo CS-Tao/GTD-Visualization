@@ -1,5 +1,5 @@
 <template>
-  <div class="map-view" v-loading="loading" element-loading-text="数据加载中...">
+  <div class="map-view" v-loading="loading" element-loading-text="Loading data...">
     <leaflet-view mapId="dashboard-leaflet-map" :currentDailyData="dailyDataForMapView"></leaflet-view>
     <date-display class="date-display" :date="currentDate" :freshInterval="freshInterval" :hidden="routerViewMode === 2"></date-display>
   </div>

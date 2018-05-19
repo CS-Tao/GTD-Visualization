@@ -118,7 +118,6 @@ export default {
               country: item.properties.country.countryName
             })
           })
-          console.log(JSON.stringify(this.eventsInfoList[0]))
           this.eventsInfoLoading = false
           this.$notify({
             type: 'success',
