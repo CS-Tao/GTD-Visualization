@@ -61,7 +61,7 @@
 # 安装依赖
 yarn
 
-# 以开发模式运行, 运行在 2018 端口
+# 以开发模式运行在 2018 端口
 yarn run dev
 
 # 生成应用程序
@@ -72,6 +72,6 @@ yarn run build
 yarn test
 
 # 对 src 文件夹下的 Vue/Js 文件进行语法检查
-npm run lint
+yarn run lint
 
 ```
