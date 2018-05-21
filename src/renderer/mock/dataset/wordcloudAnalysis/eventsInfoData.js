@@ -2990,4 +2990,6 @@ const data = {
   ]
 }
 
-export default data
+export default () => {
+  return data
+}
