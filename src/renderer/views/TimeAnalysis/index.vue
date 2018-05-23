@@ -17,6 +17,7 @@
    </el-date-picker>
   </div>
   <time-analysis-map-view
+  mapId="TimeAnalysisMapView"
   class="map-view"
   v-on:map-region-hover="selectElement" 
   v-on:map-region-click="clickListener"

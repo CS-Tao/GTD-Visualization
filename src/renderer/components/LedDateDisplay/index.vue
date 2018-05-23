@@ -43,7 +43,9 @@ export default {
   props: {
     date: {
       type: Date,
-      default: new Date()
+      default: () => {
+        return new Date()
+      }
     },
     freshInterval: {
       type: Number,
