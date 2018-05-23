@@ -27,8 +27,7 @@ install:
   - node --version
 
 build_script:
-  #- yarn test
+  - yarn test
   # - yarn build
-   - yarn run lint
 
 test: off
