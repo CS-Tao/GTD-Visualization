@@ -1,8 +1,8 @@
 
 [![Build Status](https://travis-ci.org/CS-Tao/GTD-Visualization.svg?branch=master)](https://travis-ci.org/CS-Tao/GTD-Visualization)
 [![Build status](https://ci.appveyor.com/api/projects/status/2fv7nefk6ojj509y?svg=true)](https://ci.appveyor.com/project/CS-Tao/gtd-visualization)
-[![license](https://img.shields.io/badge/license-MIT-yellow.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![license](https://img.shields.io/badge/chat-github%20issues-blue.svg)](https://github.com/CS-Tao/GTD-Visualization/issues)
+[![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![chat](https://img.shields.io/badge/chat-github%20issues-blue.svg)](https://github.com/CS-Tao/GTD-Visualization/issues)
 
 # 全球恐怖袭击数据可视化系统
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-router-view .flex-row">
+  <div class="app-router-view flex-row">
     <router-view class="flex-item-fill"></router-view>
   </div>
 </template>
