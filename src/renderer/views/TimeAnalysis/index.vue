@@ -1,5 +1,5 @@
 <template>
-<div class='time-analysis-container' v-loading="loading" element-loading-text="数据加载中...">
+<div class='time-analysis-container' v-loading="loading" element-loading-text="Loading Data...">
   <div 
   class="fixed-normal datepicker-view"
   :class="{'fixed-silebar-visiable': sidebar.opened}">
@@ -281,6 +281,9 @@ export default {
       this.statisticsData = {}
       this.currentMode = 'country'
       this.displayMode = 'country'
+      // this.pointsForDisplay.features = this.pointsForDisplay.features.filter(feature => {
+      //   return feature.properties.country.region === countryId
+      // })
       // console.log(this.pointsForDisplay.features.length)
       // const tmp = this.pointsForDisplay.features.filter(feature => {
       //   return feature.properties.country.region === countryId
