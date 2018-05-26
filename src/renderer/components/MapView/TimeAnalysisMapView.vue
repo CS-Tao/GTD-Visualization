@@ -332,7 +332,7 @@ export default {
         this.map.setView([37, 38], 2)
       }
     },
-    displayPointData (newData, oldData) {
+    displayPointData (newData, oldData, deep = true) {
       this.currentPointLayerGroup.clearLayers()
       const geoJSON = L.geoJSON(newData, this.pointType)
       // geoJSON.mode = this.displayMode
