@@ -27,7 +27,7 @@
   :displayMode="currentMode">
   </time-analysis-map-view>
   <transition name="right">
-  <region-count-bar 
+  <region-count-bar
   v-on:click-bar="clickListener" 
   v-on:over-bar="selectElement" 
   v-on:out-bar="unselectElement"
