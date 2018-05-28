@@ -39,6 +39,10 @@ script:
 - yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
 # - yarn run build
   # - yarn run lint
+after_script:
+  - npm install coveralls
+  - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 branches:
   only:
   - master
+ 
