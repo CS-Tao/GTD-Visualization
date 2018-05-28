@@ -6,7 +6,7 @@ dist: trusty
 language: c
 matrix:
   include:
-  - os: osx
+  # - os: osx
   - os: linux
     env: CC=clang CXX=clang++ npm_config_clang=1
     compiler: clang
@@ -40,6 +40,14 @@ script:
 # - yarn run build
   # - yarn run lint
 after_script:
+  - yarn build:docs
+  - cd vuepress
+  - git init
+  - git config user.name "CS-Tao"
+  - git config user.email "whucstao@qq.com"
+  - git add .
+  - git commit -m "Update docs by travisCI"
+  - git push --force --quiet "https://${GH_TOKEN}@${GIT_PAGE_REF}" master:gh-pages
   - npm install coveralls
   - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 branches:
