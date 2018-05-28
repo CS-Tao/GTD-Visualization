@@ -15,7 +15,7 @@
 
 ### 文档
 
-[https://home.cs-tao.cc/blog/GTD-Visualization/](https://home.cs-tao.cc/blog/gtd-visualization/)
+[https://home.cs-tao.cc/blog/gtd-visualization/](https://home.cs-tao.cc/blog/gtd-visualization/)
 
 ### 生成步骤
 
