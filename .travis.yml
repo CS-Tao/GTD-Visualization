@@ -41,7 +41,7 @@ script:
   # - yarn run lint
 after_script:
   - npm install coveralls
-  - cat .test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 branches:
   only:
   - master
