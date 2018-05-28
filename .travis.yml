@@ -40,7 +40,7 @@ script:
 # - yarn run build
   # - yarn run lint
 after_script:
-  - npm install vuepress
+  - npm install vuepress vuepress-theme-vue
   - npm run build:docs
   - cd vuepress
   - git init
