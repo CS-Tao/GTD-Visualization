@@ -1,6 +1,6 @@
 module.exports = {
   base: '/GTD-Visualization/',
-  dest: 'vuepress',
+  dest: 'dist/docs',
   locales: {
     '/': {
       lang: 'zh-CN',
