@@ -10,13 +10,13 @@
 
 > Global Terrorist Attacks Visualization System
 
-![Overview](https://github.com/CS-Tao/github-content/raw/master/contents/github/GTD/img/0.png)
-<p align="right"><a href="https://home.cs-tao.cc/GTD-Visualization/preview/">更多预览 >></a></p>
+![Overview](https://github.com/CS-Tao/github-content/raw/master/contents/github/GTD/1.webp)
+<p align="right"><a href="https://home.cs-tao.cc/GTD-Visualization/docs/preview/">更多预览 >></a></p>
 
 ### 网站
 
-- [网页端](https://home.cs-tao.cc/GTD-Visualization/website.html)
-- [文档](https://home.cs-tao.cc/GTD-Visualization/index.html)
+- [网页端](https://home.cs-tao.cc/GTD-Visualization/web)
+- [文档](https://home.cs-tao.cc/GTD-Visualization/docs)
 
 ### 生成步骤
 
