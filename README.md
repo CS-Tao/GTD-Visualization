@@ -11,7 +11,7 @@
 > Global Terrorist Attacks Visualization System
 
 ![Overview](https://github.com/CS-Tao/github-content/raw/master/contents/github/GTD/img/0.png)
-<p align="right"><a href="https://home.cs-tao.cc/GTD-Visualization/preview/">更多预览</a></p>
+<p align="right"><a href="https://home.cs-tao.cc/GTD-Visualization/preview/">更多预览 >></a></p>
 
 ### 文档
 
