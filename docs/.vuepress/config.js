@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/GTD-Visualization/',
+  base: '/GTD-Visualization/docs/',
   dest: 'dist/docs',
   locales: {
     '/': {
