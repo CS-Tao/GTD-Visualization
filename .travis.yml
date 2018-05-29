@@ -54,6 +54,7 @@ script:
 - git add docs/
 - git add web/
 - git add index.html
+- git add website.html
 - git commit -m "Update website by travisCI"
 - git push --force --quiet "https://${GH_TOKEN}@${GIT_PAGE_REF}" master:gh-pages
 after_script:
