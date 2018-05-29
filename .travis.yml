@@ -49,8 +49,8 @@ script:
 - git init
 - git config user.name "CS-Tao"
 - git config user.email "whucstao@qq.com"
-- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/docs'></head>" > index.html
-- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/web'></head>" > website.html
+- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/docs"></head>' > index.html
+- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/web"></head>' > website.html
 - git add docs/
 - git add web/
 - git add index.html
