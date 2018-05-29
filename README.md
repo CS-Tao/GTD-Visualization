@@ -11,11 +11,11 @@
 > Global Terrorist Attacks Visualization System
 
 ![Overview](https://github.com/CS-Tao/github-content/raw/master/contents/github/GTD/img/0.png)
-<p align="right"><a href="https://services.cs-tao.cc/preview/">更多预览</a></p>
+<p align="right"><a href="https://home.cs-tao.cc/GTD-Visualization/preview/">更多预览 >></a></p>
 
 ### 文档
 
-[https://services.cs-tao.cc/](https://services.cs-tao.cc/)
+[https://home.cs-tao.cc/GTD-Visualization/](https://home.cs-tao.cc/GTD-Visualization/)
 
 ### 生成步骤
 
@@ -24,16 +24,16 @@
 yarn
 
 # 以开发模式运行在 2018 端口
-yarn run dev
+yarn dev
 
 # 生成应用程序
-yarn run build
+yarn build
 
 
 # 单元测试和端到端测试
 yarn test
 
 # 对 src 文件夹下的 Vue/Js 文件进行语法检查
-yarn run lint
+yarn lint
 
 ```
