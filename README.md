@@ -15,8 +15,8 @@
 
 ### 网站
 
-- 网页端：[https://home.cs-tao.cc/GTD-Visualization/web](https://home.cs-tao.cc/GTD-Visualization/web)
-- 文档：[https://home.cs-tao.cc/GTD-Visualization/docs](https://home.cs-tao.cc/GTD-Visualization/docs)
+- [网页端](https://home.cs-tao.cc/GTD-Visualization/website)
+- [文档](https://home.cs-tao.cc/GTD-Visualization/)
 
 ### 生成步骤
 
