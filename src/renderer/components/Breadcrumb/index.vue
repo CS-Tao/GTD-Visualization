@@ -1,10 +1,11 @@
 <template>
-  <el-breadcrumb class="app-breadcrumb" separator="">
+  <el-breadcrumb class="app-breadcrumb" separator-class="el-icon-arrow-right">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item,index)  in levelList" :key="item.path" v-if='item.meta.title'>
         <span v-if='item.redirect==="noredirect"||index==levelList.length-1' class="no-redirect">{{item.meta.title}}</span>
         <router-link v-else :to="item.redirect||item.path">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
+      <el-breadcrumb-item v-for="(text,index) in timeAnalysisMode.display" :key="index" v-if="timeAnalysisMode.enable">{{text}}</el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
 </template>
@@ -19,6 +20,11 @@ export default {
       levelList: null
     }
   },
+  computed: {
+    timeAnalysisMode () {
+      return this.$store.state.app.timeAnalysisMode
+    }
+  },
   watch: {
     $route () {
       this.getBreadcrumb()
@@ -27,6 +33,7 @@ export default {
   methods: {
     getBreadcrumb () {
       let matched = this.$route.matched.filter(item => item.name)
+      console.log(matched)
       // const first = matched[0]
       // if (first && first.name !== 'dashboard') {
       //   matched = [{ path: '/dashboard', meta: { title: 'dashboard' }}].concat(matched) // eslint-disable-line

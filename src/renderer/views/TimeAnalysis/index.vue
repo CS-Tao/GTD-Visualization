@@ -129,6 +129,7 @@ import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
 import { getRegion, getGeneral2, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
+// import { constants } from 'http2'
 
 export default {
   components: {
@@ -143,12 +144,10 @@ export default {
       geoJSONForDisplay: {},
       pointsForDisplay: {},
       statisticsData: [],
-      currentMode: 'global',
       selectedElement: -1,
       lossData: {kill: 0, wound: 0, prop: 0},
       loading: true,
       countryList: [],
-      displayMode: 'global',
       detailData: {
         time: '2010-10-20',
         place: 'Ankara, Turkey',
@@ -167,6 +166,9 @@ export default {
     ...mapGetters([
       'sidebar'
     ]),
+    currentMode () {
+      return this.$store.state.app.timeAnalysisMode.mode
+    },
     startTime: function () {
       return this.dateRange[0]
     },
@@ -174,28 +176,28 @@ export default {
       return this.dateRange[1]
     },
     regionCountBarDisplay: function () {
-      if (this.displayMode === 'global') {
+      if (this.currentMode === 'global') {
         return true
       } else {
         return false
       }
     },
     countryScatterDisplay: function () {
-      if (this.displayMode === 'region') {
+      if (this.currentMode === 'region') {
         return true
       } else {
         return false
       }
     },
     singleCountryChartsDisplay: function () {
-      if (this.displayMode === 'country') {
+      if (this.currentMode === 'country') {
         return true
       } else {
         return false
       }
     },
     detailDisplay: function () {
-      if (this.displayMode === 'detail') {
+      if (this.currentMode === 'detail') {
         return true
       } else {
         return false
@@ -204,7 +206,11 @@ export default {
   },
   mounted () {
     this.$changeLayout()
+    this.$store.dispatch('changeTimeAnalysisMode', {mode: 'global', display: [], enable: true})
     this.initGlobalView()
+  },
+  destoryed () {
+    this.$store.dispatch('changeTimeAnalysisMode', {mode: 'global', display: [], enable: false})
   },
   methods: {
     initGlobalView () {
@@ -244,7 +250,10 @@ export default {
         })
     },
     initRegionView (regionId) {
-      this.currentMode = 'region'
+      const regionName = this.geoJSONForDisplay.features.find(feature => {
+        return feature.id === regionId
+      }).properties.regionName
+      this.$store.dispatch('changeTimeAnalysisMode', {mode: 'region', display: [regionName], enable: true})
       // console.log(this.pointsForDisplay.features.length)
       // const tmp = this.pointsForDisplay.features.filter(feature => {
       //   return feature.properties.country.region === regionId
@@ -274,14 +283,17 @@ export default {
         }
         this.selectedElement = countries[0].id
         this.countryList = countries
-        this.displayMode = 'region'
       }).catch(() => {
       })
     },
     initCountryView (countryId) {
+      const that = this
       this.statisticsData = {}
-      this.currentMode = 'country'
-      this.displayMode = 'country'
+      this.$store.dispatch('changeTimeAnalysisMode', {mode: 'country',
+        display: [...that.$store.state.app.timeAnalysisMode.display, that.countryList.find(x => {
+          return x.id === countryId
+        })],
+        enable: true})
       // this.pointsForDisplay.features = this.pointsForDisplay.features.filter(feature => {
       //   return feature.properties.country.region === countryId
       // })
@@ -329,8 +341,7 @@ export default {
       getEventById(eventId, {
         format: 'json'
       }).then(response => {
-        this.currentMode = 'detail'
-        this.displayMode = 'detail'
+        this.$store.dispatch('changeTimeAnalysisMode', {mode: 'detail', display: [...this.$store.state.app.timeAnalysisMode.display, 'Detail'], enable: true})
         this.pointsForDisplay = response.data
         const detail = response.data.properties
         if (detail.data !== null) {
@@ -394,8 +405,7 @@ export default {
       this.selectedElement = -1
     },
     backToHome () {
-      this.currentMode = 'global'
-      this.displayMode = 'global'
+      this.$store.dispatch('changeTimeAnalysisMode', {mode: 'global', display: [], enable: true})
       this.loading = true
       this.initGlobalView()
     }
