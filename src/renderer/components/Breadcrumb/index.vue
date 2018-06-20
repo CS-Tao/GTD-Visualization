@@ -1,11 +1,13 @@
 <template>
-  <el-breadcrumb class="app-breadcrumb" separator-class="el-icon-arrow-right">
+  <el-breadcrumb class="app-breadcrumb" separator=">">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="(item,index)  in levelList" :key="item.path" v-if='item.meta.title'>
         <span v-if='item.redirect==="noredirect"||index==levelList.length-1' class="no-redirect">{{item.meta.title}}</span>
         <router-link v-else :to="item.redirect||item.path">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
-      <el-breadcrumb-item v-for="(text,index) in timeAnalysisMode.display" :key="index" v-if="timeAnalysisMode.enable">{{text}}</el-breadcrumb-item>
+      <el-breadcrumb-item v-for="(text,index) in timeAnalysisMode.display" :key="index" v-if="timeAnalysisMode.enable">
+        <span class="redirect">{{text}}</span>
+      </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
 </template>
@@ -56,6 +58,13 @@ export default {
       cursor: text;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 1.5rem;
+    }
+    .redirect {
+      color: $yo-2;
+      cursor: pointer;
+      font-size: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 7.5vh!important;
     }
   }
 </style>

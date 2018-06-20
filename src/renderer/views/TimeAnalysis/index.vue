@@ -292,7 +292,7 @@ export default {
       this.$store.dispatch('changeTimeAnalysisMode', {mode: 'country',
         display: [...that.$store.state.app.timeAnalysisMode.display, that.countryList.find(x => {
           return x.id === countryId
-        })],
+        }).name],
         enable: true})
       // this.pointsForDisplay.features = this.pointsForDisplay.features.filter(feature => {
       //   return feature.properties.country.region === countryId
