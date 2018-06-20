@@ -22,7 +22,8 @@ const app = {
     routerView: {
       showMode: 0 // 0 for hidden, 1 for normal, 2 for maxsize
     },
-    isAppFullScreen: false
+    isAppFullScreen: false,
+    timeAnalysisMode: {mode: 'global', display: [], enable: false}
   },
   mutations: {
     TOGGLE_SIDEBAR: state => {
@@ -39,6 +40,9 @@ const app = {
     },
     TOGGLE_FULL_SCREEN: (state, bool) => {
       state.isAppFullScreen = bool
+    },
+    CHANGE_TIME_ANALYSIS_MODE: (state, mode) => {
+      state.timeAnalysisMode = mode
     }
   },
   actions: {
@@ -53,6 +57,9 @@ const app = {
     },
     toggleFullScreen ({ commit }, bool) {
       commit('TOGGLE_FULL_SCREEN', bool)
+    },
+    changeTimeAnalysisMode ({ commit }, mode) {
+      commit('CHANGE_TIME_ANALYSIS_MODE', mode)
     }
   }
 }
