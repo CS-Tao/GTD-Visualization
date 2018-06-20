@@ -3002,4 +3002,6 @@ const data = [
   { wordId: 2999, word: 'massachusetts', frequency: 44 }
 ]
 
-export default data
+export default () => {
+  return data
+}

@@ -9,7 +9,8 @@
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
-    "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
+    "build:web": "cross-env BUILD_TARGET=web node --max_old_space_size=4096 .electron-vue/build.js",
+    "build:docs": "vuepress build docs",
     "dev": "node .electron-vue/dev-runner.js",
     "e2e": "npm run pack && mocha test/e2e",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
@@ -70,6 +71,7 @@
     "vue-electron": "^1.0.6",
     "vue-resize-directive": "^1.0.1",
     "vue-router": "^2.5.3",
+    "vuepress-theme-vue": "^1.0.3",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

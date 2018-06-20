@@ -22,7 +22,7 @@ export default {
     },
     toggleClick: {
       type: Function,
-      default: null
+      default: () => {}
     }
   }
 }

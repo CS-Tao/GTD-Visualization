@@ -6,9 +6,14 @@ dist: trusty
 language: c
 matrix:
   include:
-  - os: osx
+  # - os: osx
   - os: linux
-    env: CC=clang CXX=clang++ npm_config_clang=1
+    env: 
+    - CC: clang
+    - CXX: clang++
+    - npm_config_clang: 1
+    - GIT_PAGE_REF: github.com/CS-Tao/GTD-Visualization.git
+    - secure: RrwNU+V0+N/dPt+49suq8eeA4UiykOF8jahrFSFyJN0jfoY/VjymRV9CoqM+vG7q0iRwg3mjflfj8Nhy+Q9XbCOY/oIzVEabvLzOiNwWXF/yYKRjJwfulkpuwR1s3FioUUVUlazdM5t15lXbnwKZVuEH2kJLlfg/6j3Scd7X5wxyyVmXpYq/jtj3X71PusmHh6pRFO9izUejSC7PMrwZyE5neQEjXJYE3gi9oexuF6uI4DixrN3MGnxYavGglYSw944zcEPePUOZTx7vdx2UfD/uhGQbwxtLt4DvUDmfbN3Iy6F4xsZk1QuI/zE58RQ1LLS6MhDnRybhbzD0edo9P0KftREXDHjli1pCMmH+uTslDzbTKnB2PXI15wFDWst75BxR7CVOLKw8b752eSniObGapX6R6/2cyiLCQqB7rNfmgvpA2IwnqjUyykoNU+VT2YwfHrOZQiUZw6aZfv+2cGt+JFoKgGffGS3ejhV+11QL0O92lbgna/+nBZMGDcZZrWSw5YnrvX3bX66fHgOo1BHgxOFwpi9wJ/zAkP/6tSO/iLmZFg63sdLSNhoB4egVrIJUyPUF2X9Yd/T2Sks156YaYWK9loWmKfmP8Wa/hpjhsqpf3ApbjCbLeRqLXB6pZJ6yvyQP0nWW1Cqjr7Z+LywT4khiVtJP9gdPc22XpG0=
     compiler: clang
 cache:
   directories:
@@ -20,25 +25,40 @@ addons:
     packages:
     - libgnome-keyring-dev
     - icnsutils
-    #- xvfb
+    - xvfb
 before_install:
 - mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v1.2.1/git-lfs-$([
   "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-1.2.1.tar.gz
   | tar -xz -C /tmp/git-lfs --strip-components 1 && /tmp/git-lfs/git-lfs pull
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
 install:
-#- export DISPLAY=':99.0'
-#- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-- nvm install 7
+- export DISPLAY=':99.0'
+- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+- nvm install 8
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - source ~/.bashrc
 - npm install -g xvfb-maybe
+- npm install -g vuepress
 - yarn
 script:
-#- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
-#- yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
-# - yarn run build
-  - yarn run lint
+- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
+- yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
+- npm run build:docs
+- npm run build:web
+- cd dist
+- git init
+- git config user.name "CS-Tao"
+- git config user.email "whucstao@qq.com"
+- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/docs"></head>' > index.html
+- git add docs/
+- git add web/
+- git add index.html
+- git commit -m "Update website by travisCI"
+- git push --force --quiet "https://${GH_TOKEN}@${GIT_PAGE_REF}" master:gh-pages
+after_script:
+  - npm install coveralls
+  - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 branches:
   only:
   - master
+ 

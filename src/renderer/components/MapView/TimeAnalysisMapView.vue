@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="TimeAnalysisMapView"></div>
+    <div :id="mapId"></div>
   </div>
 </template>
 
@@ -9,9 +9,15 @@ import L from 'leaflet'
 export default {
   name: 'MapView',
   props: {
+    mapId: {
+      type: String,
+      requre: true
+    },
     displayGeojsonData: {
       type: Object,
-      default: {}
+      default: () => {
+        return {}
+      }
     },
     // global/region/country/detail
     displayMode: {
@@ -20,7 +26,9 @@ export default {
     },
     displayPointData: {
       type: Object,
-      default: {}
+      default: () => {
+        return {}
+      }
     },
     selectedId: {
       type: Number,
