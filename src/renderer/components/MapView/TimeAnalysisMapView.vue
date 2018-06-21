@@ -48,7 +48,9 @@ export default {
         maxZoom: 18
       },
       currentPointLayerGroup: new L.LayerGroup(),
-      currentPolygonLayerGroup: new L.LayerGroup()
+      currentPolygonLayerGroup: new L.LayerGroup(),
+      currentRegion: undefined,
+      currentCountry: undefined
     }
   },
   computed: {
@@ -310,29 +312,37 @@ export default {
       const that = this
       if (newMode === 'region') {
         if (oldMode === 'global') {
+          // this.currentRegion = this.selectedId
           this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
             if (layer.id === that.selectedId) {
               layer.setStyle({fillOpacity: 0.9})
               const bounds = layer.getBounds()
+              that.currentRegion = bounds
               that.map.flyToBounds(bounds, {paddingBottomRight: [0, 0]})
             }
           })
+        } else {
+          this.map.flyToBounds(this.currentRegion, {paddingBottomRight: [0, 0]})
         }
       } else if (newMode === 'country') {
         if (oldMode === 'region') {
+          // this.currentCountry = this.selectedId
           this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
             if (layer.id === that.selectedId) {
               layer.setStyle({fillOpacity: 0.9})
               const bounds = layer.getBounds()
+              that.currentCountry = bounds
               that.map.flyToBounds(bounds)
             }
           })
+        } else {
+          this.map.flyToBounds(this.currentCountry)
         }
       } else if (newMode === 'global') {
         this.map.setView([37, 38], 2)
       }
     },
-    displayPointData (newData, oldData) {
+    displayPointData (newData, oldData, deep = true) {
       this.currentPointLayerGroup.clearLayers()
       const geoJSON = L.geoJSON(newData, this.pointType)
       // geoJSON.mode = this.displayMode

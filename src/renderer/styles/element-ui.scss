@@ -154,6 +154,16 @@
   }
 }
 
+.el-breadcrumb__separator {
+  color:$yo-2!important;
+  font-size: 20px!important;
+  line-height: 7.5vh!important;
+}
+
+.el-breadcrumb__inner {
+  line-height: 8vh!important;
+}
+
 .el-card__header {
   border-width: 0px!important;
   box-shadow: 0 0 20px orange!important;
