@@ -72,6 +72,7 @@ export default {
       cursor: text;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 1.5rem;
+      line-height: 7vh;
     }
     .redirect {
       color: $yo-2;
