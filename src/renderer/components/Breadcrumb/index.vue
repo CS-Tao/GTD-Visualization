@@ -5,7 +5,11 @@
         <span v-if='item.redirect==="noredirect"||index==levelList.length-1' class="no-redirect">{{item.meta.title}}</span>
         <router-link v-else :to="item.redirect||item.path">{{item.meta.title}}</router-link>
       </el-breadcrumb-item>
-      <el-breadcrumb-item v-for="(text,index) in timeAnalysisMode.display" :key="index" v-if="timeAnalysisMode.enable">
+      <el-breadcrumb-item 
+      v-for="(text,index) in timeAnalysisMode.display" 
+      :key="index" 
+      v-if="timeAnalysisMode.enable"
+      v-on:click="clickListener">
         <span class="redirect">{{text}}</span>
       </el-breadcrumb-item>
     </transition-group>
@@ -41,6 +45,8 @@ export default {
       //   matched = [{ path: '/dashboard', meta: { title: 'dashboard' }}].concat(matched) // eslint-disable-line
       // }
       this.levelList = matched
+    },
+    clickListener () {
     }
   }
 }
