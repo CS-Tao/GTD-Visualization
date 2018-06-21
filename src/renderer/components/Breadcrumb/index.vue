@@ -8,9 +8,8 @@
       <el-breadcrumb-item 
       v-for="(text,index) in timeAnalysisMode.display" 
       :key="index" 
-      v-if="timeAnalysisMode.enable"
-      v-on:click="clickListener">
-        <span class="redirect">{{text}}</span>
+      v-if="timeAnalysisMode.enable">
+        <span class="redirect" v-bind:id="modeList[index+1]" v-on:click="clickListener">{{text}}</span>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -23,7 +22,8 @@ export default {
   },
   data () {
     return {
-      levelList: null
+      levelList: null,
+      modeList: ['gloabl', 'region', 'country', 'detail']
     }
   },
   computed: {
@@ -46,7 +46,15 @@ export default {
       // }
       this.levelList = matched
     },
-    clickListener () {
+    clickListener (e) {
+      const newMode = e.target.id
+      let display = []
+      if (newMode === 'region') {
+        display = [this.timeAnalysisMode.display[0]]
+      } else if (newMode === 'country') {
+        display = [this.timeAnalysisMode.display[0], this.timeAnalysisMode.display[1]]
+      }
+      this.$store.dispatch('changeTimeAnalysisMode', {mode: e.target.id, display: display, enable: true})
     }
   }
 }

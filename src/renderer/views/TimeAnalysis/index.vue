@@ -129,6 +129,7 @@ import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
 import { getRegion, getGeneral2, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
+import { currentId } from 'async_hooks'
 // import { constants } from 'http2'
 
 export default {
@@ -148,6 +149,8 @@ export default {
       lossData: {kill: 0, wound: 0, prop: 0},
       loading: true,
       countryList: [],
+      currentRegion: 0,
+      currentCountry: 0,
       detailData: {
         time: '2010-10-20',
         place: 'Ankara, Turkey',
@@ -250,10 +253,6 @@ export default {
         })
     },
     initRegionView (regionId) {
-      const regionName = this.geoJSONForDisplay.features.find(feature => {
-        return feature.id === regionId
-      }).properties.regionName
-      this.$store.dispatch('changeTimeAnalysisMode', {mode: 'region', display: [regionName], enable: true})
       // console.log(this.pointsForDisplay.features.length)
       // const tmp = this.pointsForDisplay.features.filter(feature => {
       //   return feature.properties.country.region === regionId
@@ -287,13 +286,7 @@ export default {
       })
     },
     initCountryView (countryId) {
-      const that = this
       this.statisticsData = {}
-      this.$store.dispatch('changeTimeAnalysisMode', {mode: 'country',
-        display: [...that.$store.state.app.timeAnalysisMode.display, that.countryList.find(x => {
-          return x.id === countryId
-        }).name],
-        enable: true})
       // this.pointsForDisplay.features = this.pointsForDisplay.features.filter(feature => {
       //   return feature.properties.country.region === countryId
       // })
@@ -391,9 +384,24 @@ export default {
     },
     clickListener (elementId) {
       if (this.currentMode === 'global') {
-        this.initRegionView(elementId)
+        this.currentRegion = elementId
+        // console.log(elementId)
+        // console.log(this.geoJSONForDisplay)
+        const regionName = this.geoJSONForDisplay.features.find(feature => {
+          return feature.id === this.currentRegion
+        }).properties.regionName
+        console.log(regionName)
+        this.$store.dispatch('changeTimeAnalysisMode', {mode: 'region', display: [regionName], enable: true})
+        // this.initRegionView(elementId)
       } else if (this.currentMode === 'region') {
-        this.initCountryView(elementId)
+        this.currentCountry = elementId
+        const that = this
+        this.$store.dispatch('changeTimeAnalysisMode', {mode: 'country',
+          display: [...that.$store.state.app.timeAnalysisMode.display, that.countryList.find(x => {
+            return x.id === this.currentCountry
+          }).name],
+          enable: true})
+        // this.initCountryView(elementId)
       } else if (this.currentMode === 'country') {
         this.initDetailView(elementId)
       }
@@ -408,6 +416,15 @@ export default {
       this.$store.dispatch('changeTimeAnalysisMode', {mode: 'global', display: [], enable: true})
       this.loading = true
       this.initGlobalView()
+    }
+  },
+  watch: {
+    currentMode (newMode, oldMode) {
+      if (newMode === 'region') {
+        this.initRegionView(this.currentRegion)
+      } else if (newMode === 'country') {
+        this.initCountryView(this.currentCountry)
+      }
     }
   }
 }
