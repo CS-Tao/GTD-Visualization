@@ -98,6 +98,9 @@
   <div slot="header" 
   class="card-header" >
     <span>Attack Record</span>
+    <a v-for="(item,index) in search" :key="index" v-bind:href="item.url">
+      <i style="content: 'static/icons/Baidu.png'"></i>
+    </a>
   </div>
   <div class="card-item-name">Time</div>
   <div class="card-item-str">{{detailData.time}}</div>
@@ -162,7 +165,12 @@ export default {
         woundeds: 0,
         summary: 'No record.',
         prop: 'No record.'
-      }
+      },
+      search: [
+        {icon: 'static/icons/Baidu.png', url: 'https://www.baidu.com/s?wd='},
+        {icon: 'static/icons/Bing.png', url: 'https://cn.bing.com/search?q='},
+        {icon: 'static/icons/Google.png', url: 'https://www.google.com/search?q='}
+      ]
     }
   },
   computed: {
@@ -503,6 +511,12 @@ export default {
       color: orange;
       text-align: left;
       font-weight: 700;
+      display: flex;
+      .card-search-button {
+        width: 5vh;
+        height: 5vh;
+        // background-image: 'static/icons/Baidu.png';
+      }
     }
     .card-item-name{
       color: orangered;
@@ -541,6 +555,7 @@ export default {
       color: orange;
       text-align: left;
       font-weight: 700;
+      display: flex;
     }
     .card-item-name{
       color: orange;
