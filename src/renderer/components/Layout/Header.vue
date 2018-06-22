@@ -49,6 +49,7 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04);
   opacity: $Opacity;
   background-color: $gb-3;
+  box-shadow: 0 0 10px $gb-1;
   // background: linear-gradient(top left, $gb-3, $gb-2);
   // background: -webkit-linear-gradient(top left, $gb-3, $gb-2);
   // background: -moz-linear-gradient(top left, $gb-3, $gb-2);
