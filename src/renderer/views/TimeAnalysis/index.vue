@@ -439,6 +439,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../styles/variables.scss';
+
 .time-analysis-container{
   width: 100%;
   height: 100%;
@@ -501,14 +503,14 @@ export default {
     background-color: transparent;
     width: 350px!important;
     height: 60%!important;
-    border-color: orange;
+    border-color: $bg-4;
     border-width: 0px!important;
-    box-shadow: 0 0 20px orange!important;
+    box-shadow: 0 0 20px $bg-4!important;
     border-radius: 10px;
     .card-header {
       font-family: Arial, Helvetica, sans-serif!important;
       font-size: 25px;
-      color: orange;
+      color: $bg-4;
       text-align: left;
       font-weight: 700;
       display: flex;
@@ -519,7 +521,7 @@ export default {
       }
     }
     .card-item-name{
-      color: orangered;
+      color: $bg-3;
       font-family: Arial, Helvetica, sans-serif;
       font-weight: 700;
       font-size: 25px;
@@ -527,7 +529,7 @@ export default {
       margin-bottom: 35px;
     }
     .card-item-num{
-      color: orange;
+      color: $bg-4;
       font-family: Arial, Helvetica, sans-serif;
       font-weight: 700;
       font-size: 25px;
@@ -543,29 +545,29 @@ export default {
     background-color: transparent;
     width: 350px!important;
     height: 86%!important;
-    border-color: orange;
+    border-color: $bg-4;
     border-width: 0px!important;
-    box-shadow: 0 0 20px orange!important;
+    box-shadow: 0 0 20px $bg-4!important;
     position: fixed;
     z-index: 999;
     border-radius: 10px;
     .card-header {
       font-family: 'STXihei'!important;
       font-size: 25px;
-      color: orange;
+      color: $bg-4;
       text-align: left;
       font-weight: 700;
       display: flex;
     }
     .card-item-name{
-      color: orange;
+      color: $bg-4;
       font-family: Helvetica;
       font-size: 25px;
       margin-top: 2px;
       margin-bottom: 2px;
     }
     .card-item-str{
-      color: orangered;
+      color: $bg-3;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 20px;
       margin-top: 2px;
@@ -573,7 +575,7 @@ export default {
       text-align: right;
     }
     .card-item-text{
-      color: orangered;
+      color: $bg-3;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 15px;
       margin-top: 2px;

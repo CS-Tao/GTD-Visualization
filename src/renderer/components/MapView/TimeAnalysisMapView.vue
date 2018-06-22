@@ -60,7 +60,7 @@ export default {
       } else if (this.displayMode === 'region') {
         return '#84E900'
       } else if (this.displayMode === 'country') {
-        return '#FF4100'
+        return '#70CDFF'
       }
     },
     pointType () {
@@ -150,7 +150,7 @@ export default {
             const ringOptions = {
               radius: 16,
               stroke: true,
-              color: '#E66417',
+              color: '#A5E8B7',
               weight: 2,
               opacity: 1,
               fill: false,
@@ -167,17 +167,17 @@ export default {
             })
             secondRingLayer.on('mouseover', function () {
               secondRingLayer.setStyle({
-                color: '#F80012'
+                color: '#A5E8B7'
               })
             })
             firstRingLayer.on('mouseout', function () {
               firstRingLayer.setStyle({
-                color: '#F80012'
+                color: '#A5E8B7'
               })
             })
             secondRingLayer.on('mouseout', function () {
               secondRingLayer.setStyle({
-                color: '#F80012'
+                color: '#A5E8B7'
               })
             })
             that.currentPointLayerGroup.addLayer(firstRingLayer)
@@ -203,7 +203,7 @@ export default {
             const pointOptions = {
               radius: 10,
               stroke: false,
-              color: '#F80012',
+              color: '#0476D9',
               weight: 1,
               opacity: 1,
               fill: true,
@@ -217,7 +217,7 @@ export default {
             const ringOptions = {
               radius: 30,
               stroke: true,
-              color: '#F80012',
+              color: '#70CDFF',
               weight: 3,
               opacity: 1,
               fill: false,
