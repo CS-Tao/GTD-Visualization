@@ -2,6 +2,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 [![Build Status](https://travis-ci.org/CS-Tao/GTD-Visualization.svg?branch=master)](https://travis-ci.org/CS-Tao/GTD-Visualization)
 [![Build status](https://ci.appveyor.com/api/projects/status/2fv7nefk6ojj509y?svg=true)](https://ci.appveyor.com/project/CS-Tao/gtd-visualization)
+[![CircleCI](https://circleci.com/gh/CS-Tao/GTD-Visualization.svg?style=svg)](https://circleci.com/gh/CS-Tao/GTD-Visualization)
 [![Coverage Status](https://coveralls.io/repos/github/CS-Tao/GTD-Visualization/badge.svg?branch=master)](https://coveralls.io/github/CS-Tao/GTD-Visualization?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/763357d477b76079a3b6/maintainability)](https://codeclimate.com/github/CS-Tao/GTD-Visualization/maintainability)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
