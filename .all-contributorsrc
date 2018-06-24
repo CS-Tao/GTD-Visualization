@@ -1,0 +1,51 @@
+{
+  "projectName": "GTD-Visualization",
+  "projectOwner": "CS-Tao",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "LaZzyMan",
+      "name": "zz",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/23273105?v=4",
+      "profile": "https://github.com/LaZzyMan",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    },
+    {
+      "login": "tang-xy",
+      "name": "tang-xy",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/22520131?v=4",
+      "profile": "https://github.com/tang-xy",
+      "contributions": [
+        "code",
+        "plugin"
+      ]
+    },
+    {
+      "login": "Cong-Zou",
+      "name": "Cong-Zou",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/28620426?v=4",
+      "profile": "https://github.com/Cong-Zou",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lsq210",
+      "name": "lsq210",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/34806806?v=4",
+      "profile": "https://github.com/lsq210",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}
