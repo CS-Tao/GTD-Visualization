@@ -21,12 +21,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn && npm install xvfb-maybe
+      - run: yarn
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      - run: ./node_modules/.bin/xvfb-maybe ./node_modules/.bin/karma start ./test/unit/karma.conf.js && yarn run pack && ./node_modules/.bin/xvfb-maybe ./node_modules/.bin/mocha ./test/e2e
