@@ -48,7 +48,9 @@ export default {
         maxZoom: 18
       },
       currentPointLayerGroup: new L.LayerGroup(),
-      currentPolygonLayerGroup: new L.LayerGroup()
+      currentPolygonLayerGroup: new L.LayerGroup(),
+      currentRegion: undefined,
+      currentCountry: undefined
     }
   },
   computed: {
@@ -58,7 +60,7 @@ export default {
       } else if (this.displayMode === 'region') {
         return '#84E900'
       } else if (this.displayMode === 'country') {
-        return '#FF4100'
+        return '#70CDFF'
       }
     },
     pointType () {
@@ -148,7 +150,7 @@ export default {
             const ringOptions = {
               radius: 16,
               stroke: true,
-              color: '#E66417',
+              color: '#A5E8B7',
               weight: 2,
               opacity: 1,
               fill: false,
@@ -165,17 +167,17 @@ export default {
             })
             secondRingLayer.on('mouseover', function () {
               secondRingLayer.setStyle({
-                color: '#F80012'
+                color: '#A5E8B7'
               })
             })
             firstRingLayer.on('mouseout', function () {
               firstRingLayer.setStyle({
-                color: '#F80012'
+                color: '#A5E8B7'
               })
             })
             secondRingLayer.on('mouseout', function () {
               secondRingLayer.setStyle({
-                color: '#F80012'
+                color: '#A5E8B7'
               })
             })
             that.currentPointLayerGroup.addLayer(firstRingLayer)
@@ -201,7 +203,7 @@ export default {
             const pointOptions = {
               radius: 10,
               stroke: false,
-              color: '#F80012',
+              color: '#0476D9',
               weight: 1,
               opacity: 1,
               fill: true,
@@ -215,7 +217,7 @@ export default {
             const ringOptions = {
               radius: 30,
               stroke: true,
-              color: '#F80012',
+              color: '#70CDFF',
               weight: 3,
               opacity: 1,
               fill: false,
@@ -310,29 +312,37 @@ export default {
       const that = this
       if (newMode === 'region') {
         if (oldMode === 'global') {
+          // this.currentRegion = this.selectedId
           this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
             if (layer.id === that.selectedId) {
               layer.setStyle({fillOpacity: 0.9})
               const bounds = layer.getBounds()
+              that.currentRegion = bounds
               that.map.flyToBounds(bounds, {paddingBottomRight: [0, 0]})
             }
           })
+        } else {
+          this.map.flyToBounds(this.currentRegion, {paddingBottomRight: [0, 0]})
         }
       } else if (newMode === 'country') {
         if (oldMode === 'region') {
+          // this.currentCountry = this.selectedId
           this.currentPolygonLayerGroup.getLayers()[0].eachLayer(function (layer) {
             if (layer.id === that.selectedId) {
               layer.setStyle({fillOpacity: 0.9})
               const bounds = layer.getBounds()
+              that.currentCountry = bounds
               that.map.flyToBounds(bounds)
             }
           })
+        } else {
+          this.map.flyToBounds(this.currentCountry)
         }
       } else if (newMode === 'global') {
         this.map.setView([37, 38], 2)
       }
     },
-    displayPointData (newData, oldData) {
+    displayPointData (newData, oldData, deep = true) {
       this.currentPointLayerGroup.clearLayers()
       const geoJSON = L.geoJSON(newData, this.pointType)
       // geoJSON.mode = this.displayMode

@@ -72,14 +72,14 @@ export default {
       // 文本颜色：字符串或一个RGB数组
       type: [String, Array],
       default: function () {
-        return 'rgb(253, 227, 80)'
+        return 'rgb(112, 205, 255)'
       }
     },
     areaColor: {
       // 雷达图区域颜色：从中心到四周透明度逐渐增大
       type: [String, Array],
       default: function () {
-        return 'rgba(114, 172, 209,0.3)'
+        return 'rgba(112, 205, 255, 0.3)'
       }
     },
     backgroundColor: {
@@ -134,7 +134,7 @@ export default {
         title: {
           text: this.title,
           textStyle: {
-            color: 'Orange'
+            color: 'rgb(112, 205, 255)'
           },
           x: 'left',
           y: 'top',
@@ -187,19 +187,19 @@ export default {
             },
             splitArea: {
               areaStyle: {
-                color: ['rgba(253, 227, 80,0.3)', 'rgba(253, 227, 80,0.3)'],
+                color: ['rgba(112, 205, 255, 0.3)', 'rgba(148, 242, 212, 0.3)'],
                 shadowColor: 'rgba(0, 0, 0, 0.3)',
                 shadowBlur: 10
               }
             },
             axisLine: {
               lineStyle: {
-                color: 'rgba(253, 227, 80,0.5)'
+                color: 'rgba(112, 205, 255, 0.5)'
               }
             },
             splitLine: {
               lineStyle: {
-                color: 'rgba(253, 227, 80,0.5)'
+                color: 'rgba(112, 205, 255, 0.5)'
               }
             }
           }
@@ -216,9 +216,9 @@ export default {
                 }
               },
               normal: {
-                lineStyle: {color: 'Orange'},
-                areaStyle: {color: 'Orange'},
-                itemStyle: {color: 'Orange'}
+                lineStyle: {color: 'rgba(5, 131, 242, 0.5)'},
+                areaStyle: {color: 'rgba(5, 131, 242, 0.5)'},
+                itemStyle: {color: 'rgba(5, 131, 242, 0.3)'}
               }
             },
             data: [
