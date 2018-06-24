@@ -129,8 +129,6 @@ import regionCountBar from '@/components/Charts/regionCountBar'
 import countryScatter from '@/components/Charts/countryScatter'
 import country3ModelRadar from '@/components/Charts/country3ModelRadar'
 import { getRegion, getGeneral2, getCountry, getGlobalStatistics, getCountryById, getStatistics, getEventById } from '@/api/timeAnalysisApi'
-import { currentId } from 'async_hooks'
-// import { constants } from 'http2'
 
 export default {
   components: {
