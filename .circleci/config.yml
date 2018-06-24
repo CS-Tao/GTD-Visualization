@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:8
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -21,7 +21,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn
+      - run:
+         - yarn
+         - yarn add xvfb
 
       - save_cache:
           paths:
@@ -29,4 +31,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: yarn test
+      - run: 
+          - xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
+          - yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
