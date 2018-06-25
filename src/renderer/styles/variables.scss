@@ -15,11 +15,11 @@ $yo-2: rgb(255, 150, 40);
 $yo-3: rgb(230, 100, 23);
 
 // gray&black
-$gb-0: rgba(120, 120, 120, 0.8);
-$gb-1: rgba(60, 60, 60, 0.8);
-$gb-2: rgba(50, 50, 50, 0.8);
-$gb-3: rgba(25, 25, 25, 0.9);
-$gb-4: rgba(0, 0, 0, 1);
+$gb-0: rgb(120, 120, 120);
+$gb-1: rgb(55, 58, 58);
+$gb-2: rgb(40, 42, 42);
+$gb-3: rgb(25, 27, 27);
+$gb-4: rgb(0, 0, 0);
 
 // blue&green
 $bg-0: rgb(165, 232, 183);
@@ -29,12 +29,10 @@ $bg-3: rgb(112, 205, 255);
 $bg-4: rgb(5, 131, 242);
 $bg-5: rgb(4, 118, 217);
 
-
-
 //sidebar
-$menuBg: rgb(48, 65, 86);
-$subMenuBg: rgb(31, 45, 61);
-$menuHover: rgb(0, 21 ,40);
+$menuBg: $gb-3;
+$subMenuBg: $gb-1;
+$menuHover: $gb-4;
 
 // opacity of sldebar and header
 $Opacity: 1;
