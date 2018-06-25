@@ -106,9 +106,9 @@ export default {
   },
   data () {
     var t = null
-    if (this.t === 'sumProp') { t = 'SUM of Prop' }
-    if (this.t === 'count') { t = 'SUM of Count' }
-    if (this.t === 'sumKill') { t = 'SUM of Kill' }
+    if (this.t === 'sumProp') { t = 'Economic losses' }
+    if (this.t === 'count') { t = 'Number of attacks' }
+    if (this.t === 'sumKill') { t = 'Death toll' }
     return {
       chart: null,
       title: t

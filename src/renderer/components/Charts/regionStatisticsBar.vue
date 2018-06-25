@@ -1,15 +1,15 @@
 <template>
   <bar :id='id'
-        height="100%"
-        width="100%"
-        :data="params"
-        :selectName="selectName"
-        :vertical="false"
-        title="loss by region"
-        formatter="{b}: <br/>SUM of Prop : {c0} <br/>SUM of Wound : {c1} <br/>SUM of Kill : {c2}"
-        @click-bar="sendClick"
-        @over-bar="sendOver"
-        @out-bar="sendOut">
+    height="100%"
+    width="100%"
+    :data="params"
+    :selectName="selectName"
+    :vertical="false"
+    title="Loss by region"
+    formatter="{b} : <br/>Economic losses : {c0} <br/>Number of injured : {c1} <br/>Number of death : {c2}"
+    @click-bar="sendClick"
+    @over-bar="sendOver"
+    @out-bar="sendOut">
   </bar>
 </template>
 
@@ -18,7 +18,7 @@ import bar from './bar'
 
 export default {
   name: 'regionStatisticsBar',
-  components: {bar},
+  components: { bar },
   props: {
     id: {
       type: String,
@@ -51,7 +51,6 @@ export default {
     }
   },
   methods: {
-
     initChart () {
       var param = {}
       var sumKill = []
