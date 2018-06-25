@@ -1,14 +1,14 @@
 <template>
   <ePolyline :id=id
-        height="100%"
-        width="100%"
-        :data="params"
-        :start="1970"
-        :end="2017"
-        :t="model"
-        :selectName="selectName"
-        backgroundColor='rgba(0,0,0,0)'
-        @click-radar="send">
+    height="100%"
+    width="100%"
+    :data="params"
+    :start="1970"
+    :end="2017"
+    :t="model"
+    :selectName="selectName"
+    backgroundColor='rgba(0,0,0,0)'
+    @click-radar="send">
   </ePolyline>
 </template>
 

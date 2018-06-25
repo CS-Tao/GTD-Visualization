@@ -17,7 +17,8 @@
     bottom: 0;
     left: 0;
     z-index: 1001;
-    opacity: $Opacity;
+    background-color: $gb-3!important;
+    opacity: $Opacity!important;
     a {
       display: inline-block;
       width: 100%;
@@ -28,24 +29,22 @@
     .el-menu {
       border: none;
       width: 100%;
-      background-color: $gb-3!important;
+      background-color: $gb-2!important;
     }
   }
   .hideSidebar {
     .sidebar-container,.sidebar-container .el-menu {
       transition: width 0.28s cubic-bezier(.55, 0, .1, 1);
-      width: 0px!important;
-      // overflow: inherit;
+      width: 36px!important;
     }
     .main-container {
       transition: margin-left 0.28s cubic-bezier(.55, 0, .1, 1);
-      margin-left: 0px;
+      margin-left: 36px;
     }
   }
   .hideSidebar {
     .submenu-title-noDropdown {
-      padding-left: 0px!important;
-      display: none;
+      padding-left: 10px!important;
       position: relative;
       span {
         height: 0;
@@ -76,7 +75,7 @@
     }
     .el-submenu {
       &>.el-submenu__title {
-        padding-left: 0px!important;
+        padding-left: 10px!important;
         display: none;
         &>span {
           display: none;
@@ -101,7 +100,7 @@
     background-color: $gb-2!important;
     color: $yo-0!important;
     &:hover {
-      background-color: $gb-3!important;
+      background-color: $gb-2!important;
       color: $yo-0!important;
     }
   }
