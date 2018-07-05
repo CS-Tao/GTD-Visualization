@@ -388,7 +388,7 @@ export default {
         const regionName = this.geoJSONForDisplay.features.find(feature => {
           return feature.id === this.currentRegion
         }).properties.regionName
-        console.log(regionName)
+        // console.log(regionName)
         this.$store.dispatch('changeTimeAnalysisMode', {mode: 'region', display: [regionName], enable: true})
         // this.initRegionView(elementId)
       } else if (this.currentMode === 'region') {
