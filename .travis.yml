@@ -12,7 +12,6 @@ matrix:
     - CC: clang
     - CXX: clang++
     - npm_config_clang: 1
-    - GIT_PAGE_REF: github.com/CS-Tao/GTD-Visualization.git
     - secure: RrwNU+V0+N/dPt+49suq8eeA4UiykOF8jahrFSFyJN0jfoY/VjymRV9CoqM+vG7q0iRwg3mjflfj8Nhy+Q9XbCOY/oIzVEabvLzOiNwWXF/yYKRjJwfulkpuwR1s3FioUUVUlazdM5t15lXbnwKZVuEH2kJLlfg/6j3Scd7X5wxyyVmXpYq/jtj3X71PusmHh6pRFO9izUejSC7PMrwZyE5neQEjXJYE3gi9oexuF6uI4DixrN3MGnxYavGglYSw944zcEPePUOZTx7vdx2UfD/uhGQbwxtLt4DvUDmfbN3Iy6F4xsZk1QuI/zE58RQ1LLS6MhDnRybhbzD0edo9P0KftREXDHjli1pCMmH+uTslDzbTKnB2PXI15wFDWst75BxR7CVOLKw8b752eSniObGapX6R6/2cyiLCQqB7rNfmgvpA2IwnqjUyykoNU+VT2YwfHrOZQiUZw6aZfv+2cGt+JFoKgGffGS3ejhV+11QL0O92lbgna/+nBZMGDcZZrWSw5YnrvX3bX66fHgOo1BHgxOFwpi9wJ/zAkP/6tSO/iLmZFg63sdLSNhoB4egVrIJUyPUF2X9Yd/T2Sks156YaYWK9loWmKfmP8Wa/hpjhsqpf3ApbjCbLeRqLXB6pZJ6yvyQP0nWW1Cqjr7Z+LywT4khiVtJP9gdPc22XpG0=
     compiler: clang
 
@@ -43,26 +42,21 @@ install:
 - source ~/.bashrc
 - npm install -g xvfb-maybe
 - npm install -g vuepress
-- yarn
+- npm install
 
 script:
 - xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
 - yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
+- npm install coveralls
+- cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 - npm run build:docs
 - npm run build:web
-- cd dist
-- git init
-- git config user.name "CS-Tao"
-- git config user.email "whucstao@qq.com"
-- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/docs"></head>' > index.html
+- echo '<head><meta http-equiv="refresh" content="0;url=https://home.cs-tao.cc/GTD-Visualization/web"></head>' > dist/index.html
 
-after_script:
-  - npm install coveralls
-  - cat ./test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
- 
 deploy:
   provider: pages
   skip-cleanup: true
+  local-dir: dist
   github-token: $GH_TOKEN
   on:
     branch:
