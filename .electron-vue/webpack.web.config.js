@@ -97,7 +97,7 @@ let webConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': require('../config/prod.env')
     }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
