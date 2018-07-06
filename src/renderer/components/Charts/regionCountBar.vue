@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     initChart () {
-      console.log(this.obj)
+      // console.log(this.obj)
       var param = {}
       var attackCount = []
       for (var i = 0; i < this.obj.length; i++) {
