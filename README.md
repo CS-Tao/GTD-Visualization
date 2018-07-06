@@ -11,7 +11,7 @@
 
 > Global Terrorist Attacks Visualization System
 
-[![Overview](https://github.com/CS-Tao/github-content/raw/master/contents/github/GTD/1.webp)](https://projects.cs-tao.cc/gtd-visualization/web/)
+[![Overview](https://github.com/CS-Tao/github-content/raw/master/contents/github/GTD/1.webp)](https://projects.cs-tao.cc/gtd-visualization/)
 
 ## 相关链接
 
