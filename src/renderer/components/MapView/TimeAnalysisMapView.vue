@@ -88,7 +88,7 @@ export default {
         return {
           pointToLayer: function (geoJsonPoint, latlng) {
             const pointIcon = L.icon({
-              iconUrl: '../../../../static/icons/point_light.png',
+              iconUrl: 'static/icons/point_light.png',
               iconSize: [10, 10]
             })
             return L.marker(latlng, {icon: pointIcon, opacity: 0.8})
