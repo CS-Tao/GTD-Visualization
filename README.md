@@ -16,7 +16,7 @@
 ## 相关链接
 
 - 后台: [https://github.com/LaZzyMan/terrorsim_rear_end](https://github.com/LaZzyMan/terrorsim_rear_end)
-- docker 部署方案: [https://github.com/CS-Tao/GTD-Docker](https://github.com/CS-Tao/GTD-Docker)
+- Docker 部署方案: [https://github.com/CS-Tao/GTD-Docker](https://github.com/CS-Tao/GTD-Docker)
 - Docker 镜像仓库:
     - postgis: [https://store.docker.com/community/images/cstao/gtd-postgis](https://store.docker.com/community/images/cstao/gtd-postgis)
     - django: [https://store.docker.com/community/images/cstao/gtd-django](https://store.docker.com/community/images/cstao/gtd-django)
