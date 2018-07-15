@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     initChart () {
-      if (Object.keys(this.obj).length === 0) {
+      if (this.obj === null || this.obj === undefined || Object.keys(this.obj).length === 0) {
         return
       }
       var param = []
