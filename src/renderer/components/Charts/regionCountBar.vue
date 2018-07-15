@@ -8,6 +8,7 @@
         textColor="#FF9900"
         backgroundColor="rgba(128,0,0,0)"
         :vertical="true"
+        formatter="{b}<br/>Attacks : {c0}"
         @click-bar="sendClick"
         @over-bar="sendOver"
         @out-bar="sendOut">
@@ -19,7 +20,7 @@ import bar from './bar'
 
 export default {
   name: 'regionCountBar',
-  components: {bar},
+  components: { bar },
   props: {
     id: {
       type: String,
@@ -53,6 +54,7 @@ export default {
   },
   methods: {
     initChart () {
+      // console.log(this.obj)
       var param = {}
       var attackCount = []
       for (var i = 0; i < this.obj.length; i++) {

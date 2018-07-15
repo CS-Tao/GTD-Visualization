@@ -48,6 +48,17 @@ Vue.prototype.$changeLayout = function () {
   }
 }
 
+Vue.openLink = (url) => {
+  try {
+    if (process.env.BUILD_TARGET !== 'web') { require('electron').shell.openExternal(url) }
+  } catch (e) {
+    // for web (process is not defined)
+    window.open(url)
+  }
+}
+
+Vue.prototype.$openLink = Vue.openLink
+
 Vue.config.productionTip = false
 
 new Vue({ // eslint-disable-line

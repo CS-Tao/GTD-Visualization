@@ -92,7 +92,7 @@ export default {
       this.timeList = res
     },
     selectId (newId, oldId) {
-      if (Object.keys(this.obj).length === 0 || newId === -1) {
+      if (this.obj === null || this.obj === undefined || Object.keys(this.obj).length === 0 || newId === -1) {
         return
       }
       var d = this.dataList[this.getNameById(newId)]
@@ -102,7 +102,7 @@ export default {
   methods: {
 
     initChart () {
-      if (Object.keys(this.obj).length === 0 || this.selectId === -1) {
+      if (this.obj === null || this.obj === undefined || Object.keys(this.obj).length === 0 || this.selectId === -1) {
         return
       }
       var res = []

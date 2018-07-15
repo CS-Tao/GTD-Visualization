@@ -4,7 +4,7 @@
         width="100%"
         :data="params"
         :selectName="selectName"
-        :title="model+' type'"
+        :title="chartTitle"
         :itemColor="color"
         @click-pie="send">
   </pie>
@@ -45,13 +45,17 @@ export default {
       color: ''
     }
   },
+  computed: {
+    chartTitle () {
+      return (this.model === 'target') ? 'Target type' : (this.model === 'attack' ? 'Attact type' : 'Weapon type')
+    }
+  },
   mounted () {
     if (this.model === 'target') { this.color = '#A60000' } else if (this.model === 'attack') { this.color = '#009999' } else { this.color = '#9FEE00' }
   },
   methods: {
-
     initChart () {
-      if (Object.keys(this.obj).length === 0) {
+      if (this.obj === null || this.obj === undefined || Object.keys(this.obj).length === 0) {
         return
       }
       var param = []
@@ -72,7 +76,7 @@ export default {
       this.initChart()
     },
     model (newModel, oldModel) {
-      if (newModel === 'target') { this.color = '#A60000' } else if (newModel === '#attack') { this.color = '#009999' } else { this.color = '#9FE00' }
+      if (newModel === 'target') { this.color = '#A60000' } else if (newModel === 'attack') { this.color = '#009999' } else { this.color = '#9FE00' }
     }
   }
 }

@@ -20,6 +20,9 @@ let webConfig = {
   entry: {
     web: path.join(__dirname, '../src/renderer/main.js')
   },
+  node: {
+    fs: 'empty'
+  },
   module: {
     rules: [
       {
@@ -94,7 +97,7 @@ let webConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': require('../config/prod.env')
     }),
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
